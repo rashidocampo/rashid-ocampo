@@ -11,7 +11,7 @@ export default function Footer() {
       </svg>
       <div className="mx-auto flex max-w-6xl flex-col gap-6 px-5 pb-6 pt-8 sm:px-8 lg:flex-row lg:items-center lg:gap-9">
         <h2 className="whitespace-nowrap text-4xl font-medium italic">Stay Connected</h2>
-        <p className="max-w-xs text-lg leading-snug text-white/90 lg:border-l lg:border-white/40 lg:pl-7">
+        <p className="max-w-sm text-lg leading-snug text-white/90 lg:border-l lg:border-white/40 lg:pl-7">
           Get the latest videos, articles, and reminders straight to your inbox.
         </p>
         <div className="lg:ml-auto"><Subscribe /></div>

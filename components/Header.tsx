@@ -22,13 +22,8 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-white/10 bg-navy-950/85 backdrop-blur-md">
       <div className="mx-auto flex h-[72px] max-w-6xl items-center justify-between px-5 sm:px-8">
-        <Link href="/" className="text-center leading-none" onClick={() => setOpen(false)}>
+        <Link href="/" className="leading-none" onClick={() => setOpen(false)}>
           <span className="block text-[26px] font-medium tracking-tight sm:text-[30px]">{site.name}</span>
-          <span className="mt-1 flex items-center justify-center gap-2 text-[10px] font-semibold tracking-[0.4em] text-white/90">
-            <span className="h-px w-6 bg-white/60" />
-            BALIK-ISLAM
-            <span className="h-px w-6 bg-white/60" />
-          </span>
         </Link>
 
         <nav className="hidden items-center gap-3 md:flex" aria-label="Main">

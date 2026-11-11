@@ -32,7 +32,7 @@ export default function Home() {
               ASSALĀMU ‘ALAYKUM
               <span className="h-px w-36 bg-gradient-to-r from-white/80 to-transparent" />
             </p>
-            <h1 className="rise mt-1 text-6xl font-medium leading-none tracking-tight sm:text-7xl lg:text-[88px]" style={{ animationDelay: "0.1s" }}>
+            <h1 className="rise mt-1 text-[52px] font-medium leading-none tracking-tight sm:text-6xl lg:whitespace-nowrap lg:text-[74px]" style={{ animationDelay: "0.1s" }}>
               {site.name}
             </h1>
             <div className="rise mt-2" style={{ animationDelay: "0.2s" }}>
