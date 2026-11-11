@@ -71,3 +71,8 @@ body {
 
 .field { width: 100%; border-radius: 0.5rem; border: 1px solid rgb(10 33 82 / 0.25); background: white; padding: 0.55rem 0.75rem; font-size: 1rem; color: var(--color-navy-900); }
 .field:focus { outline: 2px solid var(--color-royal); outline-offset: 1px; }
+
+.carousel { scrollbar-width: none; scroll-padding-inline: 1.25rem; }
+.carousel::-webkit-scrollbar { display: none; }
+@media (min-width: 640px) { .carousel { scroll-padding-inline: 0.25rem; } }
+@media (prefers-reduced-motion: reduce) { .carousel { scroll-behavior: auto; } }

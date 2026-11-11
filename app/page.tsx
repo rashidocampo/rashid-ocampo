@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import Carousel from "@/components/Carousel";
 import PostCard from "@/components/PostCard";
 import VideoPlayer from "@/components/VideoPlayer";
 import { Arrow, Play, TagIcon } from "@/components/Icons";
@@ -9,7 +10,7 @@ import { site, youtubeId } from "@/lib/site";
 export default async function Home() {
   const [st, tags, allPosts] = await Promise.all([getSettings(), getTags(), getPosts()]);
   const topics = tags.filter((t) => t.show_on_home);
-  const posts = allPosts.slice(0, 3);
+  const posts = allPosts.slice(0, 9);
   return (
     <>
       <section className="hero-bg relative overflow-hidden">
@@ -90,9 +91,13 @@ export default async function Home() {
               View All Posts <Arrow />
             </Link>
           </div>
-          <div className="grid gap-5 sm:grid-cols-3">
-            {posts.map((p) => <PostCard key={p.slug} post={p} />)}
-          </div>
+          <Carousel label="Latest blog posts">
+            {posts.map((p) => (
+              <div key={p.slug} className="w-[82%] shrink-0 snap-start sm:w-[calc((100%-1.25rem)/2)] lg:w-[calc((100%-2.5rem)/3)]">
+                <PostCard post={p} />
+              </div>
+            ))}
+          </Carousel>
         </div>
       </section>
     </>
