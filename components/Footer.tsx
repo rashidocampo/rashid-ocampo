@@ -1,4 +1,5 @@
-import Subscribe from "./Subscribe";
+import Link from "next/link";
+import { Arrow } from "./Icons";
 import { getSettings } from "@/lib/data";
 import { site } from "@/lib/site";
 
@@ -12,11 +13,18 @@ export default async function Footer() {
         <path d="M0 74c240-34 460-14 700 8s460 16 740-20v28H0z" fill="#06153a" />
       </svg>
       <div className="mx-auto flex max-w-6xl flex-col gap-6 px-5 pb-6 pt-8 sm:px-8 lg:flex-row lg:items-center lg:gap-9">
-        <h2 className="whitespace-nowrap text-4xl font-medium italic">{st.footerHeading}</h2>
-        <p className="max-w-sm text-lg leading-snug text-white/90 lg:border-l lg:border-white/40 lg:pl-7">
+        <h2 dir="auto" className="whitespace-nowrap text-5xl">{st.footerHeading}</h2>
+        <p dir="auto" className="max-w-md text-lg leading-snug text-white/90 lg:border-l lg:border-white/40 lg:pl-7">
           {st.footerText}
         </p>
-        <div className="lg:ml-auto"><Subscribe /></div>
+        <div className="flex flex-wrap gap-3 lg:ml-auto">
+          <Link href="/blog" className="lift group flex h-11 items-center gap-2 rounded-full border-[1.5px] border-white px-6 text-lg hover:bg-white hover:text-navy-800">
+            Read the Blog
+          </Link>
+          <Link href="/contact" className="btn-blue lift group flex h-11 items-center gap-2 rounded-full px-7 text-lg font-semibold">
+            Get in Touch <Arrow className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+          </Link>
+        </div>
       </div>
       <p className="border-t border-white/10 py-5 text-center text-sm text-white/60">
         © {site.name}. All rights reserved.

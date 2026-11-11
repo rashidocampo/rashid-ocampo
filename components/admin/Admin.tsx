@@ -106,7 +106,7 @@ function Login({ notice }: { notice?: string }) {
 
   return (
     <form onSubmit={submit} className="mx-auto max-w-sm space-y-4 rounded-2xl bg-white p-7 shadow-xl ring-1 ring-black/5">
-      <h1 className="text-3xl font-semibold italic">{mode === "signin" ? "Sign in" : "Set your password"}</h1>
+      <h1 className="text-4xl">{mode === "signin" ? "Sign in" : "Set your password"}</h1>
       <div>
         <label className={label} htmlFor="email">Email</label>
         <input id="email" type="email" required autoComplete="username" className="field" value={email} onChange={(e) => setEmail(e.target.value)} />
@@ -170,7 +170,7 @@ function PostEditor({ post, tags, onDone }: { post: PostRow; tags: Tag[]; onDone
       <button className="text-royal underline" onClick={onDone}>← Back to posts</button>
       <div>
         <label className={label}>Title</label>
-        <input className="field text-xl" value={p.title} onChange={(e) => { set("title", e.target.value); if (!slugTouched) set("slug", slugify(e.target.value)); }} />
+        <input dir="auto" className="field text-xl" value={p.title} onChange={(e) => { set("title", e.target.value); if (!slugTouched) set("slug", slugify(e.target.value)); }} />
       </div>
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
@@ -184,7 +184,7 @@ function PostEditor({ post, tags, onDone }: { post: PostRow; tags: Tag[]; onDone
       </div>
       <div>
         <label className={label}>Short summary</label>
-        <textarea className="field" rows={2} value={p.excerpt} onChange={(e) => set("excerpt", e.target.value)} />
+        <textarea dir="auto" className="field" rows={2} value={p.excerpt} onChange={(e) => set("excerpt", e.target.value)} />
       </div>
       <div>
         <label className={label}>Cover image</label>
@@ -212,7 +212,7 @@ function PostEditor({ post, tags, onDone }: { post: PostRow; tags: Tag[]; onDone
       </div>
       <div>
         <label className={label}>Article</label>
-        <textarea className="field font-mono text-sm leading-relaxed" rows={18} value={p.content} onChange={(e) => set("content", e.target.value)} placeholder={"Write here. Leave a blank line between paragraphs.\n\n## Heading\n**bold**, *italic*, [link text](https://…), > quote, - list item"} />
+        <textarea dir="auto" className="field text-base leading-relaxed" rows={18} value={p.content} onChange={(e) => set("content", e.target.value)} placeholder={"Write here. Leave a blank line between paragraphs.\n\n## Heading\n**bold**, *italic*, [link text](https://…), > quote, - list item"} />
       </div>
       <label className="flex items-center gap-3 text-lg">
         <input type="checkbox" className="h-5 w-5" checked={p.published} onChange={(e) => set("published", e.target.checked)} />
@@ -314,7 +314,7 @@ function Tags({ tags, reload }: { tags: Tag[]; reload: () => Promise<void> }) {
           run(supabase.from("tags").insert({ name: name.trim(), slug: slugify(name), sort: tags.length + 1 })).then(() => setName(""));
         }}
       >
-        <input className="field" placeholder="New tag name" value={name} onChange={(e) => setName(e.target.value)} />
+        <input className="field" dir="auto" placeholder="New tag name" value={name} onChange={(e) => setName(e.target.value)} />
         <button className={`${primary} shrink-0`}>Add tag</button>
       </form>
       {err && <p role="alert" className="text-red-700">{err}</p>}
@@ -355,8 +355,7 @@ const textFields: { key: keyof Settings; label: string; rows?: number; hint?: st
   { key: "description", label: "Hero description", rows: 3 },
   { key: "videoTitle", label: "Featured video title" },
   { key: "videoBlurb", label: "Featured video description", rows: 2 },
-  { key: "youtubeUrl", label: "Featured video YouTube link", hint: "Paste the YouTube link. Leave empty to show the placeholder." },
-  { key: "videoDuration", label: "Video length shown on the placeholder" },
+  { key: "youtubeUrl", label: "Featured video YouTube link", hint: "Paste the YouTube link. It is shown in a 16:9 frame." },
   { key: "aboutText", label: "About page text", rows: 8 },
   { key: "contactText", label: "Contact page text", rows: 5 },
   { key: "footerHeading", label: "Footer heading" },
@@ -383,9 +382,9 @@ function SiteContent() {
         <div key={f.key}>
           <label className={label}>{f.label}</label>
           {f.rows ? (
-            <textarea className="field" rows={f.rows} value={s[f.key]} onChange={(e) => setS({ ...s, [f.key]: e.target.value })} />
+            <textarea dir="auto" className="field" rows={f.rows} value={s[f.key]} onChange={(e) => setS({ ...s, [f.key]: e.target.value })} />
           ) : (
-            <input className="field" value={s[f.key]} onChange={(e) => setS({ ...s, [f.key]: e.target.value })} />
+            <input dir="auto" className="field" value={s[f.key]} onChange={(e) => setS({ ...s, [f.key]: e.target.value })} />
           )}
           {f.hint && <p className="mt-1 text-sm text-navy-700">{f.hint}</p>}
         </div>

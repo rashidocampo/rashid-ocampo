@@ -23,7 +23,7 @@ export default function Header() {
     <header className="sticky top-0 z-50 border-b border-white/10 bg-navy-950/85 backdrop-blur-md">
       <div className="mx-auto flex h-[72px] max-w-6xl items-center justify-between px-5 sm:px-8">
         <Link href="/" className="leading-none" onClick={() => setOpen(false)}>
-          <span className="block text-[26px] font-medium tracking-tight sm:text-[30px]">{site.name}</span>
+          <span className="font-display block text-[30px] sm:text-[34px]">{site.name}</span>
         </Link>
 
         <nav className="hidden items-center gap-3 md:flex" aria-label="Main">
@@ -33,13 +33,13 @@ export default function Header() {
               href={l.href}
               aria-current={active(l.href) ? "page" : undefined}
               className={`rounded-full px-5 py-1.5 text-xl transition ${
-                active(l.href) ? "btn-blue text-white" : "text-white/90 hover:text-sky"
+                active(l.href) ? "btn-blue text-white" : "nav-link text-white/90 hover:text-sky"
               }`}
             >
               {l.label}
             </Link>
           ))}
-          <Link href="/blog" aria-label="Search posts" className="ml-6 text-white/90 hover:text-sky">
+          <Link href="/blog" aria-label="Search posts" className="ml-6 text-white/90 transition hover:scale-110 hover:text-sky">
             <Search />
           </Link>
         </nav>

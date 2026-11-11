@@ -1,70 +1,75 @@
 "use client";
 
 import { useState } from "react";
-import { Play } from "./Icons";
+import { Play, Star8 } from "./Icons";
 
-export default function VideoPlayer({ id, title, duration }: { id: string; title: string; duration: string }) {
+export default function VideoPlayer({ id, title }: { id: string; title: string }) {
   const [playing, setPlaying] = useState(false);
 
   return (
-    <div id="video" className="relative aspect-[5/2] w-full scroll-mt-28 overflow-hidden rounded-2xl border-2 border-white/90 bg-navy-900 shadow-2xl shadow-black/40">
-      {playing && id ? (
-        <iframe
-          className="absolute inset-0 h-full w-full"
-          src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1`}
-          title={title}
-          allow="autoplay; encrypted-media; picture-in-picture"
-          allowFullScreen
-        />
-      ) : (
-        <>
-          {id && (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`} alt="" className="absolute inset-0 z-[1] h-full w-full object-cover" />
+    <div id="video" className="video-shadow group relative scroll-mt-28">
+      {/* Frame line, then the picture, both with scooped corners */}
+      <div className="video-scoop bg-gradient-to-br from-white via-sky to-royal p-[3px]">
+        <div className="video-scoop relative aspect-video overflow-hidden bg-navy-900">
+          {playing && id ? (
+            <iframe
+              className="absolute inset-0 h-full w-full"
+              src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1`}
+              title={title}
+              allow="autoplay; encrypted-media; picture-in-picture"
+              allowFullScreen
+            />
+          ) : (
+            <>
+              {id && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={`https://i.ytimg.com/vi/${id}/maxresdefault.jpg`}
+                  onError={(e) => {
+                    const img = e.currentTarget;
+                    if (!img.src.includes("hqdefault")) img.src = `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+                  }}
+                  alt=""
+                  className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
+                />
+              )}
+              {/* Themed mask: navy wash and a khatim star lattice over the thumbnail */}
+              <div className="absolute inset-0 bg-gradient-to-tr from-navy-950/95 via-navy-800/70 to-royal/35 transition-opacity duration-500 group-hover:opacity-80" />
+              <svg className="absolute inset-0 h-full w-full text-sky/25" aria-hidden>
+                <defs>
+                  <pattern id="khatim" width="56" height="56" patternUnits="userSpaceOnUse">
+                    <g fill="none" stroke="currentColor" strokeWidth="1">
+                      <rect x="14" y="14" width="28" height="28" />
+                      <rect x="14" y="14" width="28" height="28" transform="rotate(45 28 28)" />
+                    </g>
+                  </pattern>
+                  <radialGradient id="khatim-fade">
+                    <stop offset="0.25" stopColor="#fff" stopOpacity="0" />
+                    <stop offset="1" stopColor="#fff" />
+                  </radialGradient>
+                  <mask id="khatim-mask">
+                    <rect width="100%" height="100%" fill="url(#khatim-fade)" />
+                  </mask>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#khatim)" mask="url(#khatim-mask)" />
+              </svg>
+              <button
+                onClick={() => id && setPlaying(true)}
+                aria-label={`Play video: ${title}`}
+                className="absolute inset-0 flex items-center justify-center"
+              >
+                <span className="play-ring relative flex h-20 w-20 items-center justify-center rounded-full border-2 border-white/90 bg-navy-950/50 backdrop-blur-sm transition duration-300 group-hover:scale-110 group-hover:bg-royal sm:h-24 sm:w-24">
+                  <Play className="ml-1 h-9 w-9 sm:h-10 sm:w-10" />
+                </span>
+              </button>
+            </>
           )}
-          <svg viewBox="0 0 600 240" preserveAspectRatio="xMidYMid slice" className="absolute inset-0 h-full w-full" aria-hidden>
-            <defs>
-              <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stopColor="#27477f" /><stop offset=".45" stopColor="#7d8fb0" />
-                <stop offset=".62" stopColor="#f0a35e" /><stop offset=".75" stopColor="#f6c98a" />
-              </linearGradient>
-              <radialGradient id="sun" cx=".62" cy=".52" r=".35">
-                <stop offset="0" stopColor="#fff6d8" /><stop offset=".12" stopColor="#ffcf7a" stopOpacity=".9" />
-                <stop offset="1" stopColor="#ff9d4a" stopOpacity="0" />
-              </radialGradient>
-              <filter id="blur"><feGaussianBlur stdDeviation="5" /></filter>
-            </defs>
-            <rect width="600" height="240" fill="url(#sky)" />
-            <g filter="url(#blur)" opacity=".55">
-              <ellipse cx="150" cy="50" rx="150" ry="12" fill="#f3b78a" />
-              <ellipse cx="430" cy="30" rx="170" ry="10" fill="#c7b3c4" />
-              <ellipse cx="330" cy="78" rx="120" ry="8" fill="#ffd9a8" />
-            </g>
-            <rect width="600" height="240" fill="url(#sun)" />
-            <path d="M0 132l70-14 60 10 80-20 90 18 80-14 100 16 120-12v124H0z" fill="#5d6d94" />
-            <path d="M0 150l90-16 110 20 100-22 120 20 180-24v112H0z" fill="#3c4c75" />
-            <g filter="url(#blur)"><ellipse cx="300" cy="182" rx="330" ry="16" fill="#e9d6c8" opacity=".8" /></g>
-            <path d="M0 196l120-10 140 14 120-18 220-6v64H0z" fill="#1d2944" />
-            <path d="M330 240l110-50 160-24v74z" fill="#141c30" />
-          </svg>
-          <button
-            onClick={() => id && setPlaying(true)}
-            aria-label={`Play video: ${title}`}
-            className="group absolute inset-0 z-[2] flex items-center justify-center"
-          >
-            <span className="flex h-20 w-20 items-center justify-center rounded-full border-2 border-white/80 bg-black/45 backdrop-blur-sm transition group-hover:scale-110 group-hover:bg-royal/80">
-              <Play className="ml-1 h-9 w-9" />
-            </span>
-          </button>
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] bg-gradient-to-t from-black/70 to-transparent px-4 pb-2.5 pt-8">
-            <div className="mb-2 h-[3px] rounded bg-white/40"><div className="h-full w-[15%] rounded bg-white" /></div>
-            <div className="flex items-center gap-3 font-sans text-xs font-semibold">
-              <Play className="h-4 w-4" />
-              <span>0:00 / {duration}</span>
-            </div>
-          </div>
-        </>
-      )}
+        </div>
+      </div>
+      {/* Stars sitting in the four scooped corners */}
+      {["left-0 top-0 -translate-x-1/2 -translate-y-1/2", "right-0 top-0 translate-x-1/2 -translate-y-1/2", "left-0 bottom-0 -translate-x-1/2 translate-y-1/2", "right-0 bottom-0 translate-x-1/2 translate-y-1/2"].map((pos) => (
+        <Star8 key={pos} className={`pointer-events-none absolute h-7 w-7 text-sky transition-transform duration-700 group-hover:rotate-45 sm:h-9 sm:w-9 ${pos} [&>*]:stroke-[5]`} />
+      ))}
     </div>
   );
 }

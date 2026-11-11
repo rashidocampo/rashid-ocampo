@@ -3,7 +3,7 @@ import Link from "next/link";
 import Carousel from "@/components/Carousel";
 import PostCard from "@/components/PostCard";
 import VideoPlayer from "@/components/VideoPlayer";
-import { Arrow, Play, TagIcon } from "@/components/Icons";
+import { Arrow, Play, Star8, TagIcon } from "@/components/Icons";
 import { getPosts, getSettings, getTags } from "@/lib/data";
 import { site, youtubeId } from "@/lib/site";
 
@@ -16,7 +16,9 @@ export default async function Home() {
       <section className="hero-bg relative overflow-hidden">
         {/* Portrait */}
         <div className="absolute inset-y-0 left-0 hidden w-[46%] max-w-[640px] md:block" style={{ maxHeight: 540, maskImage: "linear-gradient(to bottom, black 70%, transparent)" }}>
-          <Image src={st.heroImage} alt={`Portrait of ${site.name}`} fill priority sizes="46vw" className="object-cover object-top" />
+          <div className="absolute inset-x-0 -top-[6%] h-[118%]" data-parallax="-0.14">
+            <Image src={st.heroImage} alt={`Portrait of ${site.name}`} fill priority sizes="46vw" className="object-cover object-top" />
+          </div>
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-[#051537]" />
         </div>
         <div className="relative h-72 md:hidden">
@@ -24,43 +26,46 @@ export default async function Home() {
           <div className="absolute inset-0 bg-gradient-to-t from-[#040f2b] to-transparent" />
         </div>
 
+        <div className="pointer-events-none absolute -right-48 top-20 hidden h-[520px] w-[520px] text-sky/10 md:block" data-parallax="0.3" aria-hidden>
+          <Star8 className="spin-slow h-full w-full" />
+        </div>
+
         <div className="relative mx-auto max-w-6xl px-5 sm:px-8">
           <div className="pb-10 pt-6 md:ml-[44%] md:pb-14 md:pt-12">
-            <p className="rise flex items-center gap-4 text-sm font-medium tracking-[0.35em] text-white/90">
+            <p dir="auto" className="rise flex items-center gap-4 text-sm font-medium tracking-[0.35em] text-white/90">
               {st.greeting}
               <span className="h-px w-36 bg-gradient-to-r from-white/80 to-transparent" />
             </p>
-            <h1 className="rise mt-1 text-[52px] font-medium leading-none tracking-tight sm:text-6xl lg:whitespace-nowrap lg:text-[74px]" style={{ animationDelay: "0.1s" }}>
+            <h1 className="rise mt-2 text-[76px] leading-[0.9] sm:text-[96px] lg:whitespace-nowrap lg:text-[112px]" style={{ animationDelay: "0.1s" }}>
               {site.name}
             </h1>
             <div className="rise mt-2" style={{ animationDelay: "0.2s" }}>
               <p className="inline-block -skew-x-[24deg] bg-gradient-to-r from-royal via-royal/80 to-royal/0 px-9 py-0.5">
-                <span className="inline-block skew-x-[24deg] text-4xl font-medium italic sm:text-[44px]">{st.tagline}</span>
+                <span dir="auto" className="font-display inline-block skew-x-[24deg] text-4xl sm:text-[44px]">{st.tagline}</span>
               </p>
             </div>
-            <p className="rise mt-6 max-w-lg border-l border-white/60 pl-6 text-xl leading-snug sm:text-[22px]" style={{ animationDelay: "0.3s" }}>
+            <p dir="auto" className="rise mt-6 max-w-lg border-s border-white/60 ps-6 text-xl leading-snug sm:text-[22px]" style={{ animationDelay: "0.3s" }}>
               {st.description}
             </p>
             <div className="rise mt-7 flex flex-wrap gap-4" style={{ animationDelay: "0.4s" }}>
-              <a href="#video" className="flex h-12 items-center gap-3 rounded-full bg-white px-7 text-lg font-semibold text-navy-800 shadow-lg transition hover:bg-sky">
-                <Play className="h-4 w-4" /> Watch My Latest Video
+              <a href="#video" className="lift group flex h-12 items-center gap-3 rounded-full bg-white px-7 text-lg font-semibold text-navy-800 shadow-lg hover:bg-sky">
+                <Play className="h-4 w-4 transition-transform group-hover:scale-125" /> Watch My Latest Video
               </a>
-              <Link href="/about" className="flex h-12 items-center gap-4 rounded-full border-[1.5px] border-white px-9 text-lg font-medium transition hover:bg-white hover:text-navy-800">
-                Learn More About Me <Arrow className="h-5 w-5" />
+              <Link href="/about" className="lift group flex h-12 items-center gap-4 rounded-full border-[1.5px] border-white px-9 text-lg font-medium hover:bg-white hover:text-navy-800">
+                Learn More About Me <Arrow className="h-5 w-5 transition-transform group-hover:translate-x-1.5" />
               </Link>
             </div>
           </div>
 
           {/* Featured video */}
-          <div className="grid items-center gap-8 pb-7 lg:grid-cols-[1.35fr_1fr] lg:gap-0 lg:px-10">
-            <VideoPlayer id={youtubeId(st.youtubeUrl)} title={st.videoTitle} duration={st.videoDuration} />
-            <div className="lg:ml-9 lg:border-l lg:border-white/50 lg:py-4 lg:pl-9">
+          <div className="grid items-center gap-8 pb-10 lg:grid-cols-[1.5fr_1fr] lg:gap-0 lg:px-6">
+            <div data-parallax="0.04">
+              <VideoPlayer id={youtubeId(st.youtubeUrl)} title={st.videoTitle} />
+            </div>
+            <div className="lg:ml-10 lg:border-s lg:border-white/50 lg:py-4 lg:ps-10">
               <p className="text-xs font-semibold tracking-[0.3em]">FEATURED VIDEO</p>
-              <h2 className="mt-1 text-4xl font-medium leading-tight lg:whitespace-nowrap">{st.videoTitle}</h2>
-              <p className="mt-3 text-xl leading-snug text-white/95">{st.videoBlurb}</p>
-              <a href="#video" className="btn-blue mt-6 inline-flex h-12 items-center gap-4 rounded-full px-10 text-lg font-medium transition">
-                Watch Now <Arrow className="h-5 w-5" />
-              </a>
+              <h2 dir="auto" className="mt-2 text-5xl leading-none sm:text-6xl">{st.videoTitle}</h2>
+              <p dir="auto" className="mt-4 text-xl leading-snug text-white/95">{st.videoBlurb}</p>
             </div>
           </div>
 
@@ -69,9 +74,9 @@ export default async function Home() {
             <ul className="flex flex-wrap justify-center gap-y-6 border-t border-royal-light/30 py-6">
               {topics.map((t) => (
                 <li key={t.id} className="w-1/2 border-white/30 px-2 lg:w-1/4 lg:border-l lg:first:border-l-0">
-                  <Link href={`/tag/${t.slug}`} className="flex items-center justify-center gap-4 transition hover:text-sky">
-                    <TagIcon name={t.icon} className="h-12 w-12 shrink-0 text-sky sm:h-14 sm:w-14" />
-                    <span className="max-w-[9.5rem] text-lg leading-tight sm:text-xl">{t.name}</span>
+                  <Link href={`/tag/${t.slug}`} className="group flex items-center justify-center gap-4 transition hover:text-sky">
+                    <TagIcon name={t.icon} className="h-12 w-12 shrink-0 text-sky transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:-translate-y-1.5 group-hover:-rotate-6 group-hover:scale-110 sm:h-14 sm:w-14" />
+                    <span dir="auto" className="max-w-[9.5rem] text-lg leading-tight sm:text-xl">{t.name}</span>
                   </Link>
                 </li>
               ))}
@@ -81,14 +86,17 @@ export default async function Home() {
       </section>
 
       {/* Blog */}
-      <section className="bg-gradient-to-br from-paper via-white to-[#e6e9f0] pb-28 pt-9 text-navy-900 sm:pb-32">
-        <div className="mx-auto grid max-w-6xl gap-8 px-5 sm:px-8 lg:grid-cols-[250px_1fr]">
+      <section className="relative overflow-hidden bg-gradient-to-br from-paper via-white to-[#e6e9f0] pb-28 pt-9 text-navy-900 sm:pb-32">
+        <div className="pointer-events-none absolute -left-40 top-0 h-[460px] w-[460px] text-royal/10" data-parallax="0.35" aria-hidden>
+          <Star8 className="h-full w-full" />
+        </div>
+        <div className="relative mx-auto grid max-w-6xl gap-8 px-5 sm:px-8 lg:grid-cols-[250px_1fr]">
           <div className="lg:pt-5">
             <p className="text-sm font-semibold tracking-[0.35em]">LATEST</p>
-            <h2 className="whitespace-nowrap text-[52px] font-semibold italic leading-none tracking-tight">Blog Posts</h2>
+            <h2 className="whitespace-nowrap text-[68px] leading-none">Blog Posts</h2>
             <span className="mt-4 block h-1 w-20 rounded bg-gradient-to-r from-royal to-transparent" />
-            <Link href="/blog" className="mt-8 inline-flex items-center gap-3 text-lg hover:text-royal">
-              View All Posts <Arrow />
+            <Link href="/blog" className="group mt-8 inline-flex items-center gap-3 text-lg hover:text-royal">
+              View All Posts <Arrow className="h-4 w-4 transition-transform group-hover:translate-x-1.5" />
             </Link>
           </div>
           <Carousel label="Latest blog posts">

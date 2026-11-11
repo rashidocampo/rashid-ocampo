@@ -7,7 +7,7 @@ export default function PostCard({ post }: { post: Post }) {
   return (
     <Link
       href={`/blog/${post.slug}`}
-      className="group block overflow-hidden rounded-xl bg-white/70 shadow-[0_8px_24px_rgb(10_33_82/0.12)] ring-1 ring-black/5 transition hover:-translate-y-1 hover:shadow-[0_14px_32px_rgb(10_33_82/0.2)]"
+      className="group block overflow-hidden rounded-xl bg-white/70 shadow-[0_8px_24px_rgb(10_33_82/0.12)] ring-1 ring-black/5 transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_14px_32px_rgb(10_33_82/0.2)]"
     >
       <div className="relative aspect-[14/5] overflow-hidden bg-gradient-to-br from-navy-800 to-royal">
         {post.cover_url && (
@@ -15,9 +15,9 @@ export default function PostCard({ post }: { post: Post }) {
         )}
       </div>
       <div className="px-6 pb-5 pt-3">
-        <h3 className="text-[22px] font-semibold leading-tight text-navy-900 group-hover:text-royal">{post.title}</h3>
+        <h3 dir="auto" className="text-[27px] leading-[1.05] text-navy-900 transition-colors group-hover:text-royal">{post.title}</h3>
         <p className="mt-3 flex items-center gap-2 text-sm text-navy-800">
-          <Calendar className="h-4 w-4 text-royal" />
+          <Calendar className="h-4 w-4 text-royal transition-transform duration-300 group-hover:-rotate-12 group-hover:scale-110" />
           <time dateTime={post.published_at}>{formatDate(post.published_at)}</time>
         </p>
       </div>

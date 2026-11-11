@@ -15,7 +15,6 @@ export type Settings = {
   heroImage: string;
   videoTitle: string;
   videoBlurb: string;
-  videoDuration: string;
   youtubeUrl: string;
   aboutText: string;
   contactText: string;
@@ -31,13 +30,12 @@ export const defaultSettings: Settings = {
   heroImage: "/images/hero.jpg",
   videoTitle: "My Journey to Islam",
   videoBlurb: "A short story of how Allah guided me back to Islam, and what I learned along the way.",
-  videoDuration: "10:24",
   youtubeUrl: "",
   aboutText: "My full story is being written and will be shared here soon, in shā’ Allāh.",
   contactText:
     "Questions about Islam, invitations to speak, or simply a salām — you are welcome to reach out.\n\nContact details will be added here soon, in shā’ Allāh.",
   footerHeading: "Stay Connected",
-  footerText: "Get the latest videos, articles, and reminders straight to your inbox.",
+  footerText: "New videos, articles, and reminders are shared here. Questions and invitations are always welcome.",
 };
 
 export type Tag = {
