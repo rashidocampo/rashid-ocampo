@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Play, Star8 } from "./Icons";
+import { Play } from "./Icons";
+import Ribbons from "./Ribbons";
 
 export default function VideoPlayer({ id, title }: { id: string; title: string }) {
   const [playing, setPlaying] = useState(false);
@@ -33,26 +34,9 @@ export default function VideoPlayer({ id, title }: { id: string; title: string }
                   className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
                 />
               )}
-              {/* Themed mask: navy wash and a khatim star lattice over the thumbnail */}
-              <div className="absolute inset-0 bg-gradient-to-tr from-navy-950/95 via-navy-800/70 to-royal/35 transition-opacity duration-500 group-hover:opacity-80" />
-              <svg className="absolute inset-0 h-full w-full text-sky/25" aria-hidden>
-                <defs>
-                  <pattern id="khatim" width="56" height="56" patternUnits="userSpaceOnUse">
-                    <g fill="none" stroke="currentColor" strokeWidth="1">
-                      <rect x="14" y="14" width="28" height="28" />
-                      <rect x="14" y="14" width="28" height="28" transform="rotate(45 28 28)" />
-                    </g>
-                  </pattern>
-                  <radialGradient id="khatim-fade">
-                    <stop offset="0.25" stopColor="#fff" stopOpacity="0" />
-                    <stop offset="1" stopColor="#fff" />
-                  </radialGradient>
-                  <mask id="khatim-mask">
-                    <rect width="100%" height="100%" fill="url(#khatim-fade)" />
-                  </mask>
-                </defs>
-                <rect width="100%" height="100%" fill="url(#khatim)" mask="url(#khatim-mask)" />
-              </svg>
+              {/* Themed mask: navy wash and the ribbon of light over the thumbnail */}
+              <div className="absolute inset-0 bg-gradient-to-tr from-navy-950/95 via-navy-800/70 to-royal/35 transition-opacity duration-500 group-hover:opacity-75" />
+              <Ribbons lines={14} className="absolute -inset-x-[10%] inset-y-0 h-full w-[120%] text-sky/45 transition-transform duration-[1200ms] ease-out group-hover:scale-110" />
               <button
                 onClick={() => id && setPlaying(true)}
                 aria-label={`Play video: ${title}`}
@@ -66,10 +50,6 @@ export default function VideoPlayer({ id, title }: { id: string; title: string }
           )}
         </div>
       </div>
-      {/* Stars sitting in the four scooped corners */}
-      {["left-0 top-0 -translate-x-1/2 -translate-y-1/2", "right-0 top-0 translate-x-1/2 -translate-y-1/2", "left-0 bottom-0 -translate-x-1/2 translate-y-1/2", "right-0 bottom-0 translate-x-1/2 translate-y-1/2"].map((pos) => (
-        <Star8 key={pos} className={`pointer-events-none absolute h-7 w-7 text-sky transition-transform duration-700 group-hover:rotate-45 sm:h-9 sm:w-9 ${pos} [&>*]:stroke-[5]`} />
-      ))}
     </div>
   );
 }

@@ -54,12 +54,3 @@ export const TagIcon = ({ name, className }: { name: string; className?: string 
   const I = tagIcons[name as keyof typeof tagIcons] ?? Book;
   return <I className={className} />;
 };
-
-/** Eight-pointed star (khatim): two overlapping squares. */
-export const Star8 = ({ className }: P) => (
-  <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth={1} aria-hidden className={className}>
-    <rect x="18" y="18" width="64" height="64" />
-    <rect x="18" y="18" width="64" height="64" transform="rotate(45 50 50)" />
-    <circle cx="50" cy="50" r="22" />
-  </svg>
-);

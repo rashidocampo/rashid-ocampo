@@ -1,11 +1,11 @@
-import { Star8 } from "./Icons";
+import Ribbons from "./Ribbons";
 
 export default function PageShell({ eyebrow, title, children }: { eyebrow: string; title: string; children: React.ReactNode }) {
   return (
     <>
       <section className="hero-bg relative overflow-hidden">
-        <div className="pointer-events-none absolute -right-24 top-1/2 -mt-48 h-96 w-96 text-sky/15" data-parallax="0.25" aria-hidden>
-          <Star8 className="spin-slow h-full w-full" />
+        <div className="pointer-events-none absolute inset-y-0 -right-[10%] w-[80%] text-sky/30" data-parallax="0.2" aria-hidden>
+          <Ribbons className="ribbon-drift h-full w-full" />
         </div>
         <div className="relative mx-auto max-w-6xl px-5 py-14 sm:px-8 sm:py-20">
           <p className="text-sm font-medium tracking-[0.35em] text-sky">{eyebrow}</p>

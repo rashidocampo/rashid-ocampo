@@ -20,6 +20,7 @@ export type Settings = {
   contactText: string;
   footerHeading: string;
   footerText: string;
+  headlineFont: "solid" | "inline";
 };
 
 export const defaultSettings: Settings = {
@@ -35,6 +36,7 @@ export const defaultSettings: Settings = {
   contactText:
     "Questions about Islam, invitations to speak, or simply a salām — you are welcome to reach out.\n\nContact details will be added here soon, in shā’ Allāh.",
   footerHeading: "Stay Connected",
+  headlineFont: "solid",
   footerText: "New videos, articles, and reminders are shared here. Questions and invitations are always welcome.",
 };
 
@@ -79,3 +81,9 @@ export const youtubeId = (url: string) => {
   const m = url.trim().match(/(?:v=|youtu\.be\/|embed\/|shorts\/|live\/)([\w-]{11})/);
   return m ? m[1] : /^[\w-]{11}$/.test(url.trim()) ? url.trim() : "";
 };
+
+/** Headline typefaces the owner can switch between in the dashboard. */
+export const headlineFonts = {
+  solid: { label: "New Amsterdam (solid)", family: '"New Amsterdam", "El Messiri", "Arial Narrow", sans-serif', weight: 400, transform: "none" },
+  inline: { label: "Big Shoulders Inline (same shape, with an inline)", family: '"Big Shoulders Inline Variable", "El Messiri", "Arial Narrow", sans-serif', weight: 800, transform: "uppercase" },
+} as const;

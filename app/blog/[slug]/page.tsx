@@ -33,7 +33,7 @@ export default async function PostPage({ params }: Props) {
           </div>
         )}
         <TagChips tags={post.tags} />
-        {post.excerpt && <p className="text-2xl italic text-navy-700">{post.excerpt}</p>}
+        {post.excerpt && <p dir="auto" className="font-blog text-2xl italic text-navy-700">{post.excerpt}</p>}
         {post.content ? (
           <Markdown>{post.content}</Markdown>
         ) : (

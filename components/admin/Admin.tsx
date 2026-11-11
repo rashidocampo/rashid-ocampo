@@ -3,7 +3,7 @@
 import { createClient, type Session } from "@supabase/supabase-js";
 import { useCallback, useEffect, useState } from "react";
 import { tagIcons, TagIcon } from "@/components/Icons";
-import { ADMIN_EMAIL, defaultSettings, slugify, SUPABASE_KEY, SUPABASE_URL, type Settings, type Tag } from "@/lib/site";
+import { ADMIN_EMAIL, defaultSettings, headlineFonts, slugify, SUPABASE_KEY, SUPABASE_URL, type Settings, type Tag } from "@/lib/site";
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
@@ -349,7 +349,7 @@ function Tags({ tags, reload }: { tags: Tag[]; reload: () => Promise<void> }) {
 
 /* ---------- Site content ---------- */
 
-const textFields: { key: keyof Settings; label: string; rows?: number; hint?: string }[] = [
+const textFields: { key: Exclude<keyof Settings, "headlineFont">; label: string; rows?: number; hint?: string }[] = [
   { key: "greeting", label: "Hero greeting" },
   { key: "tagline", label: "Hero tagline" },
   { key: "description", label: "Hero description", rows: 3 },
@@ -377,6 +377,15 @@ function SiteContent() {
       <div>
         <label className={label}>Hero photo</label>
         <ImageField value={s.heroImage} onChange={(v) => setS({ ...s, heroImage: v ?? defaultSettings.heroImage })} />
+      </div>
+      <div>
+        <label className={label} htmlFor="headlineFont">Headline font</label>
+        <select id="headlineFont" className="field" value={s.headlineFont} onChange={(e) => setS({ ...s, headlineFont: e.target.value as Settings["headlineFont"] })}>
+          {Object.entries(headlineFonts).map(([k, f]) => <option key={k} value={k}>{f.label}</option>)}
+        </select>
+        <p className="mt-2 text-4xl text-navy-900" style={{ fontFamily: headlineFonts[s.headlineFont].family, fontWeight: headlineFonts[s.headlineFont].weight, textTransform: headlineFonts[s.headlineFont].transform }}>
+          Rashid Ocampo
+        </p>
       </div>
       {textFields.map((f) => (
         <div key={f.key}>
