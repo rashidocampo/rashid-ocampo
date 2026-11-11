@@ -28,7 +28,7 @@ export default function Spotlight() {
       ref={ref}
       aria-hidden
       className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500"
-      style={{ background: "radial-gradient(460px circle at var(--mx, 50%) var(--my, 50%), rgb(140 196 255 / 0.16), transparent 70%)" }}
+      style={{ background: "radial-gradient(460px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--color-sky) 16%, transparent), transparent 70%)" }}
     />
   );
 }

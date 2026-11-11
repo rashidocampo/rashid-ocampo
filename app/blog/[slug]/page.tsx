@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import Comments from "@/components/Comments";
 import Markdown from "@/components/Markdown";
 import PageShell from "@/components/PageShell";
 import TagChips from "@/components/TagChips";
@@ -22,8 +23,17 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function PostPage({ params }: Props) {
   const { slug } = await params;
-  const post = (await getPosts()).find((p) => p.slug === slug);
+  const posts = await getPosts();
+  const post = posts.find((p) => p.slug === slug);
   if (!post) notFound();
+  // Read next: posts sharing the most tags first, then the most recent.
+  const mine = new Set(post.tags.map((t) => t.id));
+  const next = posts
+    .filter((p) => p.id !== post.id)
+    .map((p, i) => ({ p, score: p.tags.filter((t) => mine.has(t.id)).length, i }))
+    .sort((a, b) => b.score - a.score || a.i - b.i)
+    .slice(0, 3)
+    .map((x) => x.p);
   return (
     <PageShell eyebrow={formatDate(post.published_at).toUpperCase()} title={post.title}>
       <article className="max-w-2xl space-y-6">
@@ -33,14 +43,38 @@ export default async function PostPage({ params }: Props) {
           </div>
         )}
         <TagChips tags={post.tags} />
-        {post.excerpt && <p dir="auto" className="font-blog text-2xl italic text-navy-700">{post.excerpt}</p>}
+        {post.excerpt && <p dir="auto" className="text-2xl italic text-navy-700">{post.excerpt}</p>}
         {post.content ? (
           <Markdown>{post.content}</Markdown>
         ) : (
           <p className="text-navy-700">This article is being written and will be published here soon, in shā’ Allāh.</p>
         )}
-        <Link href="/blog" className="inline-block text-royal hover:underline">← All posts</Link>
       </article>
+
+      {next.length > 0 && (
+        <nav aria-label="Read next" className="mt-14 max-w-2xl border-t border-navy-800/15 pt-8">
+          <h2 className="text-4xl">Read next</h2>
+          <ul className="mt-5 space-y-3">
+            {next.map((p) => (
+              <li key={p.id}>
+                <Link href={`/blog/${p.slug}`} className="group flex items-center gap-4 rounded-xl bg-white/70 p-2.5 ring-1 ring-black/5 transition duration-300 hover:-translate-y-0.5 hover:shadow-lg">
+                  <span className="relative block h-16 w-24 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-navy-800 to-royal sm:h-20 sm:w-32">
+                    {p.cover_url && <Image src={p.cover_url} alt="" fill sizes="128px" className="object-cover transition duration-500 group-hover:scale-110" />}
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span dir="auto" className="font-display block text-2xl leading-tight text-navy-900 transition-colors group-hover:text-royal">{p.title}</span>
+                    <span className="mt-1 block text-sm text-navy-700">{formatDate(p.published_at)}</span>
+                  </span>
+                  <span aria-hidden className="pe-2 text-2xl text-royal transition-transform group-hover:translate-x-1">→</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <Link href="/blog" className="mt-6 inline-block text-lg text-royal hover:underline">← All posts</Link>
+        </nav>
+      )}
+
+      <Comments postId={post.id} />
     </PageShell>
   );
 }

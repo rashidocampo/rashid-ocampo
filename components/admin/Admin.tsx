@@ -3,7 +3,7 @@
 import { createClient, type Session } from "@supabase/supabase-js";
 import { useCallback, useEffect, useState } from "react";
 import { tagIcons, TagIcon } from "@/components/Icons";
-import { ADMIN_EMAIL, defaultSettings, headlineFonts, slugify, SUPABASE_KEY, SUPABASE_URL, type Settings, type Tag } from "@/lib/site";
+import { ADMIN_EMAIL, DEFAULT_THEME, defaultSettings, headlineFonts, heroImageStyle, slugify, themePalette, SUPABASE_KEY, SUPABASE_URL, type Settings, type Tag } from "@/lib/site";
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
@@ -349,7 +349,8 @@ function Tags({ tags, reload }: { tags: Tag[]; reload: () => Promise<void> }) {
 
 /* ---------- Site content ---------- */
 
-const textFields: { key: Exclude<keyof Settings, "headlineFont">; label: string; rows?: number; hint?: string }[] = [
+type TextKey = { [K in keyof Settings]: Settings[K] extends string ? K : never }[keyof Settings];
+const textFields: { key: Exclude<TextKey, "headlineFont" | "heroFit" | "themeColor" | "heroImage">; label: string; rows?: number; hint?: string }[] = [
   { key: "greeting", label: "Hero greeting" },
   { key: "tagline", label: "Hero tagline" },
   { key: "description", label: "Hero description", rows: 3 },
@@ -377,6 +378,42 @@ function SiteContent() {
       <div>
         <label className={label}>Hero photo</label>
         <ImageField value={s.heroImage} onChange={(v) => setS({ ...s, heroImage: v ?? defaultSettings.heroImage })} />
+        <div className="mt-4 grid gap-5 sm:grid-cols-[240px_1fr]">
+          <div>
+            <div className="relative aspect-square overflow-hidden rounded-xl bg-navy-950 ring-1 ring-black/10">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={s.heroImage} alt="" className="absolute inset-0 h-full w-full" style={heroImageStyle(s)} />
+            </div>
+            <p className="mt-1 text-sm text-navy-700">Preview of the photo area on a computer.</p>
+          </div>
+          <div className="space-y-3">
+            <div>
+              <label className={label} htmlFor="heroFit">Fit</label>
+              <select id="heroFit" className="field" value={s.heroFit} onChange={(e) => setS({ ...s, heroFit: e.target.value as Settings["heroFit"] })}>
+                <option value="cover">Fill the area (edges may be cropped)</option>
+                <option value="contain">Show the whole photo</option>
+              </select>
+            </div>
+            {([["heroZoom", "Size", 50, 250], ["heroX", "Move left / right", 0, 100], ["heroY", "Move up / down", 0, 100]] as const).map(([key, text, min, max]) => (
+              <div key={key}>
+                <label className={label} htmlFor={key}>{text}: {s[key]}{key === "heroZoom" ? "%" : ""}</label>
+                <input id={key} type="range" min={min} max={max} value={s[key]} className="w-full" onChange={(e) => setS({ ...s, [key]: Number(e.target.value) })} />
+              </div>
+            ))}
+            <button type="button" className="text-sm text-royal underline" onClick={() => setS({ ...s, heroFit: "cover", heroZoom: 100, heroX: 50, heroY: 0 })}>Reset photo position</button>
+          </div>
+        </div>
+      </div>
+      <div>
+        <label className={label} htmlFor="themeColor">Theme colour</label>
+        <div className="flex flex-wrap items-center gap-4">
+          <input id="themeColor" type="color" value={s.themeColor} className="h-12 w-20 cursor-pointer rounded-lg border border-navy-800/25 bg-white p-1" onChange={(e) => setS({ ...s, themeColor: e.target.value })} />
+          <div className="flex overflow-hidden rounded-lg ring-1 ring-black/10" style={(themePalette(s.themeColor) ?? {}) as React.CSSProperties} aria-hidden>
+            {["bg-navy-950", "bg-navy-800", "bg-royal", "bg-royal-light", "bg-sky"].map((c) => <span key={c} className={`h-12 w-10 ${c}`} />)}
+          </div>
+          <button type="button" className="text-sm text-royal underline" onClick={() => setS({ ...s, themeColor: DEFAULT_THEME })}>Reset to the original blue</button>
+        </div>
+        <p className="mt-1 text-sm text-navy-700">Pick one colour; the dark backgrounds, buttons and highlights are all matched to it.</p>
       </div>
       <div>
         <label className={label} htmlFor="headlineFont">Headline font</label>
@@ -420,7 +457,45 @@ function SiteContent() {
 
 /* ---------- Shell ---------- */
 
-const tabs = ["Posts", "Tags", "Site content"] as const;
+function CommentsAdmin() {
+  type Row = { id: string; name: string; body: string; approved: boolean; created_at: string; posts: { title: string } | null };
+  const [rows, setRows] = useState<Row[] | null>(null);
+  const [err, setErr] = useState("");
+  const load = useCallback(async () => {
+    const { data, error } = await supabase.from("comments").select("id, name, body, approved, created_at, posts(title)").order("created_at", { ascending: false }).limit(200);
+    if (error) return setErr(error.message);
+    setRows((data ?? []) as unknown as Row[]);
+  }, []);
+  useEffect(() => { load(); }, [load]);
+  const run = async (q: PromiseLike<{ error: { message: string } | null }>) => {
+    const { error } = await q;
+    if (error) setErr(error.message);
+    load();
+  };
+  return (
+    <div className="space-y-4">
+      {err && <p role="alert" className="text-red-700">{err}</p>}
+      {!rows && !err && <p>Loading…</p>}
+      {rows?.length === 0 && <p className="text-navy-700">No comments yet.</p>}
+      <ul className="space-y-3">
+        {rows?.map((c) => (
+          <li key={c.id} className={`rounded-xl bg-white px-4 py-3 ring-1 ring-black/5 ${c.approved ? "" : "opacity-60"}`}>
+            <p className="text-sm text-navy-700">
+              <strong dir="auto">{c.name}</strong> on “{c.posts?.title ?? "deleted post"}” · {new Date(c.created_at).toLocaleString()} {c.approved ? "" : "· Hidden"}
+            </p>
+            <p dir="auto" className="mt-1 whitespace-pre-wrap">{c.body}</p>
+            <div className="mt-2 flex gap-4 text-sm">
+              <button className="text-royal underline" onClick={() => run(supabase.from("comments").update({ approved: !c.approved }).eq("id", c.id))}>{c.approved ? "Hide" : "Show"}</button>
+              <button className="text-red-700 underline" onClick={() => { if (window.confirm("Delete this comment? This cannot be undone.")) run(supabase.from("comments").delete().eq("id", c.id)); }}>Delete</button>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+const tabs = ["Posts", "Tags", "Comments", "Site content"] as const;
 
 export default function Admin() {
   const [session, setSession] = useState<Session | null | undefined>(undefined);
@@ -458,6 +533,7 @@ export default function Admin() {
       </div>
       {tab === "Posts" && <Posts tags={tags} />}
       {tab === "Tags" && <Tags tags={tags} reload={loadTags} />}
+      {tab === "Comments" && <CommentsAdmin />}
       {tab === "Site content" && <SiteContent />}
     </div>
   );

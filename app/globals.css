@@ -1,6 +1,4 @@
 @import "tailwindcss";
-@import "@fontsource-variable/brygada-1918/index.css";
-@import "@fontsource-variable/brygada-1918/wght-italic.css";
 @import "@fontsource/new-amsterdam/index.css";
 @import "@fontsource-variable/big-shoulders-inline/index.css";
 @import "@fontsource-variable/finlandica-headline/index.css";
@@ -9,7 +7,7 @@
 @import "@fontsource/el-messiri/arabic-700.css";
 
 @theme {
-  --font-serif: "Brygada 1918 Variable", "El Messiri", "Iowan Old Style", Georgia, serif;
+  --font-body: "Finlandica Headline Variable", "El Messiri", system-ui, sans-serif;
   --font-display: "New Amsterdam", "El Messiri", "Arial Narrow", sans-serif;
   --color-navy-950: #030d24;
   --color-navy-900: #06153a;
@@ -26,7 +24,7 @@ html {
 }
 
 body {
-  font-family: var(--font-serif);
+  font-family: var(--font-body);
   background: var(--color-navy-950);
   color: white;
   font-optical-sizing: auto;
@@ -38,8 +36,8 @@ body {
 }
 
 .btn-blue {
-  background: linear-gradient(180deg, #2a7bff 0%, #0f4fd0 100%);
-  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.35), 0 6px 20px rgb(21 96 232 / 0.35);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--color-royal) 86%, white) 0%, color-mix(in srgb, var(--color-royal) 88%, black) 100%);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.35), 0 6px 20px color-mix(in srgb, var(--color-royal) 35%, transparent);
 }
 .btn-blue:hover {
   filter: brightness(1.1);
@@ -47,9 +45,9 @@ body {
 
 .hero-bg {
   background:
-    radial-gradient(60% 50% at 85% 55%, rgb(40 110 230 / 0.35), transparent 70%),
-    linear-gradient(115deg, transparent 55%, rgb(70 140 255 / 0.12) 62%, transparent 70%),
-    linear-gradient(180deg, #030d24 0%, #071b47 55%, #0b2a66 100%);
+    radial-gradient(60% 50% at 85% 55%, color-mix(in srgb, var(--color-royal) 38%, transparent), transparent 70%),
+    linear-gradient(115deg, transparent 55%, color-mix(in srgb, var(--color-royal-light) 12%, transparent) 62%, transparent 70%),
+    linear-gradient(180deg, var(--color-navy-950) 0%, color-mix(in srgb, var(--color-navy-900) 60%, var(--color-navy-800)) 55%, color-mix(in srgb, var(--color-navy-800) 70%, var(--color-navy-700)) 100%);
 }
 
 @keyframes rise {
@@ -65,7 +63,6 @@ body {
 }
 
 .prose-post > * + * { margin-top: 1.1em; }
-.prose-post, .font-blog { font-family: "Finlandica Headline Variable", "El Messiri", system-ui, sans-serif; }
 .prose-post { font-size: 1.25rem; line-height: 1.7; }
 .prose-post h1, .prose-post h2, .prose-post h3 { line-height: 1.1; margin-top: 1.6em; }
 .prose-post h1 { font-size: 2.2em; }
@@ -76,9 +73,9 @@ body {
 .prose-post ol { list-style: decimal; padding-inline-start: 1.4em; }
 .prose-post blockquote { border-inline-start: 3px solid var(--color-royal); padding-inline-start: 1em; font-style: italic; color: var(--color-navy-700); }
 .prose-post img { border-radius: 0.75rem; }
-.prose-post hr { border-color: rgb(10 33 82 / 0.15); }
+.prose-post hr { border-color: color-mix(in srgb, var(--color-navy-800) 15%, transparent); }
 
-.field { width: 100%; border-radius: 0.5rem; border: 1px solid rgb(10 33 82 / 0.25); background: white; padding: 0.55rem 0.75rem; font-size: 1rem; color: var(--color-navy-900); }
+.field { width: 100%; border-radius: 0.5rem; border: 1px solid color-mix(in srgb, var(--color-navy-800) 25%, transparent); background: white; padding: 0.55rem 0.75rem; font-size: 1rem; color: var(--color-navy-900); }
 .field:focus { outline: 2px solid var(--color-royal); outline-offset: 1px; }
 
 .carousel { scrollbar-width: none; scroll-padding-inline: 1.25rem; }
@@ -98,7 +95,7 @@ h1, h2, h3, .font-display {
 /* Arabic reads right-to-left and sits a little larger for legibility */
 :dir(rtl) { text-align: right; }
 .prose-post :dir(rtl) { font-size: 1.2em; line-height: 1.9; }
-:lang(ar) { font-family: "El Messiri", var(--font-serif); }
+:lang(ar) { font-family: "El Messiri", var(--font-body); }
 
 /* Featured video: cartouche frame with scooped corners */
 .video-scoop {
@@ -134,7 +131,7 @@ h1, h2, h3, .font-display {
 
 /* Hover sheens */
 .sheen {
-  background: linear-gradient(100deg, #fff 0%, #fff 40%, #8cc4ff 50%, #fff 60%, #fff 100%) 100% 0 / 260% 100%;
+  background: linear-gradient(100deg, #fff 0%, #fff 40%, var(--color-sky) 50%, #fff 60%, #fff 100%) 100% 0 / 260% 100%;
   -webkit-background-clip: text; background-clip: text; color: transparent;
   transition: background-position 1.2s cubic-bezier(0.2, 0.7, 0.2, 1);
 }

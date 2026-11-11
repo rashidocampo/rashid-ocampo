@@ -7,11 +7,12 @@ import { Arrow, Play, TagIcon } from "@/components/Icons";
 import Ribbons from "@/components/Ribbons";
 import Spotlight from "@/components/Spotlight";
 import { getPosts, getSettings, getTags } from "@/lib/data";
-import { site, youtubeId } from "@/lib/site";
+import { heroImageStyle, site, youtubeId } from "@/lib/site";
 
 export default async function Home() {
   const [st, tags, allPosts] = await Promise.all([getSettings(), getTags(), getPosts()]);
   const topics = tags.filter((t) => t.show_on_home);
+  const heroStyle = heroImageStyle(st);
   const posts = allPosts.slice(0, 9);
   return (
     <>
@@ -19,13 +20,15 @@ export default async function Home() {
         {/* Portrait */}
         <div className="group/portrait absolute inset-y-0 left-0 hidden w-[46%] max-w-[640px] md:block" style={{ maxHeight: 540, maskImage: "linear-gradient(to bottom, black 70%, transparent)" }}>
           <div className="absolute inset-x-0 -top-[6%] h-[118%]" data-parallax="-0.14">
-            <Image src={st.heroImage} alt={`Portrait of ${site.name}`} fill priority sizes="46vw" className="object-cover object-top transition-transform duration-[1400ms] ease-out group-hover/portrait:scale-[1.06]" />
+            <div className="absolute inset-0 transition-transform duration-[1400ms] ease-out group-hover/portrait:scale-[1.06]">
+              <Image src={st.heroImage} alt={`Portrait of ${site.name}`} fill priority sizes="46vw" style={heroStyle} />
+            </div>
           </div>
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-[#051537]" />
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-navy-950" />
         </div>
-        <div className="relative h-72 md:hidden">
-          <Image src={st.heroImage} alt={`Portrait of ${site.name}`} fill priority sizes="100vw" className="object-cover object-top" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#040f2b] to-transparent" />
+        <div className="relative h-72 overflow-hidden md:hidden">
+          <Image src={st.heroImage} alt={`Portrait of ${site.name}`} fill priority sizes="100vw" style={heroStyle} />
+          <div className="absolute inset-0 bg-gradient-to-t from-navy-950 to-transparent" />
         </div>
 
         {/* Backdrop: ribbon of light, bokeh echoing the photo, and a pointer-following glow */}
