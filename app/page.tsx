@@ -16,7 +16,7 @@ export default async function Home() {
   const [st, tags, allPosts] = await Promise.all([getSettings(), getTags(), getPosts()]);
   const topics = tags.filter((t) => t.show_on_home);
   const heroStyle = heroImageStyle(st);
-  const posts = allPosts.slice(0, 9);
+  const posts = allPosts.filter((p) => p.show_on_home !== false).slice(0, 9);
   return (
     <>
       <JsonLd

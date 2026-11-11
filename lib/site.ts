@@ -74,6 +74,7 @@ export type Post = {
   content: string;
   cover_url: string | null;
   published: boolean;
+  show_on_home: boolean;
   published_at: string;
   tags: Tag[];
 };

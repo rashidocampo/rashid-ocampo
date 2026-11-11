@@ -15,6 +15,7 @@ type PostRow = {
   content: string;
   cover_url: string | null;
   published: boolean;
+  show_on_home: boolean;
   published_at: string;
   tagIds: string[];
 };
@@ -218,6 +219,10 @@ function PostEditor({ post, tags, onDone }: { post: PostRow; tags: Tag[]; onDone
         <input type="checkbox" className="h-5 w-5" checked={p.published} onChange={(e) => set("published", e.target.checked)} />
         Published (visible on the site)
       </label>
+      <label className="flex items-center gap-3 text-lg">
+        <input type="checkbox" className="h-5 w-5" checked={p.show_on_home} onChange={(e) => set("show_on_home", e.target.checked)} />
+        Show on homepage (under Latest Blog Posts)
+      </label>
       {err && <p role="alert" className="text-red-700">{err}</p>}
       <div className="flex gap-3">
         <button className={primary} disabled={busy} onClick={save}>{busy ? "Saving…" : "Save post"}</button>
@@ -242,7 +247,7 @@ function Posts({ tags }: { tags: Tag[] }) {
     setRows(
       (data ?? []).map((d) => ({
         id: d.id, slug: d.slug, title: d.title, excerpt: d.excerpt, content: d.content,
-        cover_url: d.cover_url, published: d.published, published_at: d.published_at,
+        cover_url: d.cover_url, published: d.published, show_on_home: d.show_on_home, published_at: d.published_at,
         tagIds: (d.post_tags as { tag_id: string }[]).map((x) => x.tag_id),
       })),
     );
@@ -253,7 +258,7 @@ function Posts({ tags }: { tags: Tag[] }) {
 
   return (
     <div className="space-y-4">
-      <button className={primary} onClick={() => setEditing({ slug: "", title: "", excerpt: "", content: "", cover_url: null, published: false, published_at: today(), tagIds: [] })}>
+      <button className={primary} onClick={() => setEditing({ slug: "", title: "", excerpt: "", content: "", cover_url: null, published: false, show_on_home: true, published_at: today(), tagIds: [] })}>
         + New post
       </button>
       {err && <p role="alert" className="text-red-700">{err}</p>}
@@ -264,7 +269,7 @@ function Posts({ tags }: { tags: Tag[] }) {
             <div className="min-w-0 flex-1">
               <p className="truncate text-lg font-semibold">{r.title}</p>
               <p className="text-sm text-navy-700">
-                {r.published_at} · {r.published ? "Published" : "Draft"}
+                {r.published_at} · {r.published ? "Published" : "Draft"}{r.published && !r.show_on_home ? " · Hidden from homepage" : ""}
                 {r.tagIds.length > 0 && " · " + r.tagIds.map((id) => tags.find((t) => t.id === id)?.name).filter(Boolean).join(", ")}
               </p>
             </div>
