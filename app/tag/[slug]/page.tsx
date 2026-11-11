@@ -1,0 +1,34 @@
+import { notFound } from "next/navigation";
+import PageShell from "@/components/PageShell";
+import PostCard from "@/components/PostCard";
+import TagChips from "@/components/TagChips";
+import { getPosts, getTags } from "@/lib/data";
+
+type Props = { params: Promise<{ slug: string }> };
+
+export async function generateStaticParams() {
+  const tags = await getTags();
+  return tags.length ? tags.map((t) => ({ slug: t.slug })) : [{ slug: "-" }];
+}
+
+export async function generateMetadata({ params }: Props) {
+  const { slug } = await params;
+  return { title: (await getTags()).find((t) => t.slug === slug)?.name };
+}
+
+export default async function TagPage({ params }: Props) {
+  const { slug } = await params;
+  const [posts, tags] = await Promise.all([getPosts(), getTags()]);
+  const tag = tags.find((t) => t.slug === slug);
+  if (!tag) notFound();
+  const list = posts.filter((p) => p.tags.some((t) => t.slug === slug));
+  return (
+    <PageShell eyebrow="TOPIC" title={tag.name}>
+      <TagChips tags={tags} active={slug} />
+      <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {list.map((p) => <PostCard key={p.slug} post={p} />)}
+      </div>
+      {list.length === 0 && <p>No posts under this topic yet.</p>}
+    </PageShell>
+  );
+}

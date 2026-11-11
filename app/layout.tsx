@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { site } from "@/lib/site";
+import { defaultSettings, site } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: { default: `${site.name} — ${site.tagline}`, template: `%s — ${site.name}` },
-  description: site.description,
+  title: { default: `${site.name} — Balik-Islam`, template: `%s — ${site.name}` },
+  description: defaultSettings.description,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -36,3 +36,21 @@ export const Calendar = ({ className = "h-4 w-4" }: P) => (
 export const Mail = ({ className = "h-5 w-5" }: P) => (
   <svg {...base} className={className}><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3 7 9 6 9-6" /></svg>
 );
+export const Moon = ({ className }: P) => (
+  <svg {...base} strokeWidth={1.2} className={className}><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z" /></svg>
+);
+export const Heart = ({ className }: P) => (
+  <svg {...base} strokeWidth={1.2} className={className}><path d="M12 20s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.5 4.3 4.3 0 0 1 19.5 10c0 5.4-7.5 10-7.5 10z" /></svg>
+);
+export const Star = ({ className }: P) => (
+  <svg {...base} strokeWidth={1.2} className={className}><path d="m12 3 2.7 5.8 6.3.800-4.6 4.4 1.2 6.200L12 17.2 6.4 20.200l1.2-6.200L3 9.600l6.3-.800z" /></svg>
+);
+export const Pen = ({ className }: P) => (
+  <svg {...base} strokeWidth={1.2} className={className}><path d="M4 20l1-5L16.5 3.500a2.1 2.1 0 0 1 3 3L8 18zM14 6l4 4" /></svg>
+);
+
+export const tagIcons = { book: Book, layers: Layers, sprout: Sprout, infinity: Infinity, moon: Moon, heart: Heart, star: Star, pen: Pen } as const;
+export const TagIcon = ({ name, className }: { name: string; className?: string }) => {
+  const I = tagIcons[name as keyof typeof tagIcons] ?? Book;
+  return <I className={className} />;
+};

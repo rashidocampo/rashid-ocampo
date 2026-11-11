@@ -1,14 +1,14 @@
+import Markdown from "@/components/Markdown";
 import PageShell from "@/components/PageShell";
+import { getSettings } from "@/lib/data";
 
 export const metadata = { title: "Contact" };
 
-export default function Contact() {
+export default async function Contact() {
+  const st = await getSettings();
   return (
     <PageShell eyebrow="CONTACT" title="Get in Touch">
-      <div className="max-w-2xl space-y-5">
-        <p>Questions about Islam, invitations to speak, or simply a salām — you are welcome to reach out.</p>
-        <p className="text-navy-700">Contact details will be added here soon, in shā’ Allāh.</p>
-      </div>
+      <div className="max-w-2xl"><Markdown>{st.contactText}</Markdown></div>
     </PageShell>
   );
 }

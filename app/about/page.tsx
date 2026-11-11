@@ -1,14 +1,17 @@
+import Markdown from "@/components/Markdown";
 import PageShell from "@/components/PageShell";
+import { getSettings } from "@/lib/data";
 import { site } from "@/lib/site";
 
 export const metadata = { title: "About" };
 
-export default function About() {
+export default async function About() {
+  const st = await getSettings();
   return (
-    <PageShell eyebrow="ABOUT" title={`${site.name}, a Balik-Islam`}>
+    <PageShell eyebrow="ABOUT" title={`${site.name}, ${st.tagline.replace(/^A /, "a ")}`}>
       <div className="max-w-2xl space-y-5">
-        <p>{site.description}</p>
-        <p className="text-navy-700">My full story is being written and will be shared here soon, in shā’ Allāh.</p>
+        <p>{st.description}</p>
+        <Markdown>{st.aboutText}</Markdown>
       </div>
     </PageShell>
   );

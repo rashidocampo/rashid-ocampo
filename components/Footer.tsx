@@ -1,7 +1,9 @@
 import Subscribe from "./Subscribe";
+import { getSettings } from "@/lib/data";
 import { site } from "@/lib/site";
 
-export default function Footer() {
+export default async function Footer() {
+  const st = await getSettings();
   return (
     <footer className="relative bg-navy-900">
       <svg viewBox="0 0 1440 90" preserveAspectRatio="none" className="absolute top-0.5 left-0 h-16 w-full -translate-y-full sm:h-20" aria-hidden>
@@ -10,9 +12,9 @@ export default function Footer() {
         <path d="M0 74c240-34 460-14 700 8s460 16 740-20v28H0z" fill="#06153a" />
       </svg>
       <div className="mx-auto flex max-w-6xl flex-col gap-6 px-5 pb-6 pt-8 sm:px-8 lg:flex-row lg:items-center lg:gap-9">
-        <h2 className="whitespace-nowrap text-4xl font-medium italic">Stay Connected</h2>
+        <h2 className="whitespace-nowrap text-4xl font-medium italic">{st.footerHeading}</h2>
         <p className="max-w-sm text-lg leading-snug text-white/90 lg:border-l lg:border-white/40 lg:pl-7">
-          Get the latest videos, articles, and reminders straight to your inbox.
+          {st.footerText}
         </p>
         <div className="lg:ml-auto"><Subscribe /></div>
       </div>

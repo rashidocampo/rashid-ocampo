@@ -1,49 +1,65 @@
-export const site = {
-  name: "Rashid Ocampo",
-  tagline: "Balik-Islam",
+// Public Supabase project details (the publishable key is safe to ship to browsers;
+// all write access is enforced by database row-level security).
+export const SUPABASE_URL =
+  process.env.NEXT_PUBLIC_SUPABASE_URL ?? "https://esnvyrhepkewnsqqvtgm.supabase.co";
+export const SUPABASE_KEY =
+  process.env.NEXT_PUBLIC_SUPABASE_KEY ?? "sb_publishable_JxuS17Ko-Uw6DgRU2HBpAQ_2OCZZSCg";
+export const ADMIN_EMAIL = "rashidocampo@gmail.com";
+
+export const site = { name: "Rashid Ocampo" };
+
+export type Settings = {
+  greeting: string;
+  tagline: string;
+  description: string;
+  heroImage: string;
+  videoTitle: string;
+  videoBlurb: string;
+  videoDuration: string;
+  youtubeUrl: string;
+  aboutText: string;
+  contactText: string;
+  footerHeading: string;
+  footerText: string;
+};
+
+export const defaultSettings: Settings = {
+  greeting: "ASSALĀMU ‘ALAYKUM",
+  tagline: "A Balik-Islam",
   description:
     "Sharing the beauty of Islam, reflections on faith, and reminders to return to Allah with knowledge, sincerity, and hope.",
-  // Paste a YouTube video ID here (the part after "v=") to make the featured video playable.
-  featuredVideoId: "",
-  featuredVideo: {
-    title: "My Journey to Islam",
-    blurb:
-      "A short story of how Allah guided me back to Islam, and what I learned along the way.",
-    duration: "10:24",
-  },
+  heroImage: "/images/hero.jpg",
+  videoTitle: "My Journey to Islam",
+  videoBlurb: "A short story of how Allah guided me back to Islam, and what I learned along the way.",
+  videoDuration: "10:24",
+  youtubeUrl: "",
+  aboutText: "My full story is being written and will be shared here soon, in shā’ Allāh.",
+  contactText:
+    "Questions about Islam, invitations to speak, or simply a salām — you are welcome to reach out.\n\nContact details will be added here soon, in shā’ Allāh.",
+  footerHeading: "Stay Connected",
+  footerText: "Get the latest videos, articles, and reminders straight to your inbox.",
+};
+
+export type Tag = {
+  id: string;
+  name: string;
+  slug: string;
+  icon: string;
+  show_on_home: boolean;
+  sort: number;
 };
 
 export type Post = {
+  id: string;
   slug: string;
   title: string;
-  date: string;
-  image: string;
   excerpt: string;
+  content: string;
+  cover_url: string | null;
+  published: boolean;
+  published_at: string;
+  tags: Tag[];
 };
-
-export const posts: Post[] = [
-  {
-    slug: "why-i-returned-to-islam",
-    title: "Why I Returned to Islam",
-    date: "2026-10-20",
-    image: "/images/post-returned.jpg",
-    excerpt: "The questions, the search, and the moment everything changed.",
-  },
-  {
-    slug: "simple-ways-to-strengthen-your-faith",
-    title: "Simple Ways to Strengthen Your Faith",
-    date: "2026-10-15",
-    image: "/images/post-faith.jpg",
-    excerpt: "Small, consistent habits that keep the heart close to Allah.",
-  },
-  {
-    slug: "finding-peace-in-islam",
-    title: "Finding Peace in Islam",
-    date: "2026-10-08",
-    image: "/images/post-peace.jpg",
-    excerpt: "On stillness, remembrance, and trusting the plan of Allah.",
-  },
-];
 
 export const formatDate = (iso: string) =>
   new Date(iso + "T00:00:00Z").toLocaleDateString("en-US", {
@@ -52,3 +68,16 @@ export const formatDate = (iso: string) =>
     year: "numeric",
     timeZone: "UTC",
   });
+
+export const slugify = (s: string) =>
+  s
+    .toLowerCase()
+    .normalize("NFKD")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 80);
+
+export const youtubeId = (url: string) => {
+  const m = url.trim().match(/(?:v=|youtu\.be\/|embed\/|shorts\/|live\/)([\w-]{11})/);
+  return m ? m[1] : /^[\w-]{11}$/.test(url.trim()) ? url.trim() : "";
+};

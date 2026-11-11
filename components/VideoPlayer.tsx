@@ -1,12 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { site } from "@/lib/site";
 import { Play } from "./Icons";
 
-export default function VideoPlayer() {
+export default function VideoPlayer({ id, title, duration }: { id: string; title: string; duration: string }) {
   const [playing, setPlaying] = useState(false);
-  const id = site.featuredVideoId;
 
   return (
     <div id="video" className="relative aspect-[5/2] w-full scroll-mt-28 overflow-hidden rounded-2xl border-2 border-white/90 bg-navy-900 shadow-2xl shadow-black/40">
@@ -14,12 +12,16 @@ export default function VideoPlayer() {
         <iframe
           className="absolute inset-0 h-full w-full"
           src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1`}
-          title={site.featuredVideo.title}
+          title={title}
           allow="autoplay; encrypted-media; picture-in-picture"
           allowFullScreen
         />
       ) : (
         <>
+          {id && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`} alt="" className="absolute inset-0 z-[1] h-full w-full object-cover" />
+          )}
           <svg viewBox="0 0 600 240" preserveAspectRatio="xMidYMid slice" className="absolute inset-0 h-full w-full" aria-hidden>
             <defs>
               <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
@@ -47,18 +49,18 @@ export default function VideoPlayer() {
           </svg>
           <button
             onClick={() => id && setPlaying(true)}
-            aria-label={`Play video: ${site.featuredVideo.title}`}
-            className="group absolute inset-0 flex items-center justify-center"
+            aria-label={`Play video: ${title}`}
+            className="group absolute inset-0 z-[2] flex items-center justify-center"
           >
             <span className="flex h-20 w-20 items-center justify-center rounded-full border-2 border-white/80 bg-black/45 backdrop-blur-sm transition group-hover:scale-110 group-hover:bg-royal/80">
               <Play className="ml-1 h-9 w-9" />
             </span>
           </button>
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent px-4 pb-2.5 pt-8">
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] bg-gradient-to-t from-black/70 to-transparent px-4 pb-2.5 pt-8">
             <div className="mb-2 h-[3px] rounded bg-white/40"><div className="h-full w-[15%] rounded bg-white" /></div>
             <div className="flex items-center gap-3 font-sans text-xs font-semibold">
               <Play className="h-4 w-4" />
-              <span>0:00 / {site.featuredVideo.duration}</span>
+              <span>0:00 / {duration}</span>
             </div>
           </div>
         </>
