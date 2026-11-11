@@ -1,11 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import PostCard from "@/components/PostCard";
-import TiltStackScroll from "@/components/ui/tilt-stack-scroll";
 import VideoPlayer from "@/components/VideoPlayer";
 import { Arrow, Play, TagIcon } from "@/components/Icons";
 import { getPosts, getSettings, getTags } from "@/lib/data";
-import { formatDate, site, youtubeId } from "@/lib/site";
+import { site, youtubeId } from "@/lib/site";
 
 export default async function Home() {
   const [st, tags, allPosts] = await Promise.all([getSettings(), getTags(), getPosts()]);
@@ -79,27 +78,6 @@ export default async function Home() {
           )}
         </div>
       </section>
-
-      {/* Featured posts: scroll-driven card stack */}
-      {allPosts.length > 0 && (
-        <TiltStackScroll
-          className="home-stack"
-          eyebrow="Featured reads"
-          heading="Start your journey here"
-          height="calc(100svh - 72px)"
-          offsetTop={72}
-          cards={allPosts.slice(0, 5).map((p) => ({
-            title: p.title,
-            kicker: formatDate(p.published_at),
-            description: p.excerpt,
-            image: p.cover_url,
-            tags: p.tags.map((t) => t.name),
-            cta: "Read post",
-            href: `/blog/${p.slug}`,
-            accent: "#8cc4ff",
-          }))}
-        />
-      )}
 
       {/* Blog */}
       <section className="bg-gradient-to-br from-paper via-white to-[#e6e9f0] pb-28 pt-9 text-navy-900 sm:pb-32">
