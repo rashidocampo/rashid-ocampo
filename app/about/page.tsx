@@ -3,7 +3,11 @@ import PageShell from "@/components/PageShell";
 import { getSettings } from "@/lib/data";
 import { site } from "@/lib/site";
 
-export const metadata = { title: "About" };
+export const metadata = {
+  title: "About",
+  description: `About ${site.name}: his journey to Islam and why he shares it.`,
+  alternates: { canonical: "/about" },
+};
 
 export default async function About() {
   const st = await getSettings();

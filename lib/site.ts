@@ -6,6 +6,9 @@ export const SUPABASE_KEY =
   process.env.NEXT_PUBLIC_SUPABASE_KEY ?? "sb_publishable_JxuS17Ko-Uw6DgRU2HBpAQ_2OCZZSCg";
 export const ADMIN_EMAIL = "rashidocampo@gmail.com";
 
+/** Public address of the site. Set NEXT_PUBLIC_SITE_URL when a custom domain is added. */
+export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://rashid-ocampo.vercel.app").replace(/\/$/, "");
+
 export const site = { name: "Rashid Ocampo" };
 
 export const DEFAULT_THEME = "#1560e8";

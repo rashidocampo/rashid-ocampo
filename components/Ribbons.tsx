@@ -4,7 +4,7 @@ const W = 1200;
 const H = 400;
 
 /** One strand of the ribbon: the strands fan out and cross over, like a twisting band of light. */
-function strand(t: number) {
+export function strand(t: number) {
   let d = "";
   for (let x = 0; x <= W; x += 24) {
     const u = x / W;

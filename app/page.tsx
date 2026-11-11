@@ -7,7 +7,10 @@ import { Arrow, Play, TagIcon } from "@/components/Icons";
 import Ribbons from "@/components/Ribbons";
 import Spotlight from "@/components/Spotlight";
 import { getPosts, getSettings, getTags } from "@/lib/data";
-import { heroImageStyle, site, youtubeId } from "@/lib/site";
+import JsonLd from "@/components/JsonLd";
+import { heroImageStyle, site, SITE_URL, youtubeId } from "@/lib/site";
+
+export const metadata = { alternates: { canonical: "/" } };
 
 export default async function Home() {
   const [st, tags, allPosts] = await Promise.all([getSettings(), getTags(), getPosts()]);
@@ -16,6 +19,12 @@ export default async function Home() {
   const posts = allPosts.slice(0, 9);
   return (
     <>
+      <JsonLd
+        data={[
+          { "@context": "https://schema.org", "@type": "WebSite", name: site.name, url: SITE_URL, description: st.description, inLanguage: "en" },
+          { "@context": "https://schema.org", "@type": "Person", name: site.name, url: SITE_URL, description: st.description, image: new URL(st.heroImage, SITE_URL).href },
+        ]}
+      />
       <section className="hero-bg relative overflow-hidden">
         {/* Portrait */}
         <div className="group/portrait absolute inset-y-0 left-0 hidden w-[46%] max-w-[640px] md:block" style={{ maxHeight: 540, maskImage: "linear-gradient(to bottom, black 70%, transparent)" }}>

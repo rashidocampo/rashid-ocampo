@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -6,7 +7,8 @@ import Markdown from "@/components/Markdown";
 import PageShell from "@/components/PageShell";
 import TagChips from "@/components/TagChips";
 import { getPosts } from "@/lib/data";
-import { formatDate } from "@/lib/site";
+import JsonLd from "@/components/JsonLd";
+import { formatDate, site, SITE_URL } from "@/lib/site";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -15,10 +17,26 @@ export async function generateStaticParams() {
   return posts.length ? posts.map((p) => ({ slug: p.slug })) : [{ slug: "-" }];
 }
 
-export async function generateMetadata({ params }: Props) {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const post = (await getPosts()).find((p) => p.slug === slug);
-  return { title: post?.title, description: post?.excerpt };
+  if (!post) return {};
+  const description = post.excerpt || undefined;
+  return {
+    title: post.title,
+    description,
+    alternates: { canonical: `/blog/${slug}` },
+    openGraph: {
+      type: "article",
+      title: post.title,
+      description,
+      url: `/blog/${slug}`,
+      publishedTime: post.published_at,
+      authors: [site.name],
+      tags: post.tags.map((t) => t.name),
+    },
+    twitter: { card: "summary_large_image", title: post.title, description },
+  };
 }
 
 export default async function PostPage({ params }: Props) {
@@ -36,10 +54,23 @@ export default async function PostPage({ params }: Props) {
     .map((x) => x.p);
   return (
     <PageShell eyebrow={formatDate(post.published_at).toUpperCase()} title={post.title}>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          headline: post.title,
+          description: post.excerpt || undefined,
+          datePublished: post.published_at,
+          image: post.cover_url ? new URL(post.cover_url, SITE_URL).href : undefined,
+          author: { "@type": "Person", name: site.name, url: SITE_URL },
+          mainEntityOfPage: `${SITE_URL}/blog/${post.slug}`,
+          keywords: post.tags.map((t) => t.name).join(", ") || undefined,
+        }}
+      />
       <article className="max-w-2xl space-y-6">
         {post.cover_url && (
           <div className="relative aspect-[2/1] overflow-hidden rounded-xl">
-            <Image src={post.cover_url} alt="" fill sizes="(min-width: 768px) 672px, 100vw" className="object-cover" />
+            <Image src={post.cover_url} alt={post.title} fill priority sizes="(min-width: 768px) 672px, 100vw" className="object-cover" />
           </div>
         )}
         <TagChips tags={post.tags} />

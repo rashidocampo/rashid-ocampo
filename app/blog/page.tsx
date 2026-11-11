@@ -3,7 +3,11 @@ import PostCard from "@/components/PostCard";
 import TagChips from "@/components/TagChips";
 import { getPosts, getTags } from "@/lib/data";
 
-export const metadata = { title: "Blog" };
+export const metadata = {
+  title: "Blog",
+  description: "Articles and reminders by Rashid Ocampo on faith, his journey to Islam, and everyday reflections.",
+  alternates: { canonical: "/blog" },
+};
 
 export default async function Blog() {
   const [posts, tags] = await Promise.all([getPosts(), getTags()]);

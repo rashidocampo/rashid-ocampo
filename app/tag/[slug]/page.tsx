@@ -13,7 +13,9 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
-  return { title: (await getTags()).find((t) => t.slug === slug)?.name };
+  const tag = (await getTags()).find((t) => t.slug === slug);
+  if (!tag) return {};
+  return { title: tag.name, description: `Posts by Rashid Ocampo on ${tag.name}.`, alternates: { canonical: `/tag/${slug}` } };
 }
 
 export default async function TagPage({ params }: Props) {
