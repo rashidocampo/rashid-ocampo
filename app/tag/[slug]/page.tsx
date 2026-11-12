@@ -28,7 +28,7 @@ export default async function TagPage({ params }: Props) {
     <PageShell eyebrow="Topic" title={tag.name}>
       <TagChips tags={tags} active={slug} />
       <div className="mt-12 grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
-        {list.map((p) => <PostCard key={p.slug} post={p} />)}
+        {list.map((p) => <div key={p.slug} data-reveal><PostCard post={p} /></div>)}
       </div>
       {list.length === 0 && <p className="muted mt-12">No posts under this topic yet.</p>}
     </PageShell>

@@ -3,6 +3,7 @@
 import { createClient, type Session } from "@supabase/supabase-js";
 import { useCallback, useEffect, useState } from "react";
 import { tagIcons, TagIcon } from "@/components/Icons";
+import { navIcons, type NavIconName } from "@/components/NavIcons";
 import { ADMIN_EMAIL, BLOG_NAV_SORT, DEFAULT_THEME, RESERVED_SLUGS, type Page, defaultSettings, headlineFonts, heroImageStyle, slugify, themePalette, SUPABASE_KEY, SUPABASE_URL, type Settings, type Tag } from "@/lib/site";
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -456,7 +457,7 @@ function SiteContent({ group }: { group: Group }) {
         <select id="headlineFont" className="field" value={s.headlineFont} onChange={(e) => setS({ ...s, headlineFont: e.target.value as Settings["headlineFont"] })}>
           {Object.entries(headlineFonts).map(([k, f]) => <option key={k} value={k}>{f.label}</option>)}
         </select>
-        <p className="mt-2 text-4xl text-navy-900" style={{ fontFamily: (headlineFonts[s.headlineFont] ?? headlineFonts.serif).family, fontWeight: (headlineFonts[s.headlineFont] ?? headlineFonts.serif).weight }}>
+        <p className="mt-2 text-4xl text-navy-900" style={{ fontFamily: (headlineFonts[s.headlineFont] ?? headlineFonts.poster).family, fontWeight: (headlineFonts[s.headlineFont] ?? headlineFonts.poster).weight, fontStretch: (headlineFonts[s.headlineFont] ?? headlineFonts.poster).stretch, textTransform: (headlineFonts[s.headlineFont] ?? headlineFonts.poster).transform }}>
           {s.siteName}
         </p>
       </div>
@@ -591,11 +592,20 @@ function PageEditor({ page, onDone }: { page: PageRow; onDone: () => void }) {
         <label className={label}>Name in the menu</label>
         <input dir="auto" className="field" value={p.nav_label} onChange={(e) => set("nav_label", e.target.value)} placeholder="Short name, e.g. About. Leave empty to use the headline." />
       </div>
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid gap-4 sm:grid-cols-3">
         <label className="flex items-center gap-3 text-lg sm:pt-6">
           <input type="checkbox" className="h-5 w-5" checked={p.show_in_nav} onChange={(e) => set("show_in_nav", e.target.checked)} />
           Show in the menu
         </label>
+        <div>
+          <label className={label}>Menu icon</label>
+          <div className="flex items-center gap-3">
+            <select className="field" value={p.icon} onChange={(e) => set("icon", e.target.value)}>
+              {Object.keys(navIcons).map((k) => <option key={k}>{k}</option>)}
+            </select>
+            <span className="text-royal">{(navIcons[p.icon as NavIconName] ?? navIcons.user).icon}</span>
+          </div>
+        </div>
         <div>
           <label className={label}>Menu position</label>
           <input type="number" className="field" value={p.sort} onChange={(e) => set("sort", Number(e.target.value))} />

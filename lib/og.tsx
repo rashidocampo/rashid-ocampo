@@ -37,13 +37,13 @@ export async function ogImage(opts: { st: Settings; eyebrow: string; title: stri
   const royal = c("royal", "#1560e8");
   const [photo, display, displayExt, body, bodyExt, bodyBold] = await Promise.all([
     picture(opts.photo),
-    font("markazi-text-latin-600-normal.woff"),
-    font("markazi-text-latin-ext-600-normal.woff"),
-    font("readex-pro-latin-400-normal.woff"),
-    font("readex-pro-latin-ext-400-normal.woff"),
-    font("readex-pro-latin-600-normal.woff"),
+    font("anybody-latin-900-normal.woff"),
+    font("anybody-latin-ext-900-normal.woff"),
+    font("ysabeau-office-latin-400-normal.woff"),
+    font("ysabeau-office-latin-ext-400-normal.woff"),
+    font("ysabeau-office-latin-600-normal.woff"),
   ]);
-  const titleSize = title.length > 46 ? 64 : title.length > 26 ? 80 : title.length > 16 ? 96 : 112;
+  const titleSize = title.length > 46 ? 52 : title.length > 26 ? 64 : title.length > 16 ? 76 : 88;
 
   const png = new ImageResponse(
     (
@@ -53,14 +53,14 @@ export async function ogImage(opts: { st: Settings; eyebrow: string; title: stri
         <div style={{ position: "absolute", left: 0, top: 0, width: 562, height: 630, display: "flex", backgroundImage: `linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 45%, ${navy950} 100%)` }} />
         <div style={{ position: "absolute", left: 480, top: 0, width: 720, height: 630, display: "flex", backgroundImage: `radial-gradient(circle at 75% 55%, ${royal} 0%, rgba(0,0,0,0) 62%)`, opacity: 0.45 }} />
         <div style={{ position: "absolute", left: 540, top: 0, width: 620, height: 630, display: "flex", flexDirection: "column", justifyContent: "center", paddingBottom: 44 }}>
-          <div style={{ display: "flex", alignItems: "center", fontFamily: "Display, DisplayExt", fontSize: 34, color: "#c9a45c" }}>
+          <div style={{ display: "flex", alignItems: "center", fontSize: 26, fontWeight: 600, color: "#c9a45c" }}>
             {eyebrow.charAt(0).toUpperCase() + eyebrow.slice(1).toLowerCase()}
             <div style={{ display: "flex", width: 120, height: 2, marginLeft: 18, backgroundImage: "linear-gradient(90deg, #c9a45c, rgba(0,0,0,0))" }} />
           </div>
-          <div style={{ display: "flex", marginTop: 14, fontFamily: "Display, DisplayExt", fontSize: titleSize, lineHeight: 0.92, letterSpacing: -1 }}>{title}</div>
-          {banner ? <div style={{ display: "flex", marginTop: 10, fontFamily: "Display, DisplayExt", fontSize: 50, color: "#cdd3df" }}>{banner}</div> : null}
+          <div style={{ display: "flex", marginTop: 14, fontFamily: "Display, DisplayExt", fontWeight: 900, fontSize: titleSize, lineHeight: 0.9, letterSpacing: -1, textTransform: "uppercase" }}>{title}</div>
+          {banner ? <div style={{ display: "flex", marginTop: 10, fontFamily: "Display, DisplayExt", fontWeight: 900, fontSize: 34, textTransform: "uppercase", color: "#cdd3df" }}>{banner}</div> : null}
           {text ? (
-            <div style={{ display: "flex", marginTop: 26, fontSize: 28, lineHeight: 1.35, color: "rgba(255,255,255,0.95)" }}>
+            <div style={{ display: "flex", marginTop: 26, fontSize: 30, lineHeight: 1.35, color: "rgba(255,255,255,0.95)" }}>
               {text.length > 150 ? text.slice(0, 147).trimEnd() + "…" : text}
             </div>
           ) : null}
@@ -72,8 +72,8 @@ export async function ogImage(opts: { st: Settings; eyebrow: string; title: stri
     {
       ...ogSize,
       fonts: [
-        { name: "Display", data: display, weight: 400, style: "normal" },
-        { name: "DisplayExt", data: displayExt, weight: 400, style: "normal" },
+        { name: "Display", data: display, weight: 900, style: "normal" },
+        { name: "DisplayExt", data: displayExt, weight: 900, style: "normal" },
         { name: "Body", data: body, weight: 400, style: "normal" },
         { name: "BodyExt", data: bodyExt, weight: 400, style: "normal" },
         { name: "Body", data: bodyBold, weight: 600, style: "normal" },

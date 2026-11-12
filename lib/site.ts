@@ -101,7 +101,7 @@ export const defaultSettings: Settings = {
   videoBlurb: "A short story of how Allah guided me back to Islam, and what I learned along the way.",
   youtubeUrl: "",
   footerHeading: "Stay Connected",
-  headlineFont: "serif",
+  headlineFont: "poster",
   heroFit: "cover",
   heroZoom: 100,
   heroX: 50,
@@ -193,8 +193,8 @@ export const youtubeId = (url: string) => {
 
 /** Headline styles the owner can switch between in the dashboard. */
 export const headlineFonts = {
-  serif: { label: "Markazi Text (serif, the default)", family: '"Markazi Text Variable", "Amiri", Georgia, serif', weight: 600, tracking: "-0.012em" },
-  sans: { label: "Readex Pro (sans-serif)", family: '"Readex Pro Variable", "Amiri", system-ui, sans-serif', weight: 600, tracking: "-0.035em" },
+  poster: { label: "Anybody (condensed poster capitals, the default)", family: '"Anybody Variable", "Kufam Variable", "Arial Narrow", sans-serif', weight: 800, stretch: "62%", transform: "uppercase", tracking: "0.004em" },
+  kufic: { label: "Kufam (Kufic-inspired)", family: '"Kufam Variable", system-ui, sans-serif', weight: 700, stretch: "100%", transform: "none", tracking: "-0.03em" },
 } as const;
 
 /** Inline style for the hero photo, from the owner's fit / zoom / position settings. */

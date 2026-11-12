@@ -71,7 +71,7 @@ export default async function PostPage({ params }: Props) {
         }}
       />
       <article>
-        <div className="card-media relative aspect-[16/9] max-w-[60rem] bg-navy-800 sm:aspect-[2/1]">
+        <div className="card-media relative aspect-[16/9] max-w-[60rem] bg-navy-800 sm:aspect-[2/1]" data-reveal>
           {post.cover_url ? (
             <Image src={post.cover_url} alt={post.title} fill priority sizes="(min-width: 1024px) 960px, 100vw" className="object-cover" />
           ) : (
@@ -94,7 +94,7 @@ export default async function PostPage({ params }: Props) {
           <h2 className="display-md">Read next</h2>
           <ul className="hairline mt-6 border-t">
             {next.map((p) => (
-              <li key={p.id} className="hairline border-b">
+              <li key={p.id} className="hairline border-b" data-reveal>
                 <Link href={`/blog/${p.slug}`} className="card group flex items-center gap-5 py-4">
                   <span className="card-media relative block aspect-[3/2] w-28 shrink-0 bg-navy-800 sm:w-36">
                     {p.cover_url ? <Image src={p.cover_url} alt="" fill sizes="144px" className="object-cover" /> : <PatternCover seed={p.slug} />}

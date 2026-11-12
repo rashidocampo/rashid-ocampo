@@ -8,13 +8,15 @@ export default function PostCard({ post, sizes = "(min-width: 1024px) 380px, (mi
   return (
     <Link href={`/blog/${post.slug}`} className="card group block">
       <div className="card-media relative aspect-[3/2] bg-navy-800">
-        {post.cover_url ? <Image src={post.cover_url} alt="" fill sizes={sizes} className="object-cover" /> : <PatternCover seed={post.slug} />}
+        <div className="absolute -inset-y-[10%] inset-x-0" data-img-parallax>
+          {post.cover_url ? <Image src={post.cover_url} alt="" fill sizes={sizes} className="object-cover" /> : <PatternCover seed={post.slug} />}
+        </div>
       </div>
       <p className="muted mt-4 flex flex-wrap gap-x-2 text-sm">
         <time dateTime={post.published_at}>{formatDate(post.published_at)}</time>
         {post.tags[0] && <span dir="auto">/ {post.tags[0].name}</span>}
       </p>
-      <h3 dir="auto" className="display-sm mt-1.5 transition-colors duration-200 group-hover:text-royal">{post.title}</h3>
+      <h3 dir="auto" className="stretch-hover display-sm mt-2 transition-colors duration-300 group-hover:text-royal">{post.title}</h3>
     </Link>
   );
 }
