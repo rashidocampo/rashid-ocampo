@@ -1,5 +1,5 @@
 import { cacheLife, cacheTag } from "next/cache";
-import { defaultSettings, SUPABASE_KEY, SUPABASE_URL, type Post, type Settings, type Tag } from "./site";
+import { defaultSettings, fallbackPages, SUPABASE_KEY, SUPABASE_URL, type Page, type Post, type Settings, type Tag } from "./site";
 
 async function rest<T>(path: string): Promise<T | null> {
   try {
@@ -42,4 +42,11 @@ export async function getPosts(): Promise<Post[]> {
     "posts?select=*,post_tags(tags(*))&published=eq.true&order=published_at.desc,created_at.desc",
   );
   return (rows ?? []).map(toPost);
+}
+
+export async function getPages(): Promise<Page[]> {
+  "use cache";
+  cacheTag("site");
+  cacheLife("minutes");
+  return (await rest<Page[]>("pages?select=*&published=eq.true&order=sort.asc,title.asc")) ?? fallbackPages;
 }

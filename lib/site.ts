@@ -14,6 +14,29 @@ export const site = { name: "Rashid Ocampo" };
 export const DEFAULT_THEME = "#1560e8";
 
 export type Settings = {
+  siteName: string;
+  homeNavLabel: string;
+  blogNavLabel: string;
+  heroPrimaryLabel: string;
+  heroSecondaryLabel: string;
+  heroSecondaryLink: string;
+  featuredLabel: string;
+  homeBlogEyebrow: string;
+  homeBlogTitle: string;
+  homeBlogLinkLabel: string;
+  blogEyebrow: string;
+  blogTitle: string;
+  footerButton1Label: string;
+  footerButton1Link: string;
+  footerButton2Label: string;
+  footerButton2Link: string;
+  copyright: string;
+  socialFacebook: string;
+  socialInstagram: string;
+  socialGithub: string;
+  socialLinkedin: string;
+  socialYoutube: string;
+  socialTiktok: string;
   greeting: string;
   tagline: string;
   description: string;
@@ -21,8 +44,6 @@ export type Settings = {
   videoTitle: string;
   videoBlurb: string;
   youtubeUrl: string;
-  aboutText: string;
-  contactText: string;
   footerHeading: string;
   footerText: string;
   headlineFont: "solid" | "inline";
@@ -36,6 +57,29 @@ export type Settings = {
 };
 
 export const defaultSettings: Settings = {
+  siteName: "Rashid Ocampo",
+  homeNavLabel: "Home",
+  blogNavLabel: "Blog",
+  heroPrimaryLabel: "Watch My Latest Video",
+  heroSecondaryLabel: "Learn More About Me",
+  heroSecondaryLink: "/about",
+  featuredLabel: "FEATURED VIDEO",
+  homeBlogEyebrow: "LATEST",
+  homeBlogTitle: "Blog Posts",
+  homeBlogLinkLabel: "View All Posts",
+  blogEyebrow: "LATEST",
+  blogTitle: "Blog Posts",
+  footerButton1Label: "Read the Blog",
+  footerButton1Link: "/blog",
+  footerButton2Label: "Get in Touch",
+  footerButton2Link: "/contact",
+  copyright: "All rights reserved.",
+  socialFacebook: "",
+  socialInstagram: "",
+  socialGithub: "",
+  socialLinkedin: "",
+  socialYoutube: "",
+  socialTiktok: "",
   greeting: "ASSALĀMU ‘ALAYKUM",
   tagline: "A Balik-Islam",
   description:
@@ -44,9 +88,6 @@ export const defaultSettings: Settings = {
   videoTitle: "My Journey to Islam",
   videoBlurb: "A short story of how Allah guided me back to Islam, and what I learned along the way.",
   youtubeUrl: "",
-  aboutText: "My full story is being written and will be shared here soon, in shā’ Allāh.",
-  contactText:
-    "Questions about Islam, invitations to speak, or simply a salām — you are welcome to reach out.\n\nContact details will be added here soon, in shā’ Allāh.",
   footerHeading: "Stay Connected",
   headlineFont: "solid",
   heroFit: "cover",
@@ -56,6 +97,44 @@ export const defaultSettings: Settings = {
   themeColor: DEFAULT_THEME,
   footerText: "New videos, articles, and reminders are shared here. Questions and invitations are always welcome.",
 };
+
+/** A page the owner writes in the dashboard, shown at /<slug>. */
+export type Page = {
+  id: string;
+  slug: string;
+  title: string;
+  nav_label: string;
+  eyebrow: string;
+  description: string;
+  content: string;
+  icon: string;
+  show_in_nav: boolean;
+  sort: number;
+  published: boolean;
+};
+
+/** The Blog link sits at this position among the pages in the menu. */
+export const BLOG_NAV_SORT = 20;
+
+/** Addresses that belong to built-in parts of the site and cannot be used for a page. */
+export const RESERVED_SLUGS = ["blog", "tag", "admin", "api", "images", "opengraph-image", "sitemap.xml", "robots.txt", "icon.png", "apple-icon.png", "favicon.ico", "manifest.webmanifest"];
+
+/** Used only if the database cannot be reached. */
+export const fallbackPages: Page[] = [
+  { id: "about", slug: "about", title: "About", nav_label: "About", eyebrow: "ABOUT", description: "", content: "My full story is being written and will be shared here soon, in shā’ Allāh.", icon: "user", show_in_nav: true, sort: 10, published: true },
+  { id: "contact", slug: "contact", title: "Get in Touch", nav_label: "Contact", eyebrow: "CONTACT", description: "", content: "Questions about Islam, invitations to speak, or simply a salām — you are welcome to reach out.", icon: "plane", show_in_nav: true, sort: 30, published: true },
+];
+
+export type NavItem = { label: string; href: string; icon: string };
+
+/** Menu: Home, then pages and the Blog link in their chosen order. */
+export function buildNav(st: Settings, pages: Page[]): NavItem[] {
+  const rest = [
+    ...pages.filter((p) => p.show_in_nav).map((p) => ({ label: p.nav_label || p.title, href: `/${p.slug}`, icon: p.icon, sort: p.sort })),
+    { label: st.blogNavLabel, href: "/blog", icon: "book", sort: BLOG_NAV_SORT },
+  ].sort((a, b) => a.sort - b.sort);
+  return [{ label: st.homeNavLabel, href: "/", icon: "home" }, ...rest.map(({ sort: _sort, ...item }) => item)];
+}
 
 export type Tag = {
   id: string;

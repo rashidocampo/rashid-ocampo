@@ -1,7 +1,7 @@
 import PageShell from "@/components/PageShell";
 import PostCard from "@/components/PostCard";
 import TagChips from "@/components/TagChips";
-import { getPosts, getTags } from "@/lib/data";
+import { getPosts, getSettings, getTags } from "@/lib/data";
 
 export const metadata = {
   title: "Blog",
@@ -10,9 +10,9 @@ export const metadata = {
 };
 
 export default async function Blog() {
-  const [posts, tags] = await Promise.all([getPosts(), getTags()]);
+  const [posts, tags, st] = await Promise.all([getPosts(), getTags(), getSettings()]);
   return (
-    <PageShell eyebrow="LATEST" title="Blog Posts">
+    <PageShell eyebrow={st.blogEyebrow} title={st.blogTitle}>
       <TagChips tags={tags} />
       <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {posts.map((p) => <PostCard key={p.slug} post={p} />)}

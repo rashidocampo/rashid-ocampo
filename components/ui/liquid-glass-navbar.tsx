@@ -17,6 +17,8 @@ export type NimbusFx = "plane" | "drop" | "spin" | "glow" | "wave" | "pop" | "no
 export type LiquidNavItem = {
   label: string
   href?: string
+  /** e.g. "_blank" to open the link in a new tab */
+  target?: string
   icon?: React.ReactNode
   /** the little scene the icon plays when tapped */
   fx?: NimbusFx
@@ -33,6 +35,10 @@ export type LiquidNavbarProps = {
   compact?: boolean
   /** soft synthesized "plip" on tap (no audio files) */
   sound?: boolean
+  /** the drop follows the mouse from item to item (for rows of plain links) */
+  hoverSelect?: boolean
+  /** accessible name of the menu */
+  label?: string
   className?: string
   style?: React.CSSProperties
 }
@@ -232,6 +238,8 @@ export function LiquidNavbar({
   tone = "light",
   compact,
   sound = false,
+  hoverSelect = false,
+  label = "Main",
   className,
   style,
 }: LiquidNavbarProps) {
@@ -528,7 +536,7 @@ export function LiquidNavbar({
       data-gl={gl}
       data-compact={compact === undefined ? undefined : String(compact)}
       data-refract={refract ? "on" : "off"}
-      aria-label="Main"
+      aria-label={label}
       onKeyDown={onKeyDown}
       onPointerMove={onMove}
       onPointerLeave={() => { st.current.mouse.on = false; loop() }}
@@ -569,7 +577,17 @@ export function LiquidNavbar({
           </>
         )
         return it.href ? (
-          <a key={it.label + i} {...(props as any)} href={it.href} aria-label={it.label}>{content}</a>
+          <a
+            key={it.label + i}
+            {...(props as any)}
+            href={it.href}
+            target={it.target}
+            rel={it.target === "_blank" ? "noopener noreferrer" : undefined}
+            aria-label={it.label}
+            onPointerEnter={hoverSelect ? (e: React.PointerEvent) => { if (e.pointerType === "mouse" && i !== current) { setInner(i); setFx((f) => ({ i, n: f.n + 1 })) } } : undefined}
+          >
+            {content}
+          </a>
         ) : (
           <button key={it.label + i} {...(props as any)} type="button" aria-label={it.label}>{content}</button>
         )

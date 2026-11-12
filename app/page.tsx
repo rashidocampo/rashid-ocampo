@@ -8,7 +8,7 @@ import Ribbons from "@/components/Ribbons";
 import Spotlight from "@/components/Spotlight";
 import { getPosts, getSettings, getTags } from "@/lib/data";
 import JsonLd from "@/components/JsonLd";
-import { heroImageStyle, site, SITE_URL, youtubeId } from "@/lib/site";
+import { heroImageStyle, SITE_URL, youtubeId } from "@/lib/site";
 
 export const metadata = { alternates: { canonical: "/" } };
 
@@ -21,8 +21,8 @@ export default async function Home() {
     <>
       <JsonLd
         data={[
-          { "@context": "https://schema.org", "@type": "WebSite", name: site.name, url: SITE_URL, description: st.description, inLanguage: "en" },
-          { "@context": "https://schema.org", "@type": "Person", name: site.name, url: SITE_URL, description: st.description, image: new URL(st.heroImage, SITE_URL).href },
+          { "@context": "https://schema.org", "@type": "WebSite", name: st.siteName, url: SITE_URL, description: st.description, inLanguage: "en" },
+          { "@context": "https://schema.org", "@type": "Person", name: st.siteName, url: SITE_URL, description: st.description, image: new URL(st.heroImage, SITE_URL).href },
         ]}
       />
       <section className="hero-bg relative overflow-hidden">
@@ -30,13 +30,13 @@ export default async function Home() {
         <div className="group/portrait absolute inset-y-0 left-0 hidden w-[46%] max-w-[640px] md:block" style={{ maxHeight: 540, maskImage: "linear-gradient(to bottom, black 70%, transparent)" }}>
           <div className="absolute inset-x-0 -top-[6%] h-[118%]" data-parallax="-0.14">
             <div className="absolute inset-0 transition-transform duration-[1400ms] ease-out group-hover/portrait:scale-[1.06]">
-              <Image src={st.heroImage} alt={`Portrait of ${site.name}`} fill priority sizes="46vw" style={heroStyle} />
+              <Image src={st.heroImage} alt={`Portrait of ${st.siteName}`} fill priority sizes="46vw" style={heroStyle} />
             </div>
           </div>
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-navy-950" />
         </div>
         <div className="relative h-72 overflow-hidden md:hidden">
-          <Image src={st.heroImage} alt={`Portrait of ${site.name}`} fill priority sizes="100vw" style={heroStyle} />
+          <Image src={st.heroImage} alt={`Portrait of ${st.siteName}`} fill priority sizes="100vw" style={heroStyle} />
           <div className="absolute inset-0 bg-gradient-to-t from-navy-950 to-transparent" />
         </div>
 
@@ -60,7 +60,7 @@ export default async function Home() {
               <span className="h-px w-36 bg-gradient-to-r from-white/80 to-transparent" />
             </p>
             <h1 className="rise mt-2 text-[76px] leading-[0.9] sm:text-[96px] lg:whitespace-nowrap lg:text-[112px]" style={{ animationDelay: "0.1s" }}>
-              <span className="sheen inline-block">{site.name}</span>
+              <span className="sheen inline-block">{st.siteName}</span>
             </h1>
             <div className="rise mt-2" style={{ animationDelay: "0.2s" }}>
               <p className="shine inline-block -skew-x-[24deg] bg-gradient-to-r from-royal via-royal/80 to-royal/0 px-9 py-0.5 transition-[padding] duration-500 hover:px-12">
@@ -72,10 +72,10 @@ export default async function Home() {
             </p>
             <div className="rise mt-7 flex flex-wrap gap-4" style={{ animationDelay: "0.4s" }}>
               <a href="#video" className="lift shine group flex h-12 items-center gap-3 rounded-full bg-white px-7 text-lg font-semibold text-navy-800 shadow-lg hover:bg-sky">
-                <Play className="h-4 w-4 transition-transform group-hover:scale-125" /> Watch My Latest Video
+                <Play className="h-4 w-4 transition-transform group-hover:scale-125" /> {st.heroPrimaryLabel}
               </a>
-              <Link href="/about" className="lift shine group flex h-12 items-center gap-4 rounded-full border-[1.5px] border-white px-9 text-lg font-medium hover:bg-white hover:text-navy-800">
-                Learn More About Me <Arrow className="h-5 w-5 transition-transform group-hover:translate-x-1.5" />
+              <Link href={st.heroSecondaryLink || "/about"} className="lift shine group flex h-12 items-center gap-4 rounded-full border-[1.5px] border-white px-9 text-lg font-medium hover:bg-white hover:text-navy-800">
+                {st.heroSecondaryLabel} <Arrow className="h-5 w-5 transition-transform group-hover:translate-x-1.5" />
               </Link>
             </div>
           </div>
@@ -86,7 +86,7 @@ export default async function Home() {
               <VideoPlayer id={youtubeId(st.youtubeUrl)} title={st.videoTitle} />
             </div>
             <div className="lg:ml-10 lg:border-s lg:border-white/50 lg:py-4 lg:ps-10">
-              <p className="text-xs font-semibold tracking-[0.3em]">FEATURED VIDEO</p>
+              <p dir="auto" className="text-xs font-semibold tracking-[0.3em]">{st.featuredLabel}</p>
               <h2 dir="auto" className="mt-2 text-5xl leading-none sm:text-6xl">{st.videoTitle}</h2>
               <p dir="auto" className="mt-4 text-xl leading-snug text-white/95">{st.videoBlurb}</p>
             </div>
@@ -115,11 +115,11 @@ export default async function Home() {
         </div>
         <div className="relative mx-auto grid max-w-6xl gap-8 px-5 sm:px-8 lg:grid-cols-[250px_1fr]">
           <div className="lg:pt-5">
-            <p className="text-sm font-semibold tracking-[0.35em]">LATEST</p>
-            <h2 className="whitespace-nowrap text-[68px] leading-none">Blog Posts</h2>
+            <p dir="auto" className="text-sm font-semibold tracking-[0.35em]">{st.homeBlogEyebrow}</p>
+            <h2 dir="auto" className="text-[68px] leading-none">{st.homeBlogTitle}</h2>
             <span className="mt-4 block h-1 w-20 rounded bg-gradient-to-r from-royal to-transparent" />
             <Link href="/blog" className="group mt-8 inline-flex items-center gap-3 text-lg hover:text-royal">
-              View All Posts <Arrow className="h-4 w-4 transition-transform group-hover:translate-x-1.5" />
+              {st.homeBlogLinkLabel} <Arrow className="h-4 w-4 transition-transform group-hover:translate-x-1.5" />
             </Link>
           </div>
           <Carousel label="Latest blog posts">

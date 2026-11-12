@@ -3,7 +3,8 @@
 import { createClient, type Session } from "@supabase/supabase-js";
 import { useCallback, useEffect, useState } from "react";
 import { tagIcons, TagIcon } from "@/components/Icons";
-import { ADMIN_EMAIL, DEFAULT_THEME, defaultSettings, headlineFonts, heroImageStyle, slugify, themePalette, SUPABASE_KEY, SUPABASE_URL, type Settings, type Tag } from "@/lib/site";
+import { navIcons, type NavIconName } from "@/components/NavIcons";
+import { ADMIN_EMAIL, BLOG_NAV_SORT, DEFAULT_THEME, RESERVED_SLUGS, type Page, defaultSettings, headlineFonts, heroImageStyle, slugify, themePalette, SUPABASE_KEY, SUPABASE_URL, type Settings, type Tag } from "@/lib/site";
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
@@ -355,20 +356,42 @@ function Tags({ tags, reload }: { tags: Tag[]; reload: () => Promise<void> }) {
 /* ---------- Site content ---------- */
 
 type TextKey = { [K in keyof Settings]: Settings[K] extends string ? K : never }[keyof Settings];
-const textFields: { key: Exclude<TextKey, "headlineFont" | "heroFit" | "themeColor" | "heroImage">; label: string; rows?: number; hint?: string }[] = [
-  { key: "greeting", label: "Hero greeting" },
-  { key: "tagline", label: "Hero tagline" },
-  { key: "description", label: "Hero description", rows: 3 },
-  { key: "videoTitle", label: "Featured video title" },
-  { key: "videoBlurb", label: "Featured video description", rows: 2 },
-  { key: "youtubeUrl", label: "Featured video YouTube link", hint: "Paste the YouTube link. It is shown in a 16:9 frame." },
-  { key: "aboutText", label: "About page text", rows: 8 },
-  { key: "contactText", label: "Contact page text", rows: 5 },
-  { key: "footerHeading", label: "Footer heading" },
-  { key: "footerText", label: "Footer text", rows: 2 },
+type Group = "home" | "blog" | "site";
+const textFields: { group: Group; section?: string; key: Exclude<TextKey, "headlineFont" | "heroFit" | "themeColor" | "heroImage">; label: string; rows?: number; hint?: string }[] = [
+  { group: "home", section: "Hero", key: "greeting", label: "Small greeting above your name" },
+  { group: "home", key: "tagline", label: "Tagline (blue banner)" },
+  { group: "home", key: "description", label: "Description", rows: 3 },
+  { group: "home", key: "heroPrimaryLabel", label: "First button text" },
+  { group: "home", key: "heroSecondaryLabel", label: "Second button text" },
+  { group: "home", key: "heroSecondaryLink", label: "Second button link", hint: "A page address such as /about, or a full https:// link." },
+  { group: "home", section: "Featured video", key: "featuredLabel", label: "Small label" },
+  { group: "home", key: "videoTitle", label: "Headline" },
+  { group: "home", key: "videoBlurb", label: "Description", rows: 2 },
+  { group: "home", key: "youtubeUrl", label: "YouTube link", hint: "Paste the YouTube link. It is shown in a 16:9 frame." },
+  { group: "home", section: "Blog section on the homepage", key: "homeBlogEyebrow", label: "Small label" },
+  { group: "home", key: "homeBlogTitle", label: "Headline" },
+  { group: "home", key: "homeBlogLinkLabel", label: "Link text" },
+  { group: "blog", section: "Blog page", key: "blogEyebrow", label: "Small label above the headline" },
+  { group: "blog", key: "blogTitle", label: "Headline" },
+  { group: "blog", key: "blogNavLabel", label: "Name in the menu" },
+  { group: "site", section: "Name and menu", key: "siteName", label: "Site name", hint: "Shown in the header, the hero, the footer and in search results." },
+  { group: "site", key: "homeNavLabel", label: "Menu name for the homepage" },
+  { group: "site", section: "Footer", key: "footerHeading", label: "Headline" },
+  { group: "site", key: "footerText", label: "Text", rows: 2 },
+  { group: "site", key: "footerButton1Label", label: "First button text", hint: "Leave empty to hide the button." },
+  { group: "site", key: "footerButton1Link", label: "First button link" },
+  { group: "site", key: "footerButton2Label", label: "Second button text", hint: "Leave empty to hide the button." },
+  { group: "site", key: "footerButton2Link", label: "Second button link" },
+  { group: "site", key: "copyright", label: "Copyright line (after your name)" },
+  { group: "site", section: "Social media links", key: "socialFacebook", label: "Facebook", hint: "Paste the full link starting with https://. An icon appears in the footer for each link you fill in." },
+  { group: "site", key: "socialInstagram", label: "Instagram" },
+  { group: "site", key: "socialYoutube", label: "YouTube" },
+  { group: "site", key: "socialTiktok", label: "TikTok" },
+  { group: "site", key: "socialLinkedin", label: "LinkedIn" },
+  { group: "site", key: "socialGithub", label: "GitHub" },
 ];
 
-function SiteContent() {
+function SiteContent({ group }: { group: Group }) {
   const [s, setS] = useState<Settings | null>(null);
   const [msg, setMsg] = useState("");
   const [busy, setBusy] = useState(false);
@@ -380,6 +403,7 @@ function SiteContent() {
 
   return (
     <div className="space-y-5">
+      {group === "home" && (
       <div>
         <label className={label}>Hero photo</label>
         <ImageField value={s.heroImage} onChange={(v) => setS({ ...s, heroImage: v ?? defaultSettings.heroImage })} />
@@ -409,6 +433,9 @@ function SiteContent() {
           </div>
         </div>
       </div>
+      )}
+      {group === "site" && (
+      <>
       <div>
         <label className={label} htmlFor="themeColor">Theme colour</label>
         <div className="flex flex-wrap items-center gap-4">
@@ -426,11 +453,14 @@ function SiteContent() {
           {Object.entries(headlineFonts).map(([k, f]) => <option key={k} value={k}>{f.label}</option>)}
         </select>
         <p className="mt-2 text-4xl text-navy-900" style={{ fontFamily: headlineFonts[s.headlineFont].family, fontWeight: headlineFonts[s.headlineFont].weight, textTransform: headlineFonts[s.headlineFont].transform }}>
-          Rashid Ocampo
+          {s.siteName}
         </p>
       </div>
-      {textFields.map((f) => (
+      </>
+      )}
+      {textFields.filter((f) => f.group === group).map((f) => (
         <div key={f.key}>
+          {f.section && <h2 className="mb-3 mt-8 border-t border-navy-800/15 pt-6 text-3xl">{f.section}</h2>}
           <label className={label}>{f.label}</label>
           {f.rows ? (
             <textarea dir="auto" className="field" rows={f.rows} value={s[f.key]} onChange={(e) => setS({ ...s, [f.key]: e.target.value })} />
@@ -500,7 +530,145 @@ function CommentsAdmin() {
   );
 }
 
-const tabs = ["Posts", "Tags", "Comments", "Site content"] as const;
+type PageRow = Omit<Page, "id"> & { id?: string };
+const blankPage: PageRow = { slug: "", title: "", nav_label: "", eyebrow: "", description: "", content: "", icon: "user", show_in_nav: true, sort: 40, published: true };
+
+function PageEditor({ page, onDone }: { page: PageRow; onDone: () => void }) {
+  const [p, setP] = useState(page);
+  const [slugTouched, setSlugTouched] = useState(!!page.id);
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState("");
+  const set = <K extends keyof PageRow>(k: K, v: PageRow[K]) => setP((o) => ({ ...o, [k]: v }));
+
+  const save = async () => {
+    const { id, ...fields } = p;
+    const row = { ...fields, slug: slugify(p.slug || p.title), updated_at: new Date().toISOString() };
+    if (!row.title.trim() || !row.slug) return setErr("A headline is required.");
+    if (RESERVED_SLUGS.includes(row.slug)) return setErr(`The address /${row.slug} is used by the site itself. Please choose another.`);
+    setBusy(true);
+    setErr("");
+    const { error } = id ? await supabase.from("pages").update(row).eq("id", id) : await supabase.from("pages").insert(row);
+    if (error) {
+      setErr(error.code === "23505" ? "Another page already uses this web address." : error.message);
+      setBusy(false);
+      return;
+    }
+    await publish();
+    onDone();
+  };
+
+  return (
+    <div className="space-y-5">
+      <button className="text-royal underline" onClick={onDone}>← Back to pages</button>
+      <div>
+        <label className={label}>Headline</label>
+        <input dir="auto" className="field text-xl" value={p.title} onChange={(e) => { set("title", e.target.value); if (!slugTouched) set("slug", slugify(e.target.value)); }} />
+      </div>
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div>
+          <label className={label}>Small label above the headline</label>
+          <input dir="auto" className="field" value={p.eyebrow} onChange={(e) => set("eyebrow", e.target.value)} placeholder="e.g. ABOUT" />
+        </div>
+        <div>
+          <label className={label}>Web address: /…</label>
+          <input className="field" value={p.slug} onChange={(e) => { setSlugTouched(true); set("slug", e.target.value); }} />
+          {page.id && <p className="mt-1 text-sm text-navy-700">Changing this breaks links that point to the old address.</p>}
+        </div>
+      </div>
+      <div>
+        <label className={label}>Page text</label>
+        <textarea dir="auto" className="field text-base leading-relaxed" rows={16} value={p.content} onChange={(e) => set("content", e.target.value)} placeholder={"Write here. Leave a blank line between paragraphs.\n\n## Heading\n**bold**, *italic*, [link text](https://…), > quote, - list item"} />
+      </div>
+      <div>
+        <label className={label}>Short description for Google and link previews (optional)</label>
+        <textarea dir="auto" className="field" rows={2} value={p.description} onChange={(e) => set("description", e.target.value)} />
+      </div>
+      <div>
+        <label className={label}>Name in the menu</label>
+        <input dir="auto" className="field" value={p.nav_label} onChange={(e) => set("nav_label", e.target.value)} placeholder="Short name, e.g. About. Leave empty to use the headline." />
+      </div>
+      <div className="grid gap-4 sm:grid-cols-3">
+        <label className="flex items-center gap-3 text-lg sm:pt-6">
+          <input type="checkbox" className="h-5 w-5" checked={p.show_in_nav} onChange={(e) => set("show_in_nav", e.target.checked)} />
+          Show in the menu
+        </label>
+        <div>
+          <label className={label}>Menu icon</label>
+          <div className="flex items-center gap-3">
+            <select className="field" value={p.icon} onChange={(e) => set("icon", e.target.value)}>
+              {Object.keys(navIcons).map((k) => <option key={k}>{k}</option>)}
+            </select>
+            <span className="text-royal">{(navIcons[p.icon as NavIconName] ?? navIcons.user).icon}</span>
+          </div>
+        </div>
+        <div>
+          <label className={label}>Menu position</label>
+          <input type="number" className="field" value={p.sort} onChange={(e) => set("sort", Number(e.target.value))} />
+          <p className="mt-1 text-sm text-navy-700">Lower comes first. Blog sits at {BLOG_NAV_SORT}.</p>
+        </div>
+      </div>
+      <label className="flex items-center gap-3 text-lg">
+        <input type="checkbox" className="h-5 w-5" checked={p.published} onChange={(e) => set("published", e.target.checked)} />
+        Published (visible on the site)
+      </label>
+      {err && <p role="alert" className="text-red-700">{err}</p>}
+      <div className="flex gap-3">
+        <button className={primary} disabled={busy} onClick={save}>{busy ? "Saving…" : "Save page"}</button>
+        <button className={ghost} onClick={onDone}>Cancel</button>
+      </div>
+    </div>
+  );
+}
+
+function Pages() {
+  const [rows, setRows] = useState<Page[] | null>(null);
+  const [editing, setEditing] = useState<PageRow | null>(null);
+  const [err, setErr] = useState("");
+  const load = useCallback(async () => {
+    const { data, error } = await supabase.from("pages").select("*").order("sort").order("title");
+    if (error) return setErr(error.message);
+    setRows((data ?? []) as Page[]);
+  }, []);
+  useEffect(() => { load(); }, [load]);
+
+  if (editing) return <PageEditor page={editing} onDone={() => { setEditing(null); load(); }} />;
+
+  return (
+    <div className="space-y-4">
+      <button className={primary} onClick={() => setEditing(blankPage)}>+ New page</button>
+      <p className="text-navy-700">The homepage and the blog page are edited in their own tabs.</p>
+      {err && <p role="alert" className="text-red-700">{err}</p>}
+      {!rows && !err && <p>Loading…</p>}
+      <ul className="divide-y divide-navy-800/10 rounded-xl bg-white ring-1 ring-black/5">
+        {rows?.map((r) => (
+          <li key={r.id} className="flex flex-wrap items-center gap-3 px-4 py-3">
+            <div className="min-w-0 flex-1">
+              <p dir="auto" className="truncate text-lg font-semibold">{r.title}</p>
+              <p className="text-sm text-navy-700">/{r.slug} · {r.published ? "Published" : "Draft"} · {r.show_in_nav ? `In the menu (position ${r.sort})` : "Not in the menu"}</p>
+            </div>
+            <a href={`/${r.slug}`} target="_blank" className="text-sm text-royal underline">View</a>
+            <button className={ghost} onClick={() => setEditing(r)}>Edit</button>
+            <button
+              className="text-sm text-red-700 underline"
+              onClick={async () => {
+                if (!window.confirm(`Delete the page "${r.title}"? This cannot be undone.`)) return;
+                const { error } = await supabase.from("pages").delete().eq("id", r.id);
+                if (error) return setErr(error.message);
+                await publish();
+                load();
+              }}
+            >
+              Delete
+            </button>
+          </li>
+        ))}
+        {rows?.length === 0 && <li className="px-4 py-6 text-navy-700">No pages yet.</li>}
+      </ul>
+    </div>
+  );
+}
+
+const tabs = ["Posts", "Pages", "Homepage", "Blog page", "Tags", "Comments", "Site & footer"] as const;
 
 export default function Admin() {
   const [session, setSession] = useState<Session | null | undefined>(undefined);
@@ -529,17 +697,22 @@ export default function Admin() {
 
   return (
     <div>
-      <div className="mb-6 flex flex-wrap items-center gap-2">
-        {tabs.map((t) => (
-          <button key={t} onClick={() => setTab(t)} aria-current={tab === t} className={tab === t ? primary : ghost}>{t}</button>
-        ))}
-        <a href="/" target="_blank" className="ml-auto text-royal underline">View site</a>
+      <div className="mb-3 flex items-center justify-end gap-4">
+        <a href="/" target="_blank" className="text-royal underline">View site</a>
         <button className="text-navy-700 underline" onClick={() => supabase.auth.signOut()}>Sign out</button>
       </div>
+      <nav aria-label="Dashboard sections" className="carousel -mx-5 mb-6 flex gap-2 overflow-x-auto px-5 pb-2 sm:mx-0 sm:flex-wrap sm:px-0">
+        {tabs.map((t) => (
+          <button key={t} onClick={() => setTab(t)} aria-current={tab === t} className={`shrink-0 ${tab === t ? primary : ghost}`}>{t}</button>
+        ))}
+      </nav>
       {tab === "Posts" && <Posts tags={tags} />}
       {tab === "Tags" && <Tags tags={tags} reload={loadTags} />}
       {tab === "Comments" && <CommentsAdmin />}
-      {tab === "Site content" && <SiteContent />}
+      {tab === "Pages" && <Pages />}
+      {tab === "Homepage" && <SiteContent key="home" group="home" />}
+      {tab === "Blog page" && <SiteContent key="blog" group="blog" />}
+      {tab === "Site & footer" && <SiteContent key="site" group="site" />}
     </div>
   );
 }

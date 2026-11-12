@@ -8,7 +8,7 @@ export default function PageShell({ eyebrow, title, children }: { eyebrow: strin
           <Ribbons className="ribbon-drift h-full w-full" />
         </div>
         <div className="relative mx-auto max-w-6xl px-5 py-14 sm:px-8 sm:py-20">
-          <p className="text-sm font-medium tracking-[0.35em] text-sky">{eyebrow}</p>
+          {eyebrow && <p dir="auto" className="text-sm font-medium tracking-[0.35em] text-sky">{eyebrow}</p>}
           <h1 dir="auto" className="mt-2 text-6xl leading-none sm:text-7xl">{title}</h1>
         </div>
       </section>
