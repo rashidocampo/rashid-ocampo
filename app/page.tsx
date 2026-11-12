@@ -4,7 +4,7 @@ import Carousel from "@/components/Carousel";
 import PostCard from "@/components/PostCard";
 import VideoPlayer from "@/components/VideoPlayer";
 import { Arrow, Play, TagIcon } from "@/components/Icons";
-import Ribbons from "@/components/Ribbons";
+import Backdrop from "@/components/Backdrop";
 import Spotlight from "@/components/Spotlight";
 import { getPosts, getSettings, getTags } from "@/lib/data";
 import JsonLd from "@/components/JsonLd";
@@ -26,35 +26,32 @@ export default async function Home() {
         ]}
       />
       <section className="hero-bg relative overflow-hidden">
+        {/* Depth layers, far to near: pattern and aurora, portrait, content, bokeh */}
+        <Backdrop />
+        <Spotlight />
         {/* Portrait */}
-        <div className="group/portrait absolute inset-y-0 left-0 hidden w-[46%] max-w-[640px] md:block" style={{ maxHeight: 540, maskImage: "linear-gradient(to bottom, black 70%, transparent)" }}>
-          <div className="absolute inset-x-0 -top-[6%] h-[118%]" data-parallax="-0.14">
+        <div className="portrait-fade group/portrait absolute inset-y-0 left-0 hidden w-[46%] max-w-[640px] md:block" style={{ maxHeight: 540 }}>
+          <div className="absolute inset-x-0 -top-[10%] h-[128%]" data-parallax="-0.22">
             <div className="absolute inset-0 transition-transform duration-[1400ms] ease-out group-hover/portrait:scale-[1.06]">
               <Image src={st.heroImage} alt={`Portrait of ${st.siteName}`} fill priority sizes="46vw" style={heroStyle} />
             </div>
           </div>
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-navy-950" />
         </div>
-        <div className="relative h-72 overflow-hidden md:hidden">
+        <div className="portrait-fade-mobile relative -mb-10 h-80 overflow-hidden md:hidden">
           <Image src={st.heroImage} alt={`Portrait of ${st.siteName}`} fill priority sizes="100vw" style={heroStyle} />
-          <div className="absolute inset-0 bg-gradient-to-t from-navy-950 to-transparent" />
         </div>
 
-        {/* Backdrop: ribbon of light, bokeh echoing the photo, and a pointer-following glow */}
-        <div className="pointer-events-none absolute -right-[12%] top-6 h-[460px] w-[85%] text-sky/35" data-parallax="0.22" aria-hidden>
-          <Ribbons className="ribbon-drift h-full w-full" />
-        </div>
-        <div className="pointer-events-none absolute inset-0" data-parallax="0.12" aria-hidden>
+
+        <div className="pointer-events-none absolute inset-0 z-10" data-parallax="-0.3" aria-hidden>
           <span className="orb left-[52%] top-[8%] h-16 w-16 bg-sky/25" />
           <span className="orb left-[78%] top-[20%] h-24 w-24 bg-royal-light/25" style={{ animationDelay: "-3s" }} />
           <span className="orb left-[92%] top-[52%] h-14 w-14 bg-[#ffcf8a]/25" style={{ animationDelay: "-5s" }} />
-          <span className="orb left-[44%] top-[58%] h-10 w-10 bg-[#ffcf8a]/20" style={{ animationDelay: "-7s" }} />
-          <span className="orb left-[66%] top-[74%] h-20 w-20 bg-sky/15" style={{ animationDelay: "-2s" }} />
+          <span className="orb left-[40%] top-[62%] h-10 w-10 bg-[#ffcf8a]/20" style={{ animationDelay: "-7s" }} />
+          <span className="orb left-[8%] top-[80%] h-20 w-20 bg-sky/15" style={{ animationDelay: "-2s" }} />
         </div>
-        <Spotlight />
 
         <div className="relative mx-auto max-w-6xl px-5 sm:px-8">
-          <div className="pb-10 pt-6 md:ml-[44%] md:pb-14 md:pt-12">
+          <div className="pb-10 pt-6 md:ml-[44%] md:pb-14 md:pt-12" data-parallax="-0.1" data-parallax-min="768">
             <p dir="auto" className="rise flex items-center gap-4 text-sm font-medium tracking-[0.35em] text-white/90">
               {st.greeting}
               <span className="h-px w-36 bg-gradient-to-r from-white/80 to-transparent" />
@@ -82,7 +79,7 @@ export default async function Home() {
 
           {/* Featured video */}
           <div className="grid items-center gap-8 pb-10 lg:grid-cols-[1.5fr_1fr] lg:gap-0 lg:px-6">
-            <div data-parallax="0.04">
+            <div data-parallax="0.1" data-parallax-min="1024">
               <VideoPlayer id={youtubeId(st.youtubeUrl)} title={st.videoTitle} />
             </div>
             <div className="lg:ml-10 lg:border-s lg:border-white/50 lg:py-4 lg:ps-10">
@@ -110,11 +107,9 @@ export default async function Home() {
 
       {/* Blog */}
       <section className="relative overflow-hidden bg-gradient-to-br from-paper via-white to-[#e6e9f0] pb-28 pt-9 text-navy-900 sm:pb-32">
-        <div className="pointer-events-none absolute -left-[20%] top-0 h-[340px] w-[90%] text-royal/20" data-parallax="0.3" aria-hidden>
-          <Ribbons className="ribbon-drift h-full w-full" />
-        </div>
+        <Backdrop tone="light" aurora={false} />
         <div className="relative mx-auto grid max-w-6xl gap-8 px-5 sm:px-8 lg:grid-cols-[250px_1fr]">
-          <div className="lg:pt-5">
+          <div className="lg:pt-5" data-parallax="0.12" data-parallax-min="1024">
             <p dir="auto" className="text-sm font-semibold tracking-[0.35em]">{st.homeBlogEyebrow}</p>
             <h2 dir="auto" className="text-[68px] leading-none">{st.homeBlogTitle}</h2>
             <span className="mt-4 block h-1 w-20 rounded bg-gradient-to-r from-royal to-transparent" />

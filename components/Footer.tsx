@@ -7,11 +7,18 @@ export default async function Footer() {
   const st = await getSettings();
   return (
     <footer className="relative bg-navy-900">
-      <svg viewBox="0 0 1440 90" preserveAspectRatio="none" className="pointer-events-none absolute top-0.5 left-0 h-16 w-full -translate-y-full sm:h-20" aria-hidden>
-        <path d="M0 40C200 0 380 10 560 45s420 45 620 20 200-35 260-40v65H0z" style={{ fill: "var(--color-sky)" }} opacity=".6" />
-        <path d="M0 62c220-40 420-20 640 10s480 30 800-22v40H0z" style={{ fill: "var(--color-royal)" }} />
-        <path d="M0 74c240-34 460-14 700 8s460 16 740-20v28H0z" style={{ fill: "var(--color-navy-900)" }} />
-      </svg>
+      {/* Three wave layers that slide at different speeds */}
+      <div className="pointer-events-none absolute inset-x-0 top-0.5 h-16 -translate-y-full overflow-hidden sm:h-20" aria-hidden>
+        <svg viewBox="0 0 1440 90" preserveAspectRatio="none" className="absolute inset-x-0 -top-[12%] h-[150%] w-full" data-parallax="0.07">
+          <path d="M0 40C200 0 380 10 560 45s420 45 620 20 200-35 260-40v65H0z" style={{ fill: "var(--color-sky)" }} opacity=".6" />
+        </svg>
+        <svg viewBox="0 0 1440 90" preserveAspectRatio="none" className="absolute inset-x-0 -top-[6%] h-[125%] w-full" data-parallax="0.035">
+          <path d="M0 62c220-40 420-20 640 10s480 30 800-22v40H0z" style={{ fill: "var(--color-royal)" }} />
+        </svg>
+        <svg viewBox="0 0 1440 90" preserveAspectRatio="none" className="absolute inset-0 h-full w-full">
+          <path d="M0 74c240-34 460-14 700 8s460 16 740-20v28H0z" style={{ fill: "var(--color-navy-900)" }} />
+        </svg>
+      </div>
       <div className="mx-auto flex max-w-6xl flex-col gap-6 px-5 pb-6 pt-8 sm:px-8 lg:flex-row lg:items-center lg:gap-9">
         <h2 dir="auto" className="text-5xl lg:whitespace-nowrap">{st.footerHeading}</h2>
         <p dir="auto" className="max-w-md text-lg leading-snug text-white/90 lg:border-l lg:border-white/40 lg:pl-7">

@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { Play } from "./Icons";
-import Ribbons from "./Ribbons";
 
 export default function VideoPlayer({ id, title }: { id: string; title: string }) {
   const [playing, setPlaying] = useState(false);
@@ -34,9 +33,9 @@ export default function VideoPlayer({ id, title }: { id: string; title: string }
                   className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
                 />
               )}
-              {/* Themed mask: navy wash and the ribbon of light over the thumbnail */}
+              {/* Themed mask: navy wash and aurora light over the thumbnail */}
               <div className="absolute inset-0 bg-gradient-to-tr from-navy-950/95 via-navy-800/70 to-royal/35 transition-opacity duration-500 group-hover:opacity-75" />
-              <Ribbons lines={14} className="absolute -inset-x-[10%] inset-y-0 h-full w-[120%] text-sky/45 transition-transform duration-[1200ms] ease-out group-hover:scale-110" />
+              <div className="aurora !inset-0 opacity-80 transition-opacity duration-700 group-hover:opacity-100"><span /><span /><span /><span /></div>
               <button
                 onClick={() => id && setPlaying(true)}
                 aria-label={`Play video: ${title}`}

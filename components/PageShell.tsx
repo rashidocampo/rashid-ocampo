@@ -1,13 +1,11 @@
-import Ribbons from "./Ribbons";
+import Backdrop from "./Backdrop";
 
 export default function PageShell({ eyebrow, title, children }: { eyebrow: string; title: string; children: React.ReactNode }) {
   return (
     <>
       <section className="hero-bg relative overflow-hidden">
-        <div className="pointer-events-none absolute inset-y-0 -right-[10%] w-[80%] text-sky/30" data-parallax="0.2" aria-hidden>
-          <Ribbons className="ribbon-drift h-full w-full" />
-        </div>
-        <div className="relative mx-auto max-w-6xl px-5 py-14 sm:px-8 sm:py-20">
+        <Backdrop />
+        <div className="relative mx-auto max-w-6xl px-5 py-14 sm:px-8 sm:py-20" data-parallax="-0.12">
           {eyebrow && <p dir="auto" className="text-sm font-medium tracking-[0.35em] text-sky">{eyebrow}</p>}
           <h1 dir="auto" className="mt-2 text-6xl leading-none sm:text-7xl">{title}</h1>
         </div>

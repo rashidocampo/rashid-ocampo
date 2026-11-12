@@ -14,6 +14,11 @@ export default function Parallax() {
       frame = 0;
       const mid = window.innerHeight / 2;
       document.querySelectorAll<HTMLElement>("[data-parallax]").forEach((el) => {
+        // data-parallax-min="768" keeps a layer still on narrower screens
+        if (window.innerWidth < Number(el.dataset.parallaxMin ?? 0)) {
+          el.style.transform = "";
+          return;
+        }
         const box = (el.parentElement ?? el).getBoundingClientRect();
         if (box.bottom < -200 || box.top > window.innerHeight + 200) return;
         const offset = (box.top + box.height / 2 - mid) * Number(el.dataset.parallax);

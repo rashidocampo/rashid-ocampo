@@ -1,7 +1,6 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { ImageResponse } from "next/og";
-import { strand } from "@/components/Ribbons";
 import { type Settings, SITE_URL, themePalette } from "./site";
 
 export const ogSize = { width: 1200, height: 630 };
@@ -55,11 +54,8 @@ export async function ogImage(opts: { st: Settings; eyebrow: string; title: stri
         <img src={photo} width={560} height={630} style={{ position: "absolute", left: 0, top: 0, width: 560, height: 630, objectFit: "cover", objectPosition: opts.position ?? "50% 0%" }} />
         <div style={{ position: "absolute", left: 0, top: 0, width: 562, height: 630, display: "flex", backgroundImage: `linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 45%, ${navy950} 100%)` }} />
         <div style={{ position: "absolute", left: 480, top: 0, width: 720, height: 630, display: "flex", backgroundImage: `radial-gradient(circle at 75% 55%, ${royal} 0%, rgba(0,0,0,0) 62%)`, opacity: 0.45 }} />
-        <svg width="700" height="630" viewBox="0 0 1200 400" preserveAspectRatio="none" style={{ position: "absolute", left: 560, top: 0, opacity: 0.4 }}>
-          {Array.from({ length: 16 }, (_, i) => (
-            <path key={i} d={strand(i / 15)} stroke={sky} strokeWidth={i % 5 === 0 ? 2 : 1} fill="none" />
-          ))}
-        </svg>
+        <div style={{ position: "absolute", left: 600, top: -160, width: 260, height: 620, display: "flex", borderRadius: 300, transform: "skewX(-18deg)", backgroundImage: `linear-gradient(180deg, rgba(0,0,0,0) 0%, ${sky} 40%, rgba(0,0,0,0) 100%)`, opacity: 0.22 }} />
+        <div style={{ position: "absolute", left: 900, top: -200, width: 220, height: 640, display: "flex", borderRadius: 300, transform: "skewX(-18deg)", backgroundImage: `linear-gradient(180deg, rgba(0,0,0,0) 0%, ${royal} 45%, rgba(0,0,0,0) 100%)`, opacity: 0.4 }} />
         <div style={{ position: "absolute", left: 540, top: 0, width: 620, height: 630, display: "flex", flexDirection: "column", justifyContent: "center", paddingBottom: 44 }}>
           <div style={{ display: "flex", alignItems: "center", fontSize: 22, letterSpacing: 7, color: sky }}>
             {eyebrow.toUpperCase()}
