@@ -387,7 +387,6 @@ const textFields: { group: Group; section?: string; key: Exclude<TextKey, "headl
   { group: "site", key: "footerButton2Label", label: "Second button text", hint: "Leave empty to hide the button." },
   { group: "site", key: "footerButton2Link", label: "Second button link" },
   { group: "site", key: "copyright", label: "Copyright line (after your name)" },
-  { group: "site", key: "footerMotto", label: "Three words in the bottom bar", hint: "Shown in the dark bar at the very bottom. Separate the words with a middle dot ( · )." },
   { group: "site", section: "Social media links", key: "socialFacebook", label: "Facebook", hint: "Paste the full link starting with https://. An icon appears in the footer for each link you fill in." },
   { group: "site", key: "socialInstagram", label: "Instagram" },
   { group: "site", key: "socialYoutube", label: "YouTube" },

@@ -196,6 +196,7 @@ export const youtubeId = (url: string) => {
 /** Headline styles the owner can switch between in the dashboard. */
 export const headlineFonts = {
   serif: { label: "Newsreader (serif, as in the design)", family: '"Newsreader Variable", "Amiri", Georgia, serif', weight: 500, stretch: "100%", transform: "none", tracking: "-0.015em" },
+  finlandica: { label: "Finlandica Headline (clean modern sans)", family: '"Finlandica Headline", "Amiri", "Helvetica Neue", Arial, sans-serif', weight: 600, stretch: "100%", transform: "none", tracking: "-0.01em" },
   poster: { label: "Anybody (condensed poster capitals)", family: '"Anybody Variable", "Arial Narrow", sans-serif', weight: 800, stretch: "62%", transform: "uppercase", tracking: "0.004em" },
 } as const;
 

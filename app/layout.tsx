@@ -34,7 +34,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         {/* Marks that scripts run, so animated pieces can start hidden; shows everything if the motion script never arrives */}
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js');setTimeout(function(){var c=document.documentElement.classList;if(!c.contains('motion-ready'))c.add('motion-off')},4000)" }} />
         <Motion />
-        <Header name={st.siteName} tagline={st.tagline} items={buildNav(st, pages)} />
+        <Header name={st.siteName} items={buildNav(st, pages)} />
         <main className="flex-1">{children}</main>
         <Footer />
       </body>

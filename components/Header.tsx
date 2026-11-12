@@ -7,7 +7,7 @@ import type { NavItem } from "@/lib/site";
 import { Search } from "./Icons";
 import Logo from "./Logo";
 
-export default function Header({ name, tagline, items }: { name: string; tagline: string; items: NavItem[] }) {
+export default function Header({ name, items }: { name: string; items: NavItem[] }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -36,16 +36,9 @@ export default function Header({ name, tagline, items }: { name: string; tagline
     <header className={`sticky top-0 z-50 bg-paper/90 backdrop-blur-md transition-shadow duration-300 ${scrolled ? "shadow-[0_10px_30px_-20px_rgb(16_31_56/0.5)]" : ""}`}>
       <div className="wrap flex h-[4.75rem] items-center justify-between gap-4">
         <Link href="/" className="group flex min-w-0 items-center gap-3">
-          <Logo className="h-11 w-10 shrink-0 text-navy-900 transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:-rotate-6 group-hover:scale-105" />
+          <Logo className="h-11 w-11 shrink-0 text-navy-900 transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:-rotate-6 group-hover:scale-105" />
           <span className="min-w-0 leading-none">
             <span dir="auto" className="font-display block truncate text-[1.5rem] sm:text-[1.875rem]">{name}</span>
-            {tagline && (
-              <span dir="auto" className="mt-1 hidden items-center gap-2 text-[0.625rem] font-semibold uppercase tracking-[0.34em] text-navy-800 sm:flex">
-                <span className="h-px w-5 bg-navy-800/60" />
-                <span className="truncate">{tagline}</span>
-                <span className="h-px w-5 bg-navy-800/60" />
-              </span>
-            )}
           </span>
         </Link>
 
