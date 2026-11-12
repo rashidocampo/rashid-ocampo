@@ -1,29 +1,20 @@
 import Image from "next/image";
 import Link from "next/link";
 import { formatDate, type Post } from "@/lib/site";
-import { Calendar } from "./Icons";
 import PatternCover from "./PatternCover";
 
-export default function PostCard({ post }: { post: Post }) {
+/** A post as a picture with its date, first tag and title beneath. No box: the picture is the object. */
+export default function PostCard({ post, sizes = "(min-width: 1024px) 380px, (min-width: 640px) 50vw, 84vw" }: { post: Post; sizes?: string }) {
   return (
-    <Link
-      href={`/blog/${post.slug}`}
-      className="group block overflow-hidden rounded-xl bg-white/70 shadow-[0_8px_24px_rgb(10_33_82/0.12)] ring-1 ring-black/5 transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_14px_32px_rgb(10_33_82/0.2)]"
-    >
-      <div className="relative aspect-[14/5] overflow-hidden bg-gradient-to-br from-navy-800 to-royal">
-        {post.cover_url ? (
-          <Image src={post.cover_url} alt="" fill sizes="(min-width: 1024px) 280px, 100vw" className="object-cover transition duration-500 group-hover:scale-105" />
-        ) : (
-          <PatternCover seed={post.slug} className="transition duration-500 group-hover:scale-105" />
-        )}
+    <Link href={`/blog/${post.slug}`} className="card group block">
+      <div className="card-media relative aspect-[3/2] bg-navy-800">
+        {post.cover_url ? <Image src={post.cover_url} alt="" fill sizes={sizes} className="object-cover" /> : <PatternCover seed={post.slug} />}
       </div>
-      <div className="px-6 pb-5 pt-3">
-        <h3 dir="auto" className="text-[27px] leading-[1.05] text-navy-900 transition-colors group-hover:text-royal">{post.title}</h3>
-        <p className="mt-3 flex items-center gap-2 text-sm text-navy-800">
-          <Calendar className="h-4 w-4 text-royal transition-transform duration-300 group-hover:-rotate-12 group-hover:scale-110" />
-          <time dateTime={post.published_at}>{formatDate(post.published_at)}</time>
-        </p>
-      </div>
+      <p className="muted mt-4 flex flex-wrap gap-x-2 text-sm">
+        <time dateTime={post.published_at}>{formatDate(post.published_at)}</time>
+        {post.tags[0] && <span dir="auto">/ {post.tags[0].name}</span>}
+      </p>
+      <h3 dir="auto" className="display-sm mt-1.5 transition-colors duration-200 group-hover:text-royal">{post.title}</h3>
     </Link>
   );
 }

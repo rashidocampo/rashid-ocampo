@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import Parallax from "@/components/Parallax";
 import { getPages, getSettings } from "@/lib/data";
 import { buildNav, headlineFonts, SITE_URL, themePalette } from "@/lib/site";
 
@@ -26,12 +25,11 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const [st, pages] = await Promise.all([getSettings(), getPages()]);
-  const font = headlineFonts[st.headlineFont] ?? headlineFonts.solid;
-  const vars = { "--font-display": font.family, "--display-weight": font.weight, "--display-transform": font.transform, ...themePalette(st.themeColor) } as React.CSSProperties;
+  const font = headlineFonts[st.headlineFont] ?? headlineFonts.serif;
+  const vars = { "--font-display": font.family, "--display-weight": font.weight, "--display-tracking": font.tracking, ...themePalette(st.themeColor) } as React.CSSProperties;
   return (
     <html lang="en" className="h-full antialiased">
       <body className="min-h-full flex flex-col" style={vars}>
-        <Parallax />
         <Header name={st.siteName} items={buildNav(st, pages)} />
         <main className="flex-1">{children}</main>
         <Footer />

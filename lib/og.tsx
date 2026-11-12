@@ -39,13 +39,13 @@ export async function ogImage(opts: { st: Settings; eyebrow: string; title: stri
   const sky = c("sky", "#8cc4ff");
   const [photo, display, displayExt, body, bodyExt, bodyBold] = await Promise.all([
     picture(opts.photo),
-    font("new-amsterdam-latin-400-normal.woff"),
-    font("new-amsterdam-latin-ext-400-normal.woff"),
-    font("finlandica-headline-latin-400-normal.woff"),
-    font("finlandica-headline-latin-ext-400-normal.woff"),
-    font("finlandica-headline-latin-600-normal.woff"),
+    font("markazi-text-latin-600-normal.woff"),
+    font("markazi-text-latin-ext-600-normal.woff"),
+    font("readex-pro-latin-400-normal.woff"),
+    font("readex-pro-latin-ext-400-normal.woff"),
+    font("readex-pro-latin-600-normal.woff"),
   ]);
-  const titleSize = title.length > 46 ? 68 : title.length > 26 ? 84 : title.length > 16 ? 104 : 132;
+  const titleSize = title.length > 46 ? 76 : title.length > 26 ? 96 : title.length > 16 ? 118 : 150;
 
   const png = new ImageResponse(
     (
@@ -54,27 +54,21 @@ export async function ogImage(opts: { st: Settings; eyebrow: string; title: stri
         <img src={photo} width={560} height={630} style={{ position: "absolute", left: 0, top: 0, width: 560, height: 630, objectFit: "cover", objectPosition: opts.position ?? "50% 0%" }} />
         <div style={{ position: "absolute", left: 0, top: 0, width: 562, height: 630, display: "flex", backgroundImage: `linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 45%, ${navy950} 100%)` }} />
         <div style={{ position: "absolute", left: 480, top: 0, width: 720, height: 630, display: "flex", backgroundImage: `radial-gradient(circle at 75% 55%, ${royal} 0%, rgba(0,0,0,0) 62%)`, opacity: 0.45 }} />
-        <div style={{ position: "absolute", left: 600, top: -160, width: 260, height: 620, display: "flex", borderRadius: 300, transform: "skewX(-18deg)", backgroundImage: `linear-gradient(180deg, rgba(0,0,0,0) 0%, ${sky} 40%, rgba(0,0,0,0) 100%)`, opacity: 0.22 }} />
-        <div style={{ position: "absolute", left: 900, top: -200, width: 220, height: 640, display: "flex", borderRadius: 300, transform: "skewX(-18deg)", backgroundImage: `linear-gradient(180deg, rgba(0,0,0,0) 0%, ${royal} 45%, rgba(0,0,0,0) 100%)`, opacity: 0.4 }} />
         <div style={{ position: "absolute", left: 540, top: 0, width: 620, height: 630, display: "flex", flexDirection: "column", justifyContent: "center", paddingBottom: 44 }}>
-          <div style={{ display: "flex", alignItems: "center", fontSize: 22, letterSpacing: 7, color: sky }}>
-            {eyebrow.toUpperCase()}
-            <div style={{ display: "flex", width: 120, height: 2, marginLeft: 18, backgroundImage: `linear-gradient(90deg, ${sky}, rgba(0,0,0,0))` }} />
+          <div style={{ display: "flex", alignItems: "center", fontFamily: "Display, DisplayExt", fontSize: 34, color: "#c9a45c" }}>
+            {eyebrow.charAt(0).toUpperCase() + eyebrow.slice(1).toLowerCase()}
+            <div style={{ display: "flex", width: 120, height: 2, marginLeft: 18, backgroundImage: "linear-gradient(90deg, #c9a45c, rgba(0,0,0,0))" }} />
           </div>
-          <div style={{ display: "flex", marginTop: 14, fontFamily: "Display, DisplayExt", fontSize: titleSize, lineHeight: 0.95, letterSpacing: 2 }}>{title}</div>
-          {banner ? (
-            <div style={{ display: "flex", marginTop: 18 }}>
-              <div style={{ display: "flex", padding: "6px 34px 8px 26px", fontFamily: "Display, DisplayExt", fontSize: 44, letterSpacing: 1.5, backgroundImage: `linear-gradient(90deg, ${royal} 0%, ${royal} 55%, rgba(0,0,0,0) 100%)`, borderLeft: `6px solid ${sky}` }}>{banner}</div>
-            </div>
-          ) : null}
+          <div style={{ display: "flex", marginTop: 14, fontFamily: "Display, DisplayExt", fontSize: titleSize, lineHeight: 0.92, letterSpacing: -1 }}>{title}</div>
+          {banner ? <div style={{ display: "flex", marginTop: 10, fontFamily: "Display, DisplayExt", fontSize: 50, color: "rgba(255,255,255,0.8)" }}>{banner}</div> : null}
           {text ? (
-            <div style={{ display: "flex", marginTop: 26, paddingLeft: 22, borderLeft: "2px solid rgba(255,255,255,0.6)", fontSize: 29, lineHeight: 1.35, color: "rgba(255,255,255,0.95)" }}>
+            <div style={{ display: "flex", marginTop: 26, fontSize: 28, lineHeight: 1.35, color: "rgba(255,255,255,0.95)" }}>
               {text.length > 150 ? text.slice(0, 147).trimEnd() + "…" : text}
             </div>
           ) : null}
         </div>
         <div style={{ position: "absolute", right: 44, bottom: 30, display: "flex", fontSize: 24, fontWeight: 600, letterSpacing: 1, color: "rgba(255,255,255,0.85)" }}>{SITE_URL.replace(/^https?:\/\//, "")}</div>
-        <div style={{ position: "absolute", left: 0, bottom: 0, width: 1200, height: 8, display: "flex", backgroundImage: `linear-gradient(90deg, ${sky}, ${royal}, ${navy950})` }} />
+        <div style={{ position: "absolute", left: 0, bottom: 0, width: 1200, height: 8, display: "flex", backgroundImage: "linear-gradient(90deg, #c9a45c, rgba(201,164,92,0))" }} />
       </div>
     ),
     {

@@ -25,7 +25,7 @@ export default async function CustomPage({ params }: Props) {
   if (!page) notFound();
   return (
     <PageShell eyebrow={page.eyebrow} title={page.title}>
-      <div className="max-w-2xl"><Markdown>{page.content}</Markdown></div>
+      <div className="lg:ms-[8.33%]"><Markdown>{page.content}</Markdown></div>
     </PageShell>
   );
 }

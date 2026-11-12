@@ -7,48 +7,39 @@ export default function VideoPlayer({ id, title }: { id: string; title: string }
   const [playing, setPlaying] = useState(false);
 
   return (
-    <div id="video" className="video-shadow group relative scroll-mt-28">
-      {/* Frame line, then the picture, both with scooped corners */}
-      <div className="video-scoop bg-gradient-to-br from-white via-sky to-royal p-[3px]">
-        <div className="video-scoop relative aspect-video overflow-hidden bg-navy-900">
-          {playing && id ? (
-            <iframe
-              className="absolute inset-0 h-full w-full"
-              src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1`}
-              title={title}
-              allow="autoplay; encrypted-media; picture-in-picture"
-              allowFullScreen
+    <div id="video" className="group relative aspect-video scroll-mt-24 overflow-hidden rounded-[12px] bg-navy-900 shadow-[0_30px_60px_-30px_rgb(3_13_36/0.55)]">
+      {playing && id ? (
+        <iframe
+          className="absolute inset-0 h-full w-full"
+          src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1`}
+          title={title}
+          allow="autoplay; encrypted-media; picture-in-picture"
+          allowFullScreen
+        />
+      ) : (
+        <>
+          {id && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={`https://i.ytimg.com/vi/${id}/maxresdefault.jpg`}
+              onError={(e) => {
+                const img = e.currentTarget;
+                if (!img.src.includes("hqdefault")) img.src = `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+              }}
+              alt=""
+              className="absolute inset-0 h-full w-full object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:scale-[1.03]"
             />
-          ) : (
-            <>
-              {id && (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={`https://i.ytimg.com/vi/${id}/maxresdefault.jpg`}
-                  onError={(e) => {
-                    const img = e.currentTarget;
-                    if (!img.src.includes("hqdefault")) img.src = `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
-                  }}
-                  alt=""
-                  className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
-                />
-              )}
-              {/* Themed mask: navy wash and aurora light over the thumbnail */}
-              <div className="absolute inset-0 bg-gradient-to-tr from-navy-950/95 via-navy-800/70 to-royal/35 transition-opacity duration-500 group-hover:opacity-75" />
-              <div className="aurora !inset-0 opacity-80 transition-opacity duration-700 group-hover:opacity-100"><span /><span /><span /><span /></div>
-              <button
-                onClick={() => id && setPlaying(true)}
-                aria-label={`Play video: ${title}`}
-                className="absolute inset-0 flex items-center justify-center"
-              >
-                <span className="play-ring relative flex h-20 w-20 items-center justify-center rounded-full border-2 border-white/90 bg-navy-950/50 backdrop-blur-sm transition duration-300 group-hover:scale-110 group-hover:bg-royal sm:h-24 sm:w-24">
-                  <Play className="ml-1 h-9 w-9 sm:h-10 sm:w-10" />
-                </span>
-              </button>
-            </>
           )}
-        </div>
-      </div>
+          {/* The thumbnail is toned to the site's ink so any video sits in the page */}
+          <div className="absolute inset-0 bg-gradient-to-t from-navy-950/90 via-navy-900/55 to-navy-800/35" />
+          {!id && <div className="pattern absolute inset-0 bg-gold opacity-25" />}
+          <button onClick={() => id && setPlaying(true)} aria-label={`Play video: ${title}`} className="absolute inset-0 flex cursor-pointer items-center justify-center">
+            <span className="play-ring relative flex h-20 w-20 items-center justify-center rounded-full bg-white text-navy-950 transition-transform duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:scale-105 group-active:scale-95">
+              <Play className="ml-1 h-7 w-7" />
+            </span>
+          </button>
+        </>
+      )}
     </div>
   );
 }

@@ -9,8 +9,10 @@ export default function TagChips({ tags, active }: { tags: Tag[]; active?: strin
         <li key={t.id}>
           <Link
             href={`/tag/${t.slug}`}
-            className={`block rounded-full border px-4 py-1 text-base transition ${
-              active === t.slug ? "border-royal bg-royal text-white" : "border-navy-800/25 text-navy-800 hover:border-royal hover:text-royal"
+            dir="auto"
+            aria-current={active === t.slug ? "page" : undefined}
+            className={`flex min-h-11 items-center rounded-[6px] border px-4 text-[0.9375rem] transition-colors duration-200 ${
+              active === t.slug ? "border-navy-900 bg-navy-900 text-white" : "hairline text-navy-800 hover:border-navy-900"
             }`}
           >
             {t.name}

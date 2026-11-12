@@ -68,29 +68,29 @@ export default function Comments({ postId }: { postId: string }) {
   };
 
   return (
-    <section aria-labelledby="comments-h" className="mt-14 max-w-2xl border-t border-navy-800/15 pt-8">
-      <h2 id="comments-h" className="text-4xl">Comments{list && list.length > 0 ? ` (${list.length})` : ""}</h2>
+    <section aria-labelledby="comments-h" className="mx-auto mt-20 max-w-[68ch] lg:mx-0 lg:ms-[8.33%]">
+      <h2 id="comments-h" className="display-md">Comments{list && list.length > 0 ? ` (${list.length})` : ""}</h2>
 
-      <ul className="mt-5 space-y-4">
+      <ul className="hairline mt-6 border-t">
         {list?.map((c) => (
-          <li key={c.id} className="rounded-xl bg-white/70 px-5 py-4 ring-1 ring-black/5">
-            <p className="text-base text-navy-700">
-              <strong dir="auto" className="text-navy-900">{c.name}</strong> · {new Date(c.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+          <li key={c.id} className="hairline border-b py-5">
+            <p className="muted text-sm">
+              <strong dir="auto" className="font-medium text-navy-900">{c.name}</strong> / {new Date(c.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
             </p>
-            <p dir="auto" className="mt-1 whitespace-pre-wrap break-words text-lg leading-relaxed">{c.body}</p>
+            <p dir="auto" className="mt-1.5 whitespace-pre-wrap break-words">{c.body}</p>
           </li>
         ))}
-        {list?.length === 0 && <li className="text-lg text-navy-700">No comments yet. Be the first to share your thoughts.</li>}
+        {list?.length === 0 && <li className="muted hairline border-b py-5">No comments yet. Be the first to share your thoughts.</li>}
       </ul>
 
-      <form onSubmit={submit} className="mt-8 space-y-4 rounded-2xl bg-white p-5 shadow-lg ring-1 ring-black/5 sm:p-6">
-        <h3 className="text-3xl">Leave a comment</h3>
+      <form onSubmit={submit} className="mt-10 space-y-5">
+        <h3 className="display-sm">Leave a comment</h3>
         <div>
-          <label htmlFor="c-name" className="mb-1 block text-base font-semibold text-navy-700">Name</label>
+          <label htmlFor="c-name" className="mb-1.5 block text-[0.9375rem] font-medium">Name</label>
           <input id="c-name" dir="auto" required maxLength={60} autoComplete="name" className="field" value={name} onChange={(e) => setName(e.target.value)} />
         </div>
         <div>
-          <label htmlFor="c-body" className="mb-1 block text-base font-semibold text-navy-700">Comment</label>
+          <label htmlFor="c-body" className="mb-1.5 block text-[0.9375rem] font-medium">Comment</label>
           <textarea id="c-body" dir="auto" required minLength={2} maxLength={2000} rows={4} className="field" value={body} onChange={(e) => setBody(e.target.value)} />
         </div>
         <div className="hidden" aria-hidden>
@@ -98,18 +98,18 @@ export default function Comments({ postId }: { postId: string }) {
           <input id="c-website" tabIndex={-1} autoComplete="off" value={website} onChange={(e) => setWebsite(e.target.value)} />
         </div>
         <div>
-          <label htmlFor="c-answer" className="mb-1 block text-base font-semibold text-navy-700">
+          <label htmlFor="c-answer" className="mb-1.5 block text-[0.9375rem] font-medium">
             Anti-spam check: what is {captcha ? captcha.question : "…"}?
           </label>
           <div className="flex items-center gap-3">
             <input id="c-answer" required inputMode="numeric" pattern="[0-9]*" placeholder="Answer in digits" className="field max-w-48" value={answer} onChange={(e) => setAnswer(e.target.value)} />
-            <button type="button" className="text-base text-royal underline" onClick={newCaptcha}>Different question</button>
+            <button type="button" className="link min-h-11 text-[0.9375rem] text-royal" onClick={newCaptcha}>Different question</button>
           </div>
         </div>
-        <button disabled={busy} className="btn-blue lift rounded-full px-7 py-2.5 text-lg font-semibold text-white disabled:opacity-50">
+        <button disabled={busy} className="btn btn-solid">
           {busy ? "Posting…" : "Post comment"}
         </button>
-        {msg && <p role="status" className="text-base text-navy-800">{msg}</p>}
+        {msg && <p role="status" className="text-[0.9375rem]">{msg}</p>}
       </form>
     </section>
   );

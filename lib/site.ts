@@ -21,7 +21,7 @@ export type Settings = {
   heroSecondaryLabel: string;
   heroSecondaryLink: string;
   featuredLabel: string;
-  homeBlogEyebrow: string;
+  homeTopicsTitle: string;
   homeBlogTitle: string;
   homeBlogLinkLabel: string;
   blogEyebrow: string;
@@ -52,7 +52,7 @@ export type Settings = {
   youtubeUrl: string;
   footerHeading: string;
   footerText: string;
-  headlineFont: "solid" | "inline";
+  headlineFont: keyof typeof headlineFonts;
   /** How the hero photo sits in its frame. */
   heroFit: "cover" | "contain";
   heroZoom: number;
@@ -69,11 +69,11 @@ export const defaultSettings: Settings = {
   heroPrimaryLabel: "Watch My Latest Video",
   heroSecondaryLabel: "Learn More About Me",
   heroSecondaryLink: "/about",
-  featuredLabel: "FEATURED VIDEO",
-  homeBlogEyebrow: "LATEST",
+  featuredLabel: "Featured video",
+  homeTopicsTitle: "Read by topic",
   homeBlogTitle: "Blog Posts",
   homeBlogLinkLabel: "View All Posts",
-  blogEyebrow: "LATEST",
+  blogEyebrow: "",
   blogTitle: "Blog Posts",
   footerButton1Label: "Read the Blog",
   footerButton1Link: "/blog",
@@ -101,7 +101,7 @@ export const defaultSettings: Settings = {
   videoBlurb: "A short story of how Allah guided me back to Islam, and what I learned along the way.",
   youtubeUrl: "",
   footerHeading: "Stay Connected",
-  headlineFont: "solid",
+  headlineFont: "serif",
   heroFit: "cover",
   heroZoom: 100,
   heroX: 50,
@@ -191,10 +191,10 @@ export const youtubeId = (url: string) => {
   return m ? m[1] : /^[\w-]{11}$/.test(url.trim()) ? url.trim() : "";
 };
 
-/** Headline typefaces the owner can switch between in the dashboard. */
+/** Headline styles the owner can switch between in the dashboard. */
 export const headlineFonts = {
-  solid: { label: "New Amsterdam (solid)", family: '"New Amsterdam", "El Messiri", "Arial Narrow", sans-serif', weight: 400, transform: "none" },
-  inline: { label: "Big Shoulders Inline (same shape, with an inline)", family: '"Big Shoulders Inline Variable", "El Messiri", "Arial Narrow", sans-serif', weight: 800, transform: "uppercase" },
+  serif: { label: "Markazi Text (serif, the default)", family: '"Markazi Text Variable", "Amiri", Georgia, serif', weight: 600, tracking: "-0.012em" },
+  sans: { label: "Readex Pro (sans-serif)", family: '"Readex Pro Variable", "Amiri", system-ui, sans-serif', weight: 600, tracking: "-0.035em" },
 } as const;
 
 /** Inline style for the hero photo, from the owner's fit / zoom / position settings. */

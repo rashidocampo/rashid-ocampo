@@ -6,42 +6,34 @@ import VideoPlayer from "./VideoPlayer";
 
 export type FeaturedVideo = { id: string; title: string; blurb: string };
 
-/** The featured player with its text, plus small previews to switch between up to three videos. */
-export default function FeaturedVideos({ label, videos }: { label: string; videos: FeaturedVideo[] }) {
+/** The player with the chosen video's text, and the other videos as a short list to switch between. */
+export default function FeaturedVideos({ heading, videos }: { heading: string; videos: FeaturedVideo[] }) {
   const [index, setIndex] = useState(0);
   const current = videos[Math.min(index, videos.length - 1)] ?? { id: "", title: "", blurb: "" };
 
   return (
-    <div className="grid items-center gap-8 pb-10 lg:grid-cols-[1.5fr_1fr] lg:gap-0 lg:px-6">
-      <div data-parallax="0.1" data-parallax-min="1024">
+    <div className="grid gap-x-12 gap-y-8 lg:grid-cols-12 lg:items-start">
+      <h2 dir="auto" className="sentence display-lg lg:col-span-12">{heading}</h2>
+      <div className="lg:col-span-8">
         <VideoPlayer key={current.id} id={current.id} title={current.title} />
       </div>
-      <div className="lg:ml-10 lg:border-s lg:border-white/50 lg:py-2 lg:ps-10">
-        <p dir="auto" className="text-xs font-semibold tracking-[0.3em]">{label}</p>
-        <h2 dir="auto" className="mt-2 text-5xl leading-none sm:text-6xl">{current.title}</h2>
-        <p dir="auto" className="mt-4 text-xl leading-snug text-white/95">{current.blurb}</p>
+      <div className="lg:col-span-4">
+        <h3 dir="auto" className="display-md">{current.title}</h3>
+        <p dir="auto" className="muted mt-4">{current.blurb}</p>
 
         {videos.length > 1 && (
-          <ul className="mt-6 grid grid-cols-3 gap-3" aria-label="More videos">
+          <ul className="hairline mt-8 border-t" aria-label="More videos">
             {videos.map((v, i) => (
-              <li key={v.id + i}>
-                <button
-                  onClick={() => setIndex(i)}
-                  aria-pressed={i === index}
-                  aria-label={`Show video: ${v.title}`}
-                  className={`group/thumb block w-full text-start transition ${i === index ? "" : "opacity-75 hover:opacity-100"}`}
-                >
-                  <span className={`relative block aspect-video overflow-hidden rounded-lg bg-navy-900 ring-2 transition ${i === index ? "ring-sky" : "ring-white/25 group-hover/thumb:ring-white/70"}`}>
+              <li key={v.id + i} className="hairline border-b">
+                <button onClick={() => setIndex(i)} aria-pressed={i === index} className="group/v flex w-full cursor-pointer items-center gap-4 py-3 text-start">
+                  <span className="relative block aspect-video w-24 shrink-0 overflow-hidden rounded-[6px] bg-navy-800">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={`https://i.ytimg.com/vi/${v.id}/mqdefault.jpg`} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover/thumb:scale-110" />
-                    <span className="absolute inset-0 bg-gradient-to-t from-navy-950/85 to-navy-800/30" />
-                    <span className="absolute inset-0 flex items-center justify-center">
-                      <span className={`flex h-8 w-8 items-center justify-center rounded-full border border-white/80 transition ${i === index ? "bg-royal" : "bg-navy-950/50 group-hover/thumb:bg-royal"}`}>
-                        <Play className="ml-0.5 h-3.5 w-3.5" />
-                      </span>
+                    <img src={`https://i.ytimg.com/vi/${v.id}/mqdefault.jpg`} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
+                    <span className={`absolute inset-0 flex items-center justify-center transition-colors duration-200 ${i === index ? "bg-royal/70" : "bg-navy-950/45 group-hover/v:bg-navy-950/20"}`}>
+                      <Play className="h-4 w-4 text-white" />
                     </span>
                   </span>
-                  <span dir="auto" className="mt-1.5 line-clamp-2 block text-sm leading-tight">{v.title}</span>
+                  <span dir="auto" className={`line-clamp-2 text-[0.9375rem] leading-snug ${i === index ? "font-medium" : "muted group-hover/v:text-navy-900"}`}>{v.title}</span>
                 </button>
               </li>
             ))}

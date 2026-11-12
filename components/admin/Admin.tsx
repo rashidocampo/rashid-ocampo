@@ -3,7 +3,6 @@
 import { createClient, type Session } from "@supabase/supabase-js";
 import { useCallback, useEffect, useState } from "react";
 import { tagIcons, TagIcon } from "@/components/Icons";
-import { navIcons, type NavIconName } from "@/components/NavIcons";
 import { ADMIN_EMAIL, BLOG_NAV_SORT, DEFAULT_THEME, RESERVED_SLUGS, type Page, defaultSettings, headlineFonts, heroImageStyle, slugify, themePalette, SUPABASE_KEY, SUPABASE_URL, type Settings, type Tag } from "@/lib/site";
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -22,9 +21,8 @@ type PostRow = {
 };
 
 const today = () => new Date().toISOString().slice(0, 10);
-const btn = "rounded-full px-5 py-2 text-base font-semibold transition disabled:opacity-50";
-const primary = `${btn} btn-blue text-white`;
-const ghost = `${btn} border border-navy-800/30 text-navy-800 hover:border-royal hover:text-royal`;
+const primary = "btn btn-solid !min-h-11";
+const ghost = "btn btn-line !min-h-11 text-navy-800";
 const label = "mb-1 block text-sm font-semibold tracking-wide text-navy-700";
 
 async function publish() {
@@ -358,13 +356,13 @@ function Tags({ tags, reload }: { tags: Tag[]; reload: () => Promise<void> }) {
 type TextKey = { [K in keyof Settings]: Settings[K] extends string ? K : never }[keyof Settings];
 type Group = "home" | "blog" | "site";
 const textFields: { group: Group; section?: string; key: Exclude<TextKey, "headlineFont" | "heroFit" | "themeColor" | "heroImage">; label: string; rows?: number; hint?: string }[] = [
-  { group: "home", section: "Hero", key: "greeting", label: "Small greeting above your name" },
-  { group: "home", key: "tagline", label: "Tagline (blue banner)" },
+  { group: "home", section: "Hero", key: "greeting", label: "Greeting above your name" },
+  { group: "home", key: "tagline", label: "Tagline under your name" },
   { group: "home", key: "description", label: "Description", rows: 3 },
   { group: "home", key: "heroPrimaryLabel", label: "First button text" },
   { group: "home", key: "heroSecondaryLabel", label: "Second button text" },
   { group: "home", key: "heroSecondaryLink", label: "Second button link", hint: "A page address such as /about, or a full https:// link." },
-  { group: "home", section: "Featured videos", key: "featuredLabel", label: "Small label" },
+  { group: "home", section: "Featured videos", key: "featuredLabel", label: "Section headline" },
   { group: "home", key: "youtubeUrl", label: "Video 1: YouTube link", hint: "This one shows first. Add a second or third video below and visitors can switch between them." },
   { group: "home", key: "videoTitle", label: "Video 1: headline" },
   { group: "home", key: "videoBlurb", label: "Video 1: description", rows: 2 },
@@ -374,11 +372,11 @@ const textFields: { group: Group; section?: string; key: Exclude<TextKey, "headl
   { group: "home", key: "youtubeUrl3", label: "Video 3: YouTube link", hint: "Optional." },
   { group: "home", key: "videoTitle3", label: "Video 3: headline" },
   { group: "home", key: "videoBlurb3", label: "Video 3: description", rows: 2 },
-  { group: "home", section: "Blog section on the homepage", key: "homeBlogEyebrow", label: "Small label" },
-  { group: "home", key: "homeBlogTitle", label: "Headline" },
+  { group: "home", section: "Topics section on the homepage", key: "homeTopicsTitle", label: "Headline" },
+  { group: "home", section: "Blog section on the homepage", key: "homeBlogTitle", label: "Headline" },
   { group: "home", key: "homeBlogLinkLabel", label: "Link text" },
-  { group: "blog", section: "Blog page", key: "blogEyebrow", label: "Small label above the headline" },
-  { group: "blog", key: "blogTitle", label: "Headline" },
+  { group: "blog", section: "Blog page", key: "blogTitle", label: "Headline" },
+  { group: "blog", key: "blogEyebrow", label: "Small line under the headline (optional)" },
   { group: "blog", key: "blogNavLabel", label: "Name in the menu" },
   { group: "site", section: "Name and menu", key: "siteName", label: "Site name", hint: "Shown in the header, the hero, the footer and in search results." },
   { group: "site", key: "homeNavLabel", label: "Menu name for the homepage" },
@@ -458,7 +456,7 @@ function SiteContent({ group }: { group: Group }) {
         <select id="headlineFont" className="field" value={s.headlineFont} onChange={(e) => setS({ ...s, headlineFont: e.target.value as Settings["headlineFont"] })}>
           {Object.entries(headlineFonts).map(([k, f]) => <option key={k} value={k}>{f.label}</option>)}
         </select>
-        <p className="mt-2 text-4xl text-navy-900" style={{ fontFamily: headlineFonts[s.headlineFont].family, fontWeight: headlineFonts[s.headlineFont].weight, textTransform: headlineFonts[s.headlineFont].transform }}>
+        <p className="mt-2 text-4xl text-navy-900" style={{ fontFamily: (headlineFonts[s.headlineFont] ?? headlineFonts.serif).family, fontWeight: (headlineFonts[s.headlineFont] ?? headlineFonts.serif).weight }}>
           {s.siteName}
         </p>
       </div>
@@ -572,8 +570,8 @@ function PageEditor({ page, onDone }: { page: PageRow; onDone: () => void }) {
       </div>
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <label className={label}>Small label above the headline</label>
-          <input dir="auto" className="field" value={p.eyebrow} onChange={(e) => set("eyebrow", e.target.value)} placeholder="e.g. ABOUT" />
+          <label className={label}>Small line under the headline (optional)</label>
+          <input dir="auto" className="field" value={p.eyebrow} onChange={(e) => set("eyebrow", e.target.value)} placeholder="e.g. About" />
         </div>
         <div>
           <label className={label}>Web address: /…</label>
@@ -593,20 +591,11 @@ function PageEditor({ page, onDone }: { page: PageRow; onDone: () => void }) {
         <label className={label}>Name in the menu</label>
         <input dir="auto" className="field" value={p.nav_label} onChange={(e) => set("nav_label", e.target.value)} placeholder="Short name, e.g. About. Leave empty to use the headline." />
       </div>
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2">
         <label className="flex items-center gap-3 text-lg sm:pt-6">
           <input type="checkbox" className="h-5 w-5" checked={p.show_in_nav} onChange={(e) => set("show_in_nav", e.target.checked)} />
           Show in the menu
         </label>
-        <div>
-          <label className={label}>Menu icon</label>
-          <div className="flex items-center gap-3">
-            <select className="field" value={p.icon} onChange={(e) => set("icon", e.target.value)}>
-              {Object.keys(navIcons).map((k) => <option key={k}>{k}</option>)}
-            </select>
-            <span className="text-royal">{(navIcons[p.icon as NavIconName] ?? navIcons.user).icon}</span>
-          </div>
-        </div>
         <div>
           <label className={label}>Menu position</label>
           <input type="number" className="field" value={p.sort} onChange={(e) => set("sort", Number(e.target.value))} />
