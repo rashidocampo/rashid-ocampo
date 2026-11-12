@@ -33,6 +33,7 @@ export default function Header({ name, items }: { name: string; items: NavItem[]
   }, [open]);
 
   return (
+    <>
     <header className={`sticky top-0 z-50 bg-paper/90 backdrop-blur-md transition-shadow duration-300 ${scrolled ? "shadow-[0_10px_30px_-20px_rgb(16_31_56/0.5)]" : ""}`}>
       <div className="wrap flex h-[4.75rem] items-center justify-between gap-4">
         <Link href="/" className="group flex min-w-0 items-center gap-3">
@@ -69,6 +70,7 @@ export default function Header({ name, items }: { name: string; items: NavItem[]
         </button>
       </div>
 
+    </header>
       {open && (
         <nav id="site-menu" aria-label="Menu" className="fixed inset-x-0 bottom-0 top-[4.75rem] z-50 overflow-y-auto bg-paper md:hidden">
           <ul className="wrap py-4">
@@ -82,6 +84,6 @@ export default function Header({ name, items }: { name: string; items: NavItem[]
           </ul>
         </nav>
       )}
-    </header>
+    </>
   );
 }
