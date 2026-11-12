@@ -14,10 +14,10 @@ export default function SocialLinks({ links }: { links: Partial<Record<(typeof o
   const items = order.filter(([key]) => /^https?:\/\//.test(links[key] ?? ""));
   if (!items.length) return null;
   return (
-    <ul className={`shrink-0 gap-2 sm:flex ${items.length > 3 ? "grid grid-cols-3" : "flex"}`}>
+    <ul className={`shrink-0 gap-1.5 sm:flex sm:gap-2 ${items.length > 3 ? "grid grid-cols-3" : "flex"}`}>
       {items.map(([key, label]) => (
         <li key={key}>
-          <a href={links[key]} target="_blank" rel="noopener noreferrer" aria-label={label} title={label} data-magnetic className="btn btn-line !min-h-11 !w-11 !p-0 text-white/85 [&>svg]:h-5 [&>svg]:w-5 [&>svg]:transition-transform [&>svg]:duration-500 hover:[&>svg]:rotate-[360deg]">
+          <a href={links[key]} target="_blank" rel="noopener noreferrer" aria-label={label} title={label} data-magnetic className="btn btn-line !min-h-8 !w-8 !p-0 text-white/85 sm:!min-h-11 sm:!w-11 [&>svg]:h-4 [&>svg]:w-4 sm:[&>svg]:h-5 sm:[&>svg]:w-5 [&>svg]:transition-transform [&>svg]:duration-500 hover:[&>svg]:rotate-[360deg]">
             {socialIcons[key]}
           </a>
         </li>
