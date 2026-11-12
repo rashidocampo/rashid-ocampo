@@ -1,23 +1,30 @@
 import { socialIcons } from "./NavIcons";
 
 const order = [
+  ["youtube", "YouTube"],
   ["facebook", "Facebook"],
   ["instagram", "Instagram"],
-  ["youtube", "YouTube"],
   ["tiktok", "TikTok"],
   ["linkedin", "LinkedIn"],
   ["github", "GitHub"],
 ] as const;
 
-/** Square outlined icon links. Only networks with a link are shown. */
+/** Plain icon links for the dark bottom bar. Only networks with a link are shown. */
 export default function SocialLinks({ links }: { links: Partial<Record<(typeof order)[number][0], string>> }) {
   const items = order.filter(([key]) => /^https?:\/\//.test(links[key] ?? ""));
   if (!items.length) return null;
   return (
-    <ul className={`shrink-0 gap-1.5 sm:flex sm:gap-2 ${items.length > 3 ? "grid grid-cols-[repeat(3,2rem)]" : "flex"}`}>
+    <ul className="-mx-2 flex flex-wrap items-center">
       {items.map(([key, label]) => (
         <li key={key}>
-          <a href={links[key]} target="_blank" rel="noopener noreferrer" aria-label={label} title={label} data-magnetic className="btn btn-line !min-h-8 !w-8 !p-0 text-white/85 sm:!min-h-11 sm:!w-11 [&>svg]:h-4 [&>svg]:w-4 sm:[&>svg]:h-5 sm:[&>svg]:w-5 [&>svg]:transition-transform [&>svg]:duration-500 hover:[&>svg]:rotate-[360deg]">
+          <a
+            href={links[key]}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={label}
+            title={label}
+            className="flex h-11 w-11 items-center justify-center rounded-full text-white/90 transition duration-300 hover:-translate-y-0.5 hover:bg-white/10 hover:text-white [&>svg]:h-5 [&>svg]:w-5"
+          >
             {socialIcons[key]}
           </a>
         </li>

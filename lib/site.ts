@@ -11,7 +11,7 @@ export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://rashid-oca
 
 export const site = { name: "Rashid Ocampo" };
 
-export const DEFAULT_THEME = "#1560e8";
+export const DEFAULT_THEME = "#4b7d6d";
 
 export type Settings = {
   siteName: string;
@@ -31,6 +31,7 @@ export type Settings = {
   footerButton2Label: string;
   footerButton2Link: string;
   copyright: string;
+  footerMotto: string;
   youtubeUrl2: string;
   videoTitle2: string;
   videoBlurb2: string;
@@ -80,6 +81,7 @@ export const defaultSettings: Settings = {
   footerButton2Label: "Get in Touch",
   footerButton2Link: "/contact",
   copyright: "All rights reserved.",
+  footerMotto: "Knowledge · Sincerity · Return to Allah",
   youtubeUrl2: "",
   videoTitle2: "",
   videoBlurb2: "",
@@ -101,7 +103,7 @@ export const defaultSettings: Settings = {
   videoBlurb: "A short story of how Allah guided me back to Islam, and what I learned along the way.",
   youtubeUrl: "",
   footerHeading: "Stay Connected",
-  headlineFont: "poster",
+  headlineFont: "serif",
   heroFit: "cover",
   heroZoom: 100,
   heroX: 50,
@@ -193,8 +195,8 @@ export const youtubeId = (url: string) => {
 
 /** Headline styles the owner can switch between in the dashboard. */
 export const headlineFonts = {
-  poster: { label: "Anybody (condensed poster capitals, the default)", family: '"Anybody Variable", "Kufam Variable", "Arial Narrow", sans-serif', weight: 800, stretch: "62%", transform: "uppercase", tracking: "0.004em" },
-  kufic: { label: "Kufam (Kufic-inspired)", family: '"Kufam Variable", system-ui, sans-serif', weight: 700, stretch: "100%", transform: "none", tracking: "-0.03em" },
+  serif: { label: "Newsreader (serif, as in the design)", family: '"Newsreader Variable", "Amiri", Georgia, serif', weight: 500, stretch: "100%", transform: "none", tracking: "-0.015em" },
+  poster: { label: "Anybody (condensed poster capitals)", family: '"Anybody Variable", "Arial Narrow", sans-serif', weight: 800, stretch: "62%", transform: "uppercase", tracking: "0.004em" },
 } as const;
 
 /** Inline style for the hero photo, from the owner's fit / zoom / position settings. */
@@ -205,10 +207,14 @@ export const heroImageStyle = (st: Settings) => ({
   transformOrigin: `${st.heroX}% ${st.heroY}%`,
 });
 
-/** Builds the whole site palette (dark backgrounds, accent, highlights) from one chosen colour. */
+/** Blue from the first design; if it is still stored, the new sage green is used instead. */
+const LEGACY_THEME = "#1560e8";
+
+/** Builds the accent colours (buttons, icons, highlights) from the one colour the owner picks. The ink stays navy. */
 export function themePalette(hex: string): Record<string, string> | null {
   const m = /^#?([0-9a-f]{6})$/i.exec(hex ?? "");
-  if (!m || `#${m[1].toLowerCase()}` === DEFAULT_THEME) return null;
+  const value = m ? `#${m[1].toLowerCase()}` : "";
+  if (!m || value === DEFAULT_THEME || value === LEGACY_THEME) return null;
   const [r, g, b] = [0, 2, 4].map((i) => parseInt(m[1].slice(i, i + 2), 16) / 255);
   const max = Math.max(r, g, b);
   const min = Math.min(r, g, b);
@@ -218,17 +224,12 @@ export function themePalette(hex: string): Record<string, string> | null {
   let h = 0;
   if (d !== 0) h = max === r ? ((g - b) / d) % 6 : max === g ? (b - r) / d + 2 : (r - g) / d + 4;
   h = Math.round((h * 60 + 360) % 360);
-  const k = Math.min(1, sat / 0.8); // greys stay grey
-  const c = (s: number, li: number) => `hsl(${h} ${Math.round(s * k)}% ${li}%)`;
-  // Yellows and greens are bright, so the accent is darkened to keep white text readable on it.
-  const accent = h > 40 && h < 200 ? 34 : 47;
+  const s = Math.round(sat * 100);
+  // The accent carries white text, so its lightness is held where that stays readable (darker for yellows and greens).
+  const li = Math.round(Math.min(l * 100, h > 40 && h < 200 ? 36 : 46));
   return {
-    "--color-navy-950": c(85, 7),
-    "--color-navy-900": c(80, 12),
-    "--color-navy-800": c(76, 17),
-    "--color-navy-700": c(72, 24),
-    "--color-royal": c(83, accent),
-    "--color-royal-light": c(95, 64),
-    "--color-sky": c(100, 78),
+    "--color-royal": `hsl(${h} ${s}% ${li}%)`,
+    "--color-royal-light": `hsl(${h} ${Math.round(s * 0.8)}% ${Math.min(li + 14, 62)}%)`,
+    "--color-sky": `hsl(${h} ${Math.round(s * 0.7)}% 82%)`,
   };
 }

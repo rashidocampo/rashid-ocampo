@@ -43,12 +43,11 @@ export default function Motion() {
         hero.forEach((el, i) => {
           const at = i * 0.09;
           const kind = el.dataset.heroKind;
-          if (kind === "letters") {
-            tl.fromTo(el.querySelectorAll(".swi"), { yPercent: 115, rotate: 6 }, { yPercent: 0, rotate: 0, stagger: 0.035, duration: 1.4 }, at);
-            tl.fromTo(el, { fontStretch: "50%" }, { fontStretch: getComputedStyle(el).fontStretch, duration: 1.8, ease: "expo.inOut" }, at);
-          } else if (kind === "arch") {
-            tl.fromTo(el, { clipPath: "inset(100% 0% 0% 0% round 999px 999px 14px 14px)" }, { clipPath: "inset(0% 0% 0% 0% round 999px 999px 14px 14px)", duration: 1.7, ease: "expo.inOut" }, at);
-            tl.fromTo(el.querySelector("[data-hero-img]"), { scale: 1.35 }, { scale: 1, duration: 2.4 }, at);
+          if (kind === "words") {
+            tl.fromTo(el.querySelectorAll(".swi"), { yPercent: 115 }, { yPercent: 0, stagger: 0.08, duration: 1.3 }, at);
+          } else if (kind === "wipe") {
+            tl.fromTo(el, { clipPath: "inset(0% 100% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 1.6, ease: "expo.inOut", clearProps: "clipPath" }, at);
+            tl.fromTo(el.querySelector("[data-hero-img]"), { scale: 1.25 }, { scale: 1, duration: 2.4 }, at);
           } else if (kind === "fade") {
             tl.fromTo(el, { autoAlpha: 0 }, { autoAlpha: 1, duration: 1.6, ease: "power2.out" }, at);
           } else {

@@ -3,7 +3,6 @@
 import { createClient, type Session } from "@supabase/supabase-js";
 import { useCallback, useEffect, useState } from "react";
 import { tagIcons, TagIcon } from "@/components/Icons";
-import { navIcons, type NavIconName } from "@/components/NavIcons";
 import { ADMIN_EMAIL, BLOG_NAV_SORT, DEFAULT_THEME, RESERVED_SLUGS, type Page, defaultSettings, headlineFonts, heroImageStyle, slugify, themePalette, SUPABASE_KEY, SUPABASE_URL, type Settings, type Tag } from "@/lib/site";
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -363,7 +362,7 @@ const textFields: { group: Group; section?: string; key: Exclude<TextKey, "headl
   { group: "home", key: "heroPrimaryLabel", label: "First button text" },
   { group: "home", key: "heroSecondaryLabel", label: "Second button text" },
   { group: "home", key: "heroSecondaryLink", label: "Second button link", hint: "A page address such as /about, or a full https:// link." },
-  { group: "home", section: "Featured videos", key: "featuredLabel", label: "Section headline" },
+  { group: "home", section: "Featured videos", key: "featuredLabel", label: "Small label" },
   { group: "home", key: "youtubeUrl", label: "Video 1: YouTube link", hint: "This one shows first. Add a second or third video below and visitors can switch between them." },
   { group: "home", key: "videoTitle", label: "Video 1: headline" },
   { group: "home", key: "videoBlurb", label: "Video 1: description", rows: 2 },
@@ -388,6 +387,7 @@ const textFields: { group: Group; section?: string; key: Exclude<TextKey, "headl
   { group: "site", key: "footerButton2Label", label: "Second button text", hint: "Leave empty to hide the button." },
   { group: "site", key: "footerButton2Link", label: "Second button link" },
   { group: "site", key: "copyright", label: "Copyright line (after your name)" },
+  { group: "site", key: "footerMotto", label: "Three words in the bottom bar", hint: "Shown in the dark bar at the very bottom. Separate the words with a middle dot ( · )." },
   { group: "site", section: "Social media links", key: "socialFacebook", label: "Facebook", hint: "Paste the full link starting with https://. An icon appears in the footer for each link you fill in." },
   { group: "site", key: "socialInstagram", label: "Instagram" },
   { group: "site", key: "socialYoutube", label: "YouTube" },
@@ -446,18 +446,18 @@ function SiteContent({ group }: { group: Group }) {
         <div className="flex flex-wrap items-center gap-4">
           <input id="themeColor" type="color" value={s.themeColor} className="h-12 w-20 cursor-pointer rounded-lg border border-navy-800/25 bg-white p-1" onChange={(e) => setS({ ...s, themeColor: e.target.value })} />
           <div className="flex overflow-hidden rounded-lg ring-1 ring-black/10" style={(themePalette(s.themeColor) ?? {}) as React.CSSProperties} aria-hidden>
-            {["bg-navy-950", "bg-navy-800", "bg-royal", "bg-royal-light", "bg-sky"].map((c) => <span key={c} className={`h-12 w-10 ${c}`} />)}
+            {["bg-navy-900", "bg-royal", "bg-royal-light", "bg-sky", "bg-paper-2"].map((c) => <span key={c} className={`h-12 w-10 ${c}`} />)}
           </div>
-          <button type="button" className="text-sm text-royal underline" onClick={() => setS({ ...s, themeColor: DEFAULT_THEME })}>Reset to the original blue</button>
+          <button type="button" className="text-sm text-royal underline" onClick={() => setS({ ...s, themeColor: DEFAULT_THEME })}>Reset to the sage green</button>
         </div>
-        <p className="mt-1 text-sm text-navy-700">Pick one colour; the dark backgrounds, buttons and highlights are all matched to it.</p>
+        <p className="mt-1 text-sm text-navy-700">Pick one colour; buttons, icons and highlights are matched to it. The text stays navy.</p>
       </div>
       <div>
         <label className={label} htmlFor="headlineFont">Headline font</label>
         <select id="headlineFont" className="field" value={s.headlineFont} onChange={(e) => setS({ ...s, headlineFont: e.target.value as Settings["headlineFont"] })}>
           {Object.entries(headlineFonts).map(([k, f]) => <option key={k} value={k}>{f.label}</option>)}
         </select>
-        <p className="mt-2 text-4xl text-navy-900" style={{ fontFamily: (headlineFonts[s.headlineFont] ?? headlineFonts.poster).family, fontWeight: (headlineFonts[s.headlineFont] ?? headlineFonts.poster).weight, fontStretch: (headlineFonts[s.headlineFont] ?? headlineFonts.poster).stretch, textTransform: (headlineFonts[s.headlineFont] ?? headlineFonts.poster).transform }}>
+        <p className="mt-2 text-4xl text-navy-900" style={{ fontFamily: (headlineFonts[s.headlineFont] ?? headlineFonts.serif).family, fontWeight: (headlineFonts[s.headlineFont] ?? headlineFonts.serif).weight, fontStretch: (headlineFonts[s.headlineFont] ?? headlineFonts.serif).stretch, textTransform: (headlineFonts[s.headlineFont] ?? headlineFonts.serif).transform }}>
           {s.siteName}
         </p>
       </div>
@@ -592,20 +592,11 @@ function PageEditor({ page, onDone }: { page: PageRow; onDone: () => void }) {
         <label className={label}>Name in the menu</label>
         <input dir="auto" className="field" value={p.nav_label} onChange={(e) => set("nav_label", e.target.value)} placeholder="Short name, e.g. About. Leave empty to use the headline." />
       </div>
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2">
         <label className="flex items-center gap-3 text-lg sm:pt-6">
           <input type="checkbox" className="h-5 w-5" checked={p.show_in_nav} onChange={(e) => set("show_in_nav", e.target.checked)} />
           Show in the menu
         </label>
-        <div>
-          <label className={label}>Menu icon</label>
-          <div className="flex items-center gap-3">
-            <select className="field" value={p.icon} onChange={(e) => set("icon", e.target.value)}>
-              {Object.keys(navIcons).map((k) => <option key={k}>{k}</option>)}
-            </select>
-            <span className="text-royal">{(navIcons[p.icon as NavIconName] ?? navIcons.user).icon}</span>
-          </div>
-        </div>
         <div>
           <label className={label}>Menu position</label>
           <input type="number" className="field" value={p.sort} onChange={(e) => set("sort", Number(e.target.value))} />

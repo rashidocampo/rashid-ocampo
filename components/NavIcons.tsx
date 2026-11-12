@@ -1,26 +1,8 @@
-import { NimbusIcons } from "@/components/ui/liquid-glass-navbar";
-
 const I = (d: React.ReactNode) => (
-  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
     {d}
   </svg>
 );
-
-/** Icons a page can use in the menu, with the small animation each one plays when tapped. */
-export const navIcons = {
-  home: { icon: NimbusIcons.home, fx: "glow" },
-  user: { icon: NimbusIcons.user, fx: "wave" },
-  book: { icon: I(<path d="M12 6.5C10 5 7 4.5 3.5 5v13c3.5-.5 6.5 0 8.5 1.5 2-1.5 5-2 8.5-1.5V5C17 4.5 14 5 12 6.5Zm0 0v13" />), fx: "spin" },
-  plane: { icon: NimbusIcons.plane, fx: "plane" },
-  globe: { icon: NimbusIcons.globe, fx: "spin" },
-  drop: { icon: NimbusIcons.drop, fx: "drop" },
-  video: { icon: I(<><rect x="3" y="6" width="13" height="12" rx="2.5" /><path d="m16 10.5 5-3v9l-5-3" /></>), fx: "pop" },
-  heart: { icon: I(<path d="M12 20s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.5 4.3 4.3 0 0 1 19.5 10c0 5.4-7.5 10-7.5 10Z" />), fx: "pop" },
-  star: { icon: I(<path d="m12 3.5 2.6 5.4 5.9.8-4.3 4.1 1.1 5.800L12 16.800l-5.3 2.8 1.1-5.8-4.3-4.1 5.9-.8Z" />), fx: "spin" },
-  mic: { icon: I(<><rect x="9" y="3" width="6" height="11" rx="3" /><path d="M5.5 11.500a6.5 6.5 0 0 0 13 0M12 18v3" /></>), fx: "wave" },
-} as const;
-
-export type NavIconName = keyof typeof navIcons;
 
 /** Social glyphs, drawn in one line weight to match the rest of the site's icons. */
 export const socialIcons = {

@@ -25,16 +25,16 @@ export default function Carousel({ children, label }: { children: React.ReactNod
   const move = (dir: 1 | -1) => {
     const el = ref.current;
     const card = el?.firstElementChild as HTMLElement | null;
-    if (el) el.scrollBy({ left: dir * (card ? card.offsetWidth + 32 : el.clientWidth), behavior: "smooth" });
+    if (el) el.scrollBy({ left: dir * (card ? card.offsetWidth + 20 : el.clientWidth), behavior: "smooth" });
   };
 
   return (
     <div className="min-w-0">
-      <div ref={ref} role="region" aria-label={label} tabIndex={0} className="carousel flex snap-x snap-mandatory gap-8 overflow-x-auto scroll-smooth pb-2 pt-1">
+      <div ref={ref} role="region" aria-label={label} tabIndex={0} className="carousel -mx-3 flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth px-3 pb-10 pt-2 [scroll-padding-inline:0.75rem]">
         {children}
       </div>
       {(can.left || can.right) && (
-        <div className="mt-8 flex gap-2">
+        <div className="-mt-3 flex gap-2">
           <button className="btn btn-line !min-h-11 !w-11 !p-0" onClick={() => move(-1)} disabled={!can.left} aria-label="Previous posts">
             <Arrow className="h-4 w-4 rotate-180" />
           </button>
