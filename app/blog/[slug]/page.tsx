@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import Comments from "@/components/Comments";
 import Markdown from "@/components/Markdown";
 import PageShell from "@/components/PageShell";
+import PatternCover from "@/components/PatternCover";
 import TagChips from "@/components/TagChips";
 import { getPosts, getSettings } from "@/lib/data";
 import JsonLd from "@/components/JsonLd";
@@ -69,9 +70,13 @@ export default async function PostPage({ params }: Props) {
         }}
       />
       <article className="max-w-2xl space-y-6">
-        {post.cover_url && (
+        {post.cover_url ? (
           <div className="relative aspect-[2/1] overflow-hidden rounded-xl">
             <Image src={post.cover_url} alt={post.title} fill priority sizes="(min-width: 768px) 672px, 100vw" className="object-cover" />
+          </div>
+        ) : (
+          <div className="relative aspect-[3/1] overflow-hidden rounded-xl">
+            <PatternCover seed={post.slug} />
           </div>
         )}
         <TagChips tags={post.tags} />
@@ -91,7 +96,7 @@ export default async function PostPage({ params }: Props) {
               <li key={p.id}>
                 <Link href={`/blog/${p.slug}`} className="group flex items-center gap-4 rounded-xl bg-white/70 p-2.5 ring-1 ring-black/5 transition duration-300 hover:-translate-y-0.5 hover:shadow-lg">
                   <span className="relative block h-16 w-24 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-navy-800 to-royal sm:h-20 sm:w-32">
-                    {p.cover_url && <Image src={p.cover_url} alt="" fill sizes="128px" className="object-cover transition duration-500 group-hover:scale-110" />}
+                    {p.cover_url ? <Image src={p.cover_url} alt="" fill sizes="128px" className="object-cover transition duration-500 group-hover:scale-110" /> : <PatternCover seed={p.slug} />}
                   </span>
                   <span className="min-w-0 flex-1">
                     <span dir="auto" className="font-display block text-2xl leading-tight text-navy-900 transition-colors group-hover:text-royal">{p.title}</span>

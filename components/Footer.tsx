@@ -19,12 +19,9 @@ export default async function Footer() {
           <path d="M0 74c240-34 460-14 700 8s460 16 740-20v28H0z" style={{ fill: "var(--color-navy-900)" }} />
         </svg>
       </div>
-      <div className="mx-auto flex max-w-6xl flex-col gap-6 px-5 pb-6 pt-8 sm:px-8 lg:flex-row lg:items-center lg:gap-9">
-        <h2 dir="auto" className="text-5xl lg:whitespace-nowrap">{st.footerHeading}</h2>
-        <p dir="auto" className="max-w-md text-lg leading-snug text-white/90 lg:border-l lg:border-white/40 lg:pl-7">
-          {st.footerText}
-        </p>
-        <div className="flex flex-col gap-4 lg:ml-auto lg:items-end">
+      <div className="mx-auto max-w-6xl px-5 pb-6 pt-8 sm:px-8">
+        <div className="flex items-center justify-between gap-4">
+          <h2 dir="auto" className="text-4xl sm:text-5xl">{st.footerHeading}</h2>
           <SocialLinks
             links={{
               facebook: st.socialFacebook,
@@ -35,6 +32,9 @@ export default async function Footer() {
               github: st.socialGithub,
             }}
           />
+        </div>
+        <div className="mt-5 flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+          <p dir="auto" className="max-w-xl text-lg leading-snug text-white/90">{st.footerText}</p>
           <div className="flex flex-wrap gap-3">
             {st.footerButton1Label && (
               <Link href={st.footerButton1Link || "/blog"} className="lift group flex h-11 items-center gap-2 rounded-full border-[1.5px] border-white px-6 text-lg hover:bg-white hover:text-navy-800">

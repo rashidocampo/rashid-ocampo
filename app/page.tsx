@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Carousel from "@/components/Carousel";
 import PostCard from "@/components/PostCard";
-import VideoPlayer from "@/components/VideoPlayer";
+import FeaturedVideos from "@/components/FeaturedVideos";
 import { Arrow, Play, TagIcon } from "@/components/Icons";
 import Backdrop from "@/components/Backdrop";
 import Spotlight from "@/components/Spotlight";
@@ -16,6 +16,11 @@ export default async function Home() {
   const [st, tags, allPosts] = await Promise.all([getSettings(), getTags(), getPosts()]);
   const topics = tags.filter((t) => t.show_on_home);
   const heroStyle = heroImageStyle(st);
+  const videos = [
+    { id: youtubeId(st.youtubeUrl), title: st.videoTitle, blurb: st.videoBlurb },
+    { id: youtubeId(st.youtubeUrl2), title: st.videoTitle2, blurb: st.videoBlurb2 },
+    { id: youtubeId(st.youtubeUrl3), title: st.videoTitle3, blurb: st.videoBlurb3 },
+  ].filter((v) => v.id);
   const posts = allPosts.filter((p) => p.show_on_home !== false).slice(0, 9);
   return (
     <>
@@ -27,7 +32,7 @@ export default async function Home() {
       />
       <section className="hero-bg relative overflow-hidden">
         {/* Depth layers, far to near: pattern and aurora, portrait, content, bokeh */}
-        <Backdrop />
+        <Backdrop smoke />
         <Spotlight />
         {/* Portrait */}
         <div className="portrait-fade group/portrait absolute inset-y-0 left-0 hidden w-[46%] max-w-[640px] md:block" style={{ maxHeight: 540 }}>
@@ -77,17 +82,8 @@ export default async function Home() {
             </div>
           </div>
 
-          {/* Featured video */}
-          <div className="grid items-center gap-8 pb-10 lg:grid-cols-[1.5fr_1fr] lg:gap-0 lg:px-6">
-            <div data-parallax="0.1" data-parallax-min="1024">
-              <VideoPlayer id={youtubeId(st.youtubeUrl)} title={st.videoTitle} />
-            </div>
-            <div className="lg:ml-10 lg:border-s lg:border-white/50 lg:py-4 lg:ps-10">
-              <p dir="auto" className="text-xs font-semibold tracking-[0.3em]">{st.featuredLabel}</p>
-              <h2 dir="auto" className="mt-2 text-5xl leading-none sm:text-6xl">{st.videoTitle}</h2>
-              <p dir="auto" className="mt-4 text-xl leading-snug text-white/95">{st.videoBlurb}</p>
-            </div>
-          </div>
+          {/* Featured video, with small previews to switch between up to three */}
+          <FeaturedVideos label={st.featuredLabel} videos={videos.length ? videos : [{ id: "", title: st.videoTitle, blurb: st.videoBlurb }]} />
 
           {/* Topics */}
           {topics.length > 0 && (

@@ -14,7 +14,7 @@ export default function SocialLinks({ links }: { links: Partial<Record<(typeof o
   const items = order.filter(([key]) => /^https?:\/\//.test(links[key] ?? ""));
   if (!items.length) return null;
   return (
-    <ul className="flex flex-wrap gap-2.5">
+    <ul className={`shrink-0 gap-2 sm:flex sm:gap-2.5 ${items.length > 3 ? "grid grid-cols-3" : "flex"}`}>
       {items.map(([key, label]) => (
         <li key={key}>
           <a
@@ -23,7 +23,7 @@ export default function SocialLinks({ links }: { links: Partial<Record<(typeof o
             rel="noopener noreferrer"
             aria-label={label}
             title={label}
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-white/35 text-white/85 transition duration-300 hover:-translate-y-1 hover:border-sky hover:bg-royal hover:text-white [&>svg]:h-5 [&>svg]:w-5"
+            className="flex h-10 w-10 items-center justify-center rounded-full sm:h-11 sm:w-11 border border-white/35 text-white/85 transition duration-300 hover:-translate-y-1 hover:border-sky hover:bg-royal hover:text-white [&>svg]:h-5 [&>svg]:w-5"
           >
             {socialIcons[key]}
           </a>

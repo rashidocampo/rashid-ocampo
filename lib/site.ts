@@ -31,6 +31,12 @@ export type Settings = {
   footerButton2Label: string;
   footerButton2Link: string;
   copyright: string;
+  youtubeUrl2: string;
+  videoTitle2: string;
+  videoBlurb2: string;
+  youtubeUrl3: string;
+  videoTitle3: string;
+  videoBlurb3: string;
   socialFacebook: string;
   socialInstagram: string;
   socialGithub: string;
@@ -74,6 +80,12 @@ export const defaultSettings: Settings = {
   footerButton2Label: "Get in Touch",
   footerButton2Link: "/contact",
   copyright: "All rights reserved.",
+  youtubeUrl2: "",
+  videoTitle2: "",
+  videoBlurb2: "",
+  youtubeUrl3: "",
+  videoTitle3: "",
+  videoBlurb3: "",
   socialFacebook: "",
   socialInstagram: "",
   socialGithub: "",

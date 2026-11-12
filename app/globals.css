@@ -159,6 +159,12 @@ h1, h2, h3, .font-display {
   50% { opacity: 0.62; }
   100% { transform: translate3d(16%, 6%, 0) skewX(-6deg) scaleY(1.15); opacity: 0.4; }
 }
+/* Smoke aurora canvas: stretched from a small render, softened, and faded out toward the bottom */
+.smoke {
+  filter: blur(10px); mix-blend-mode: screen;
+  -webkit-mask-image: linear-gradient(to bottom, #000 45%, transparent 95%);
+  mask-image: linear-gradient(to bottom, #000 45%, transparent 95%);
+}
 @keyframes float { from { transform: translate3d(0, 0, 0) scale(1); } to { transform: translate3d(14px, -22px, 0) scale(1.12); } }
 .orb { position: absolute; border-radius: 9999px; filter: blur(14px); animation: float 9s ease-in-out infinite alternate; }
 
