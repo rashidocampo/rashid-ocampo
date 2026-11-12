@@ -1,75 +1,43 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { LiquidNavbar, NimbusIcons, type LiquidNavItem } from "@/components/ui/liquid-glass-navbar";
 import { site } from "@/lib/site";
 import { Search } from "./Icons";
 
-const links = [
-  { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
-  { href: "/blog", label: "Blog" },
-  { href: "/contact", label: "Contact" },
+const book = (
+  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M12 6.5C10 5 7 4.5 3.5 5v13c3.5-.5 6.5 0 8.5 1.5 2-1.5 5-2 8.5-1.5V5C17 4.5 14 5 12 6.5Zm0 0v13" />
+  </svg>
+);
+
+const items: LiquidNavItem[] = [
+  { label: "Home", href: "/", icon: NimbusIcons.home, fx: "glow" },
+  { label: "About", href: "/about", icon: NimbusIcons.user, fx: "wave" },
+  { label: "Blog", href: "/blog", icon: book, fx: "spin" },
+  { label: "Contact", href: "/contact", icon: NimbusIcons.plane, fx: "plane" },
 ];
 
 export default function Header() {
   const pathname = usePathname();
-  const [open, setOpen] = useState(false);
-  const active = (href: string) =>
-    href === "/" ? pathname === "/" : pathname.startsWith(href);
+  const router = useRouter();
+  const active = pathname.startsWith("/about") ? 1 : pathname.startsWith("/blog") || pathname.startsWith("/tag") ? 2 : pathname.startsWith("/contact") ? 3 : 0;
 
   return (
     <header className="sticky top-0 z-50 border-b border-white/10 bg-navy-950/85 backdrop-blur-md">
-      <div className="mx-auto flex h-[72px] max-w-6xl items-center justify-between px-5 sm:px-8">
-        <Link href="/" className="leading-none" onClick={() => setOpen(false)}>
-          <span className="font-display block text-[30px] sm:text-[34px]">{site.name}</span>
+      <div className="mx-auto flex h-[72px] max-w-6xl items-center justify-between gap-3 px-4 sm:px-8">
+        <Link href="/" className="shrink-0 leading-none">
+          <span className="font-display block text-[26px] sm:text-[34px]">{site.name}</span>
         </Link>
 
-        <nav className="hidden items-center gap-3 md:flex" aria-label="Main">
-          {links.map((l) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              aria-current={active(l.href) ? "page" : undefined}
-              className={`rounded-full px-5 py-1.5 text-xl transition ${
-                active(l.href) ? "btn-blue text-white" : "nav-link text-white/90 hover:text-sky"
-              }`}
-            >
-              {l.label}
-            </Link>
-          ))}
-          <Link href="/blog" aria-label="Search posts" className="ml-6 text-white/90 transition hover:scale-110 hover:text-sky">
+        <div className="flex items-center gap-4">
+          <LiquidNavbar tone="dark" items={items} active={active} onChange={(_, item) => item.href && router.push(item.href)} />
+          <Link href="/blog" aria-label="Search posts" className="hidden text-white/90 transition hover:scale-110 hover:text-sky md:block">
             <Search />
           </Link>
-        </nav>
-
-        <button
-          className="flex h-11 w-11 flex-col items-center justify-center gap-1.5 md:hidden"
-          aria-label="Menu"
-          aria-expanded={open}
-          onClick={() => setOpen(!open)}
-        >
-          <span className={`h-0.5 w-6 bg-white transition ${open ? "translate-y-2 rotate-45" : ""}`} />
-          <span className={`h-0.5 w-6 bg-white transition ${open ? "opacity-0" : ""}`} />
-          <span className={`h-0.5 w-6 bg-white transition ${open ? "-translate-y-2 -rotate-45" : ""}`} />
-        </button>
+        </div>
       </div>
-
-      {open && (
-        <nav className="border-t border-white/10 px-5 pb-4 md:hidden" aria-label="Mobile">
-          {links.map((l) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              onClick={() => setOpen(false)}
-              className={`block border-b border-white/5 py-3 text-xl ${active(l.href) ? "text-sky" : ""}`}
-            >
-              {l.label}
-            </Link>
-          ))}
-        </nav>
-      )}
     </header>
   );
 }
