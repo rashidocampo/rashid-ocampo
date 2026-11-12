@@ -1,5 +1,5 @@
 import { cacheLife, cacheTag } from "next/cache";
-import { defaultSettings, fallbackPages, SUPABASE_KEY, SUPABASE_URL, type Page, type Post, type Settings, type Tag } from "./site";
+import { defaultSettings, fallbackPages, SUPABASE_KEY, SUPABASE_URL, type Book, type Chapter, type Page, type Post, type Settings, type Tag } from "./site";
 
 async function rest<T>(path: string): Promise<T | null> {
   try {
@@ -60,4 +60,35 @@ export async function getPages(): Promise<Page[]> {
   cacheTag("site");
   cacheLife("minutes");
   return (await rest<Page[]>("pages?select=*&published=eq.true&order=sort.asc,title.asc")) ?? fallbackPages;
+}
+
+const demoBooks: Book[] = [
+  { id: "b1", slug: "balik-islam", title: "Balik Islam", subtitle: "Ang Aking Paglalakbay", author: "Rashid Ocampo", description: "A sample description of the book.", cover_url: null, published: true, sort: 0,
+    chapters: ["Panimula", "Ang Unang Tanong", "Ang Pagbabalik"].map((title, i) => ({ id: `c${i}`, slug: `kabanata-${i + 1}`, title, sort: i, content: "Sample chapter text.\n\nA second paragraph." })) },
+  { id: "b2", slug: "sample-book", title: "Mga Paalala", subtitle: "", author: "Rashid Ocampo", description: "", cover_url: null, published: true, sort: 1, chapters: [] },
+];
+
+type BookRow = Omit<Book, "chapters"> & { book_chapters: (Chapter & { published: boolean })[] };
+
+/** Published books with their chapter list (titles only), in shelf order. */
+export async function getBooks(): Promise<Book[]> {
+  "use cache";
+  cacheTag("site");
+  cacheLife("minutes");
+  const rows = await rest<BookRow[]>("books?select=*,book_chapters(id,slug,title,sort,published)&published=eq.true&order=sort.asc,created_at.desc");
+  if (!rows) return DEMO ? demoBooks : [];
+  return rows.map(({ book_chapters, ...b }) => ({
+    ...b,
+    chapters: book_chapters.filter((c) => c.published).sort((a, b) => a.sort - b.sort || a.title.localeCompare(b.title)).map(({ published: _p, ...c }) => c),
+  }));
+}
+
+/** One chapter's full text. */
+export async function getChapter(bookId: string, slug: string): Promise<Chapter | null> {
+  "use cache";
+  cacheTag("site");
+  cacheLife("minutes");
+  const rows = await rest<Chapter[]>(`book_chapters?select=id,slug,title,sort,content&book_id=eq.${encodeURIComponent(bookId)}&slug=eq.${encodeURIComponent(slug)}&published=eq.true`);
+  if (rows) return rows[0] ?? null;
+  return DEMO ? demoBooks.find((b) => b.id === bookId)?.chapters.find((c) => c.slug === slug) ?? null : null;
 }

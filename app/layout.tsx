@@ -4,7 +4,7 @@ import Header from "@/components/Header";
 import Motion from "@/components/Motion";
 import Footer from "@/components/Footer";
 import { getPages, getSettings } from "@/lib/data";
-import { buildNav, headlineFonts, SITE_URL, themePalette } from "@/lib/site";
+import { buildNav, SITE_URL, siteFont, themePalette } from "@/lib/site";
 
 export const viewport: Viewport = { themeColor: "#fbf9f4" };
 
@@ -26,8 +26,8 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const [st, pages] = await Promise.all([getSettings(), getPages()]);
-  const font = headlineFonts[st.headlineFont] ?? headlineFonts.serif;
-  const vars = { "--font-display": font.family, "--display-weight": font.weight, "--display-tracking": font.tracking, "--display-stretch": font.stretch, "--display-transform": font.transform, ...themePalette(st.themeColor) } as React.CSSProperties;
+  const font = siteFont(st.headlineFont);
+  const vars = { "--font-display": font.family, "--font-body": font.family, "--display-weight": font.weight, "--display-tracking": font.tracking, ...themePalette(st.themeColor) } as React.CSSProperties;
   return (
     <html lang="en" className="h-full antialiased">
       <body className="min-h-full flex flex-col" style={vars}>

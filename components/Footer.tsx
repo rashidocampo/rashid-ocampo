@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getSettings } from "@/lib/data";
 import { Arrow } from "./Icons";
-import Landscape, { Sprig } from "./Landscape";
+import Landscape from "./Landscape";
 import Logo from "./Logo";
 import SocialLinks from "./SocialLinks";
 
@@ -27,16 +27,19 @@ export default async function Footer() {
             )}
           </div>
         </div>
-        <Landscape className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[max(13rem,20.8vw)] w-full" />
-        <Sprig className="pointer-events-none absolute -bottom-2 -left-3 -z-10 h-28 w-20 lg:h-40 lg:w-28" />
-        <Sprig className="pointer-events-none absolute -bottom-2 -right-3 -z-10 h-28 w-20 -scale-x-100 lg:h-40 lg:w-28" />
+        {st.footerImage ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={st.footerImage} alt="" loading="lazy" className="footer-photo pointer-events-none absolute inset-0 -z-10 h-full w-full object-cover object-bottom" />
+        ) : (
+          <Landscape className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[max(13rem,20.8vw)] w-full" />
+        )}
       </section>
 
       {/* Bottom bar */}
       <div className="ink">
         <div className="wrap flex flex-col gap-5 py-6 sm:flex-row sm:items-center sm:gap-8">
           <Link href="/" className="flex items-center gap-3">
-            <Logo className="h-9 w-9 text-white" />
+            <Logo className="h-7 w-[1.15rem] text-white" />
             <span dir="auto" className="font-display text-[1.375rem] leading-none">{st.siteName}</span>
           </Link>
           <div className="sm:ms-auto">

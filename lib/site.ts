@@ -53,7 +53,16 @@ export type Settings = {
   youtubeUrl: string;
   footerHeading: string;
   footerText: string;
-  headlineFont: keyof typeof headlineFonts;
+  /** Typeface for the whole site (name kept from when it set only the headlines). */
+  headlineFont: string;
+  /** Show the tagline under the name on a green highlight band, or as plain green text. */
+  taglineHighlight: boolean;
+  /** Optional landscape photo behind "Stay Connected"; empty uses the drawn landscape. */
+  footerImage: string;
+  booksNavLabel: string;
+  booksTitle: string;
+  booksEyebrow: string;
+  booksIntro: string;
   /** How the hero photo sits in its frame. */
   heroFit: "cover" | "contain";
   heroZoom: number;
@@ -103,7 +112,13 @@ export const defaultSettings: Settings = {
   videoBlurb: "A short story of how Allah guided me back to Islam, and what I learned along the way.",
   youtubeUrl: "",
   footerHeading: "Stay Connected",
-  headlineFont: "serif",
+  headlineFont: "finlandica",
+  taglineHighlight: false,
+  footerImage: "",
+  booksNavLabel: "Books",
+  booksTitle: "Books",
+  booksEyebrow: "",
+  booksIntro: "Books I have written, chapter by chapter. Choose a book from the shelf to start reading.",
   heroFit: "cover",
   heroZoom: 100,
   heroX: 50,
@@ -129,9 +144,11 @@ export type Page = {
 
 /** The Blog link sits at this position among the pages in the menu. */
 export const BLOG_NAV_SORT = 20;
+/** The Books link sits here, between the blog and the contact page. */
+export const BOOKS_NAV_SORT = 25;
 
 /** Addresses that belong to built-in parts of the site and cannot be used for a page. */
-export const RESERVED_SLUGS = ["blog", "tag", "admin", "api", "images", "opengraph-image", "sitemap.xml", "robots.txt", "icon.png", "apple-icon.png", "favicon.ico", "manifest.webmanifest"];
+export const RESERVED_SLUGS = ["blog", "books", "tag", "admin", "api", "images", "opengraph-image", "sitemap.xml", "robots.txt", "icon.png", "apple-icon.png", "favicon.ico", "manifest.webmanifest"];
 
 /** Used only if the database cannot be reached. */
 export const fallbackPages: Page[] = [
@@ -146,6 +163,7 @@ export function buildNav(st: Settings, pages: Page[]): NavItem[] {
   const rest = [
     ...pages.filter((p) => p.show_in_nav).map((p) => ({ label: p.nav_label || p.title, href: `/${p.slug}`, icon: p.icon, sort: p.sort })),
     { label: st.blogNavLabel, href: "/blog", icon: "book", sort: BLOG_NAV_SORT },
+    ...(st.booksNavLabel.trim() ? [{ label: st.booksNavLabel, href: "/books", icon: "book", sort: BOOKS_NAV_SORT }] : []),
   ].sort((a, b) => a.sort - b.sort);
   return [{ label: st.homeNavLabel, href: "/", icon: "home" }, ...rest.map(({ sort: _sort, ...item }) => item)];
 }
@@ -193,12 +211,14 @@ export const youtubeId = (url: string) => {
   return m ? m[1] : /^[\w-]{11}$/.test(url.trim()) ? url.trim() : "";
 };
 
-/** Headline styles the owner can switch between in the dashboard. */
+/** Typefaces the owner can switch the whole site to. Arabic always uses Amiri. */
 export const headlineFonts = {
-  serif: { label: "Newsreader (serif, as in the design)", family: '"Newsreader Variable", "Amiri", Georgia, serif', weight: 500, stretch: "100%", transform: "none", tracking: "-0.015em" },
-  finlandica: { label: "Finlandica Headline (clean modern sans)", family: '"Finlandica Headline", "Amiri", "Helvetica Neue", Arial, sans-serif', weight: 600, stretch: "100%", transform: "none", tracking: "-0.01em" },
-  poster: { label: "Anybody (condensed poster capitals)", family: '"Anybody Variable", "Arial Narrow", sans-serif', weight: 800, stretch: "62%", transform: "uppercase", tracking: "0.004em" },
+  finlandica: { label: "Finlandica Headline (clean modern sans)", family: '"Amiri", "Finlandica Headline", "Helvetica Neue", Arial, sans-serif', weight: 700, bodyWeight: 400, tracking: "-0.012em" },
+  serif: { label: "Newsreader (classic serif)", family: '"Amiri", "Newsreader Variable", Georgia, serif', weight: 600, bodyWeight: 400, tracking: "-0.015em" },
+  literata: { label: "Literata (book serif, easy to read)", family: '"Amiri", "Literata Variable", Georgia, serif', weight: 650, bodyWeight: 400, tracking: "-0.015em" },
 } as const;
+export type FontKey = keyof typeof headlineFonts;
+export const siteFont = (k: string) => headlineFonts[k as FontKey] ?? headlineFonts.finlandica;
 
 /** Inline style for the hero photo, from the owner's fit / zoom / position settings. */
 export const heroImageStyle = (st: Settings) => ({
@@ -234,3 +254,18 @@ export function themePalette(hex: string): Record<string, string> | null {
     "--color-sky": `hsl(${h} ${Math.round(s * 0.7)}% 82%)`,
   };
 }
+
+/** A book shown in the Books library. */
+export type Chapter = { id: string; slug: string; title: string; sort: number; content?: string };
+export type Book = {
+  id: string;
+  slug: string;
+  title: string;
+  subtitle: string;
+  author: string;
+  description: string;
+  cover_url: string | null;
+  published: boolean;
+  sort: number;
+  chapters: Chapter[];
+};

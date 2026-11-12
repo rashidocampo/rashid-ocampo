@@ -3,7 +3,7 @@
 import { createClient, type Session } from "@supabase/supabase-js";
 import { useCallback, useEffect, useState } from "react";
 import { tagIcons, TagIcon } from "@/components/Icons";
-import { ADMIN_EMAIL, BLOG_NAV_SORT, DEFAULT_THEME, RESERVED_SLUGS, type Page, defaultSettings, headlineFonts, heroImageStyle, slugify, themePalette, SUPABASE_KEY, SUPABASE_URL, type Settings, type Tag } from "@/lib/site";
+import { ADMIN_EMAIL, BLOG_NAV_SORT, DEFAULT_THEME, RESERVED_SLUGS, type Page, defaultSettings, headlineFonts, heroImageStyle, siteFont, slugify, themePalette, SUPABASE_KEY, SUPABASE_URL, type Settings, type Tag } from "@/lib/site";
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
@@ -354,8 +354,8 @@ function Tags({ tags, reload }: { tags: Tag[]; reload: () => Promise<void> }) {
 /* ---------- Site content ---------- */
 
 type TextKey = { [K in keyof Settings]: Settings[K] extends string ? K : never }[keyof Settings];
-type Group = "home" | "blog" | "site";
-const textFields: { group: Group; section?: string; key: Exclude<TextKey, "headlineFont" | "heroFit" | "themeColor" | "heroImage">; label: string; rows?: number; hint?: string }[] = [
+type Group = "home" | "blog" | "site" | "books";
+const textFields: { group: Group; section?: string; key: Exclude<TextKey, "headlineFont" | "heroFit" | "themeColor" | "heroImage" | "footerImage">; label: string; rows?: number; hint?: string }[] = [
   { group: "home", section: "Hero", key: "greeting", label: "Greeting above your name" },
   { group: "home", key: "tagline", label: "Tagline under your name" },
   { group: "home", key: "description", label: "Description", rows: 3 },
@@ -378,6 +378,10 @@ const textFields: { group: Group; section?: string; key: Exclude<TextKey, "headl
   { group: "blog", section: "Blog page", key: "blogTitle", label: "Headline" },
   { group: "blog", key: "blogEyebrow", label: "Small line under the headline (optional)" },
   { group: "blog", key: "blogNavLabel", label: "Name in the menu" },
+  { group: "books", section: "Books page", key: "booksTitle", label: "Headline" },
+  { group: "books", key: "booksEyebrow", label: "Small line under the headline (optional)" },
+  { group: "books", key: "booksIntro", label: "Introduction", rows: 2 },
+  { group: "books", key: "booksNavLabel", label: "Name in the menu", hint: "Leave empty to take Books out of the menu." },
   { group: "site", section: "Name and menu", key: "siteName", label: "Site name", hint: "Shown in the header, the hero, the footer and in search results." },
   { group: "site", key: "homeNavLabel", label: "Menu name for the homepage" },
   { group: "site", section: "Footer", key: "footerHeading", label: "Headline" },
@@ -438,6 +442,12 @@ function SiteContent({ group }: { group: Group }) {
         </div>
       </div>
       )}
+      {group === "home" && (
+        <label className="flex items-center gap-3 text-lg">
+          <input type="checkbox" className="h-5 w-5" checked={!!s.taglineHighlight} onChange={(e) => setS({ ...s, taglineHighlight: e.target.checked })} />
+          Put the tagline on a green highlight band (untick for plain green text)
+        </label>
+      )}
       {group === "site" && (
       <>
       <div>
@@ -452,13 +462,19 @@ function SiteContent({ group }: { group: Group }) {
         <p className="mt-1 text-sm text-navy-700">Pick one colour; buttons, icons and highlights are matched to it. The text stays navy.</p>
       </div>
       <div>
-        <label className={label} htmlFor="headlineFont">Headline font</label>
-        <select id="headlineFont" className="field" value={s.headlineFont} onChange={(e) => setS({ ...s, headlineFont: e.target.value as Settings["headlineFont"] })}>
+        <label className={label} htmlFor="headlineFont">Font for the whole site</label>
+        <select id="headlineFont" className="field" value={s.headlineFont in headlineFonts ? s.headlineFont : "finlandica"} onChange={(e) => setS({ ...s, headlineFont: e.target.value })}>
           {Object.entries(headlineFonts).map(([k, f]) => <option key={k} value={k}>{f.label}</option>)}
         </select>
-        <p className="mt-2 text-4xl text-navy-900" style={{ fontFamily: (headlineFonts[s.headlineFont] ?? headlineFonts.serif).family, fontWeight: (headlineFonts[s.headlineFont] ?? headlineFonts.serif).weight, fontStretch: (headlineFonts[s.headlineFont] ?? headlineFonts.serif).stretch, textTransform: (headlineFonts[s.headlineFont] ?? headlineFonts.serif).transform }}>
-          {s.siteName}
-        </p>
+        <div className="mt-3 rounded-xl bg-white p-4 ring-1 ring-black/5" style={{ fontFamily: siteFont(s.headlineFont).family }}>
+          <p className="text-4xl" style={{ fontWeight: siteFont(s.headlineFont).weight }}>{s.siteName}</p>
+          <p className="mt-2 text-lg">{s.description}</p>
+        </div>
+      </div>
+      <div>
+        <label className={label}>Footer landscape photo (optional)</label>
+        <ImageField value={s.footerImage || null} onChange={(v) => setS({ ...s, footerImage: v ?? "" })} />
+        <p className="mt-1 text-sm text-navy-700">A wide landscape photo shown behind “Stay Connected”. Its top fades into the page. Remove it to go back to the drawn mountains.</p>
       </div>
       </>
       )}
@@ -663,7 +679,248 @@ function Pages() {
   );
 }
 
-const tabs = ["Posts", "Pages", "Homepage", "Blog page", "Tags", "Comments", "Site & footer"] as const;
+/* ---------- Books ---------- */
+
+type BookRow = { id?: string; slug: string; title: string; subtitle: string; author: string; description: string; cover_url: string | null; published: boolean; sort: number };
+type ChapterRow = { id?: string; book_id: string; slug: string; title: string; content: string; sort: number; published: boolean };
+const blankBook: BookRow = { slug: "", title: "", subtitle: "", author: "Rashid Ocampo", description: "", cover_url: null, published: false, sort: 0 };
+
+function ChapterEditor({ chapter, onDone }: { chapter: ChapterRow; onDone: () => void }) {
+  const [c, setC] = useState(chapter);
+  const [slugTouched, setSlugTouched] = useState(!!chapter.id);
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState("");
+  const save = async () => {
+    const { id, ...fields } = c;
+    const row = { ...fields, slug: slugify(c.slug || c.title), updated_at: new Date().toISOString() };
+    if (!row.title.trim() || !row.slug) return setErr("A chapter title is required.");
+    setBusy(true);
+    setErr("");
+    const { error } = id ? await supabase.from("book_chapters").update(row).eq("id", id) : await supabase.from("book_chapters").insert(row);
+    if (error) {
+      setErr(error.code === "23505" ? "Another chapter in this book already uses this web address." : error.message);
+      setBusy(false);
+      return;
+    }
+    await publish();
+    onDone();
+  };
+  return (
+    <div className="space-y-5">
+      <button className="text-royal underline" onClick={onDone}>← Back to the book</button>
+      <div className="grid gap-4 sm:grid-cols-[1fr_8rem]">
+        <div>
+          <label className={label}>Chapter title</label>
+          <input dir="auto" className="field text-xl" value={c.title} onChange={(e) => { setC({ ...c, title: e.target.value, slug: slugTouched ? c.slug : slugify(e.target.value) }); }} />
+        </div>
+        <div>
+          <label className={label}>Order</label>
+          <input type="number" className="field" value={c.sort} onChange={(e) => setC({ ...c, sort: Number(e.target.value) })} />
+        </div>
+      </div>
+      <div>
+        <label className={label}>Web address: …/</label>
+        <input className="field" value={c.slug} onChange={(e) => { setSlugTouched(true); setC({ ...c, slug: e.target.value }); }} />
+      </div>
+      <div>
+        <label className={label}>Chapter text</label>
+        <textarea dir="auto" className="field text-base leading-relaxed" rows={22} value={c.content} onChange={(e) => setC({ ...c, content: e.target.value })} placeholder={"Write or paste the chapter here. Leave a blank line between paragraphs.\n\n## Heading\n**bold**, *italic*, > quote"} />
+      </div>
+      <label className="flex items-center gap-3 text-lg">
+        <input type="checkbox" className="h-5 w-5" checked={c.published} onChange={(e) => setC({ ...c, published: e.target.checked })} />
+        Published (readers can open this chapter)
+      </label>
+      {err && <p role="alert" className="text-red-700">{err}</p>}
+      <div className="flex gap-3">
+        <button className={primary} disabled={busy} onClick={save}>{busy ? "Saving…" : "Save chapter"}</button>
+        <button className={ghost} onClick={onDone}>Cancel</button>
+      </div>
+    </div>
+  );
+}
+
+function BookEditor({ book, onDone }: { book: BookRow; onDone: () => void }) {
+  const [b, setB] = useState(book);
+  const [slugTouched, setSlugTouched] = useState(!!book.id);
+  const [chapters, setChapters] = useState<ChapterRow[]>([]);
+  const [editing, setEditing] = useState<ChapterRow | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState("");
+  const loadChapters = useCallback(async () => {
+    if (!b.id) return;
+    const { data, error } = await supabase.from("book_chapters").select("id,book_id,slug,title,content,sort,published").eq("book_id", b.id).order("sort").order("title");
+    if (error) return setErr(error.message);
+    setChapters((data ?? []) as ChapterRow[]);
+  }, [b.id]);
+  useEffect(() => { loadChapters(); }, [loadChapters]);
+
+  const save = async (stay = false) => {
+    const { id, ...fields } = b;
+    const row = { ...fields, slug: slugify(b.slug || b.title), updated_at: new Date().toISOString() };
+    if (!row.title.trim() || !row.slug) { setErr("A book title is required."); return null; }
+    setBusy(true);
+    setErr("");
+    const { data, error } = id
+      ? await supabase.from("books").update(row).eq("id", id).select("id").single()
+      : await supabase.from("books").insert(row).select("id").single();
+    setBusy(false);
+    if (error) { setErr(error.code === "23505" ? "Another book already uses this web address." : error.message); return null; }
+    await publish();
+    if (!stay) onDone();
+    else setB((o) => ({ ...o, id: data.id, slug: row.slug }));
+    return data.id as string;
+  };
+
+  if (editing) return <ChapterEditor chapter={editing} onDone={() => { setEditing(null); loadChapters(); }} />;
+
+  return (
+    <div className="space-y-5">
+      <button className="text-royal underline" onClick={onDone}>← Back to the library</button>
+      <div className="grid gap-6 sm:grid-cols-[11rem_1fr]">
+        <div>
+          <label className={label}>Cover</label>
+          <div className="aspect-[2/3] overflow-hidden rounded-md bg-paper-2 ring-1 ring-black/10">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            {b.cover_url ? <img src={b.cover_url} alt="" className="h-full w-full object-cover" /> : <p className="p-3 text-sm text-navy-700">No cover yet. A simple cover with the title is shown instead.</p>}
+          </div>
+          <div className="mt-3"><ImageField value={b.cover_url} onChange={(v) => setB({ ...b, cover_url: v })} /></div>
+          <p className="mt-1 text-sm text-navy-700">Best as a tall image, 2 wide by 3 high.</p>
+        </div>
+        <div className="space-y-4">
+          <div>
+            <label className={label}>Book title</label>
+            <input dir="auto" className="field text-xl" value={b.title} onChange={(e) => setB({ ...b, title: e.target.value, slug: slugTouched ? b.slug : slugify(e.target.value) })} />
+          </div>
+          <div>
+            <label className={label}>Subtitle (optional)</label>
+            <input dir="auto" className="field" value={b.subtitle} onChange={(e) => setB({ ...b, subtitle: e.target.value })} />
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div>
+              <label className={label}>Author</label>
+              <input dir="auto" className="field" value={b.author} onChange={(e) => setB({ ...b, author: e.target.value })} />
+            </div>
+            <div>
+              <label className={label}>Web address: /books/…</label>
+              <input className="field" value={b.slug} onChange={(e) => { setSlugTouched(true); setB({ ...b, slug: e.target.value }); }} />
+            </div>
+          </div>
+          <div>
+            <label className={label}>About the book</label>
+            <textarea dir="auto" className="field" rows={5} value={b.description} onChange={(e) => setB({ ...b, description: e.target.value })} />
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div>
+              <label className={label}>Place on the shelf</label>
+              <input type="number" className="field" value={b.sort} onChange={(e) => setB({ ...b, sort: Number(e.target.value) })} />
+              <p className="mt-1 text-sm text-navy-700">Lower comes first.</p>
+            </div>
+            <label className="flex items-center gap-3 text-lg sm:pt-6">
+              <input type="checkbox" className="h-5 w-5" checked={b.published} onChange={(e) => setB({ ...b, published: e.target.checked })} />
+              Published (on the shelf)
+            </label>
+          </div>
+        </div>
+      </div>
+      {err && <p role="alert" className="text-red-700">{err}</p>}
+      <div className="flex gap-3">
+        <button className={primary} disabled={busy} onClick={() => save()}>{busy ? "Saving…" : "Save book"}</button>
+        <button className={ghost} onClick={onDone}>Cancel</button>
+      </div>
+
+      <h2 className="mt-8 border-t border-navy-800/15 pt-6 text-3xl">Chapters</h2>
+      <button
+        className={primary}
+        onClick={async () => {
+          const id = b.id ?? (await save(true));
+          if (id) setEditing({ book_id: id, slug: "", title: "", content: "", sort: (chapters.at(-1)?.sort ?? 0) + 1, published: true });
+        }}
+      >
+        + New chapter
+      </button>
+      {!b.id && <p className="text-navy-700">The book is saved first, then the chapter opens.</p>}
+      <ul className="divide-y divide-navy-800/10 rounded-xl bg-white ring-1 ring-black/5">
+        {chapters.map((c, i) => (
+          <li key={c.id} className="flex flex-wrap items-center gap-3 px-4 py-3">
+            <span className="w-8 text-navy-700">{i + 1}.</span>
+            <div className="min-w-0 flex-1">
+              <p dir="auto" className="truncate text-lg font-semibold">{c.title}</p>
+              <p className="text-sm text-navy-700">Order {c.sort} · {c.published ? "Published" : "Draft"} · {c.content.trim() ? `${c.content.trim().split(/\s+/).length} words` : "Empty"}</p>
+            </div>
+            <a href={`/books/${b.slug}/${c.slug}`} target="_blank" className="text-sm text-royal underline">View</a>
+            <button className={ghost} onClick={() => setEditing(c)}>Edit</button>
+            <button
+              className="text-sm text-red-700 underline"
+              onClick={async () => {
+                if (!window.confirm(`Delete the chapter "${c.title}"? This cannot be undone.`)) return;
+                const { error } = await supabase.from("book_chapters").delete().eq("id", c.id);
+                if (error) return setErr(error.message);
+                await publish();
+                loadChapters();
+              }}
+            >
+              Delete
+            </button>
+          </li>
+        ))}
+        {b.id && chapters.length === 0 && <li className="px-4 py-6 text-navy-700">No chapters yet.</li>}
+      </ul>
+    </div>
+  );
+}
+
+function Books() {
+  const [rows, setRows] = useState<BookRow[] | null>(null);
+  const [editing, setEditing] = useState<BookRow | null>(null);
+  const [err, setErr] = useState("");
+  const load = useCallback(async () => {
+    const { data, error } = await supabase.from("books").select("id,slug,title,subtitle,author,description,cover_url,published,sort").order("sort").order("created_at", { ascending: false });
+    if (error) return setErr(error.message);
+    setRows((data ?? []) as BookRow[]);
+  }, []);
+  useEffect(() => { load(); }, [load]);
+
+  if (editing) return <BookEditor book={editing} onDone={() => { setEditing(null); load(); }} />;
+
+  return (
+    <div className="space-y-4">
+      <button className={primary} onClick={() => setEditing(blankBook)}>+ New book</button>
+      {err && <p role="alert" className="text-red-700">{err}</p>}
+      {!rows && !err && <p>Loading…</p>}
+      <ul className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+        {rows?.map((r) => (
+          <li key={r.id} className="flex flex-col gap-2">
+            <button onClick={() => setEditing(r)} className="aspect-[2/3] overflow-hidden rounded-md bg-paper-2 text-left ring-1 ring-black/10">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              {r.cover_url ? <img src={r.cover_url} alt="" className="h-full w-full object-cover" /> : <span dir="auto" className="block p-3 text-xl">{r.title}</span>}
+            </button>
+            <p dir="auto" className="font-semibold leading-tight">{r.title}</p>
+            <p className="text-sm text-navy-700">{r.published ? "On the shelf" : "Draft"}</p>
+            <div className="flex gap-3 text-sm">
+              <button className="text-royal underline" onClick={() => setEditing(r)}>Edit</button>
+              <button
+                className="text-red-700 underline"
+                onClick={async () => {
+                  if (!window.confirm(`Delete the book "${r.title}" and all its chapters? This cannot be undone.`)) return;
+                  const { error } = await supabase.from("books").delete().eq("id", r.id);
+                  if (error) return setErr(error.message);
+                  await publish();
+                  load();
+                }}
+              >
+                Delete
+              </button>
+            </div>
+          </li>
+        ))}
+      </ul>
+      {rows?.length === 0 && <p className="text-navy-700">No books yet. Add your first one.</p>}
+      <SiteContent key="books" group="books" />
+    </div>
+  );
+}
+
+const tabs = ["Posts", "Books", "Pages", "Homepage", "Blog page", "Tags", "Comments", "Site & footer"] as const;
 
 export default function Admin() {
   const [session, setSession] = useState<Session | null | undefined>(undefined);
@@ -705,6 +962,7 @@ export default function Admin() {
       {tab === "Tags" && <Tags tags={tags} reload={loadTags} />}
       {tab === "Comments" && <CommentsAdmin />}
       {tab === "Pages" && <Pages />}
+      {tab === "Books" && <Books />}
       {tab === "Homepage" && <SiteContent key="home" group="home" />}
       {tab === "Blog page" && <SiteContent key="blog" group="blog" />}
       {tab === "Site & footer" && <SiteContent key="site" group="site" />}

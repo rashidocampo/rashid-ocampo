@@ -5,6 +5,7 @@ import FeaturedVideos from "@/components/FeaturedVideos";
 import { Arrow, Play, TagIcon } from "@/components/Icons";
 import JsonLd from "@/components/JsonLd";
 import PostCard from "@/components/PostCard";
+import Skyline from "@/components/Skyline";
 import SplitText from "@/components/SplitText";
 import { getPosts, getSettings, getTags } from "@/lib/data";
 import { heroImageStyle, SITE_URL, youtubeId } from "@/lib/site";
@@ -29,49 +30,42 @@ export default async function Home() {
           { "@context": "https://schema.org", "@type": "Person", name: st.siteName, url: SITE_URL, description: st.description, image: new URL(st.heroImage, SITE_URL).href },
         ]}
       />
-      {/* Shape used to cut the hero photo's inner edge into a soft wave */}
-      <svg width="0" height="0" className="absolute" aria-hidden>
-        <defs>
-          <clipPath id="wave-edge" clipPathUnits="objectBoundingBox">
-            <path d="M0 0H0.93C1.03 0.16 0.84 0.3 0.89 0.52C0.94 0.74 1.02 0.86 0.9 1H0Z" />
-          </clipPath>
-        </defs>
-      </svg>
+      {/* Hero: the photo fills the left and fades into the paper; the words sit on the right */}
+      <section className="hero relative isolate overflow-hidden bg-paper" data-parallax-root>
+        <div className="pattern pointer-events-none absolute -right-[10%] -top-[35%] -z-10 aspect-square w-[40rem] bg-royal opacity-[0.07]" data-parallax="0.25" aria-hidden />
+        <Skyline className="pointer-events-none absolute bottom-0 right-0 -z-10 hidden w-[46%] max-w-[44rem] opacity-80 lg:block" />
 
-      {/* Hero */}
-      <section className="relative isolate overflow-hidden bg-paper-2" data-parallax-root>
-        <div className="pattern pointer-events-none absolute -right-[18%] -top-[30%] -z-10 aspect-square w-[46rem] bg-royal opacity-[0.1]" data-parallax="0.25" aria-hidden />
-        <div className="grid lg:min-h-[26rem] lg:grid-cols-2">
-          <div className="relative h-[19rem] sm:h-[24rem] lg:h-auto" data-hero="0" data-hero-kind="wipe">
-            {/* A paler copy of the wave sits just behind the photo, as in the design */}
-            <div className="wave-edge absolute inset-y-0 left-0 hidden w-[104%] bg-paper lg:block" aria-hidden />
-            <div className="wave-edge absolute inset-0 overflow-hidden bg-navy-800">
-              <div className="absolute -inset-y-[8%] inset-x-0" data-parallax="0.18" data-hero-img>
-                <Image src={st.heroImage} alt={`Portrait of ${st.siteName}`} fill priority sizes="(min-width: 1024px) 50vw, 100vw" style={heroImageStyle(st)} />
-              </div>
-            </div>
+        <div className="hero-photo relative h-[22rem] overflow-hidden sm:h-[28rem] lg:absolute lg:inset-y-0 lg:left-0 lg:h-auto lg:w-[56%]" data-hero="0">
+          <div className="absolute -inset-y-[6%] inset-x-0" data-parallax="0.15" data-hero-img>
+            <Image src={st.heroImage} alt={`Portrait of ${st.siteName}`} fill priority sizes="(min-width: 1024px) 56vw, 100vw" style={heroImageStyle(st)} />
           </div>
+        </div>
 
-          <div className="flex items-center px-5 pb-12 pt-8 sm:px-10 lg:py-16 lg:pe-[max(2rem,calc((100vw-68rem)/2+3rem))] lg:ps-10">
-            <div className="w-full max-w-[30rem]">
-              <p dir="auto" className="caps flex items-center gap-4" data-hero="1">
-                {st.greeting} <span className="h-px w-20 bg-gradient-to-r from-royal to-transparent" />
-              </p>
-              <h1 dir="auto" className="display-xl mt-3" data-hero="2" data-hero-kind="words"><SplitText text={st.siteName} /></h1>
+        <div className="wrap relative grid lg:min-h-[40rem] lg:grid-cols-[1fr_1.3fr] lg:items-center">
+          <div className="-mt-4 pb-14 sm:-mt-8 lg:col-start-2 lg:mt-0 lg:pb-44 lg:pt-16">
+            <p dir="auto" className="caps flex items-center gap-4 text-navy-950" data-hero="1">
+              {st.greeting} <span className="h-px w-16 bg-royal sm:w-24" />
+            </p>
+            <h1 dir="auto" className="hero-name mt-4" data-hero="2" data-hero-kind="words"><SplitText text={st.siteName} /></h1>
+            {st.tagline && (
               <div className="mt-2" data-hero="3">
-                <p className="inline-block -skew-x-[18deg] bg-gradient-to-r from-royal via-royal to-royal/70 px-7 py-1">
-                  <span dir="auto" className="font-display inline-block skew-x-[18deg] text-[1.875rem] italic text-white sm:text-[2.25rem]">{st.tagline}</span>
-                </p>
+                {st.taglineHighlight ? (
+                  <p className="mt-2 inline-block -skew-x-[18deg] bg-gradient-to-r from-royal via-royal to-royal/70 px-7 py-1">
+                    <span dir="auto" className="font-display inline-block skew-x-[18deg] text-[1.875rem] italic text-white sm:text-[2.25rem]">{st.tagline}</span>
+                  </p>
+                ) : (
+                  <p dir="auto" className="hero-tagline font-display italic">{st.tagline}</p>
+                )}
               </div>
-              <p dir="auto" className="lede mt-6" data-hero="4">{st.description}</p>
-              <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center" data-hero="5">
-                <a href="#video" className="btn btn-solid" data-magnetic>
-                  <Play className="h-4 w-4" /> {st.heroPrimaryLabel}
-                </a>
-                <Link href={st.heroSecondaryLink || "/about"} className="btn btn-line" data-magnetic>
-                  {st.heroSecondaryLabel} <Arrow className="arrow h-4 w-4" />
-                </Link>
-              </div>
+            )}
+            <p dir="auto" className="lede mt-6 max-w-[34rem] text-navy-950" data-hero="4">{st.description}</p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center" data-hero="5">
+              <a href="#video" className="btn btn-deep" data-magnetic>
+                <Play className="h-4 w-4" /> {st.heroPrimaryLabel}
+              </a>
+              <Link href={st.heroSecondaryLink || "/about"} className="btn btn-line" data-magnetic>
+                {st.heroSecondaryLabel} <Arrow className="arrow h-4 w-4" />
+              </Link>
             </div>
           </div>
         </div>
