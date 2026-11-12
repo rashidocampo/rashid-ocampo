@@ -82,6 +82,10 @@ time, .tabular { font-variant-numeric: tabular-nums; }
 .display-md { font-size: clamp(2.5rem, 1.8rem + 3vw, 4.5rem); line-height: 0.88; }
 .display-sm { font-size: clamp(1.75rem, 1.5rem + 1.1vw, 2.5rem); line-height: 0.94; }
 .lede { font-size: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem); line-height: 1.45; }
+/* On phones the footer headline shares its row with the social icons, so it scales with the screen */
+@media (width < 40rem) {
+  .display-lg.display-fit { font-size: 9.6vw; overflow-wrap: anywhere; }
+}
 .outline-type { color: transparent; -webkit-text-stroke: 1px rgb(255 255 255 / 0.45); }
 
 /* Headlines widen under the pointer: the typeface itself is the hover effect */

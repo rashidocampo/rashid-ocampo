@@ -16,7 +16,7 @@ export default async function Footer() {
       <div className="rule" />
       <div className="wrap relative pt-16 sm:pt-24">
         <div className="flex items-center justify-between gap-4 sm:items-end sm:gap-6">
-          <h2 dir="auto" className="display-lg"><SplitText text={st.footerHeading} /></h2>
+          <h2 dir="auto" className="display-lg display-fit min-w-0"><SplitText text={st.footerHeading} /></h2>
           <div data-reveal>
             <SocialLinks
               links={{
