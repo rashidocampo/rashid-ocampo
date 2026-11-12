@@ -34,9 +34,7 @@ export async function ogImage(opts: { st: Settings; eyebrow: string; title: stri
   const pal = themePalette(st.themeColor) ?? {};
   const c = (name: string, fallback: string) => pal[`--color-${name}`] ?? fallback;
   const navy950 = c("navy-950", "#030d24");
-  const navy800 = c("navy-800", "#0a2152");
   const royal = c("royal", "#1560e8");
-  const sky = c("sky", "#8cc4ff");
   const [photo, display, displayExt, body, bodyExt, bodyBold] = await Promise.all([
     picture(opts.photo),
     font("markazi-text-latin-600-normal.woff"),
@@ -45,11 +43,11 @@ export async function ogImage(opts: { st: Settings; eyebrow: string; title: stri
     font("readex-pro-latin-ext-400-normal.woff"),
     font("readex-pro-latin-600-normal.woff"),
   ]);
-  const titleSize = title.length > 46 ? 76 : title.length > 26 ? 96 : title.length > 16 ? 118 : 150;
+  const titleSize = title.length > 46 ? 64 : title.length > 26 ? 80 : title.length > 16 ? 96 : 112;
 
   const png = new ImageResponse(
     (
-      <div style={{ width: "100%", height: "100%", display: "flex", position: "relative", backgroundImage: `linear-gradient(135deg, ${navy950} 0%, ${navy800} 100%)`, color: "#fff", fontFamily: "Body, BodyExt" }}>
+      <div style={{ width: "100%", height: "100%", display: "flex", position: "relative", backgroundColor: navy950, color: "#fff", fontFamily: "Body, BodyExt" }}>
         {/* eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text */}
         <img src={photo} width={560} height={630} style={{ position: "absolute", left: 0, top: 0, width: 560, height: 630, objectFit: "cover", objectPosition: opts.position ?? "50% 0%" }} />
         <div style={{ position: "absolute", left: 0, top: 0, width: 562, height: 630, display: "flex", backgroundImage: `linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 45%, ${navy950} 100%)` }} />
@@ -60,7 +58,7 @@ export async function ogImage(opts: { st: Settings; eyebrow: string; title: stri
             <div style={{ display: "flex", width: 120, height: 2, marginLeft: 18, backgroundImage: "linear-gradient(90deg, #c9a45c, rgba(0,0,0,0))" }} />
           </div>
           <div style={{ display: "flex", marginTop: 14, fontFamily: "Display, DisplayExt", fontSize: titleSize, lineHeight: 0.92, letterSpacing: -1 }}>{title}</div>
-          {banner ? <div style={{ display: "flex", marginTop: 10, fontFamily: "Display, DisplayExt", fontSize: 50, color: "rgba(255,255,255,0.8)" }}>{banner}</div> : null}
+          {banner ? <div style={{ display: "flex", marginTop: 10, fontFamily: "Display, DisplayExt", fontSize: 50, color: "#cdd3df" }}>{banner}</div> : null}
           {text ? (
             <div style={{ display: "flex", marginTop: 26, fontSize: 28, lineHeight: 1.35, color: "rgba(255,255,255,0.95)" }}>
               {text.length > 150 ? text.slice(0, 147).trimEnd() + "…" : text}
