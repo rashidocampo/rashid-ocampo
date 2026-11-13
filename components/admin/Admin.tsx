@@ -356,7 +356,8 @@ function Tags({ tags, reload }: { tags: Tag[]; reload: () => Promise<void> }) {
 type TextKey = { [K in keyof Settings]: Settings[K] extends string ? K : never }[keyof Settings];
 type Group = "home" | "blog" | "site" | "books";
 const textFields: { group: Group; section?: string; key: Exclude<TextKey, "headlineFont" | "heroFit" | "themeColor" | "heroImage" | "footerImage">; label: string; rows?: number; hint?: string }[] = [
-  { group: "home", section: "Hero", key: "greeting", label: "Greeting above your name" },
+  { group: "home", section: "Hero", key: "heroTitle", label: "Homepage hero heading", hint: "Only changes the large name below your photo; independent from the header title." },
+  { group: "home", key: "greeting", label: "Greeting above your name" },
   { group: "home", key: "tagline", label: "Tagline under your name" },
   { group: "home", key: "description", label: "Description", rows: 3 },
   { group: "home", key: "heroPrimaryLabel", label: "First button text" },
@@ -382,7 +383,8 @@ const textFields: { group: Group; section?: string; key: Exclude<TextKey, "headl
   { group: "books", key: "booksEyebrow", label: "Small line under the headline (optional)" },
   { group: "books", key: "booksIntro", label: "Introduction", rows: 2 },
   { group: "books", key: "booksNavLabel", label: "Name in the menu", hint: "Leave empty to take Books out of the menu." },
-  { group: "site", section: "Name and menu", key: "siteName", label: "Site name", hint: "Shown in the header, the hero, the footer and in search results." },
+  { group: "site", section: "Name and menu", key: "headerTitle", label: "Header title beside the logo", hint: "Only changes the title beside the logo, not the homepage hero heading." },
+  { group: "site", key: "siteName", label: "Website identity / metadata name", hint: "Used in the footer and search metadata; independent from the header and homepage hero headings." },
   { group: "site", key: "homeNavLabel", label: "Menu name for the homepage" },
   { group: "site", section: "Footer", key: "footerHeading", label: "Headline" },
   { group: "site", key: "footerText", label: "Text", rows: 2 },
