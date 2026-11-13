@@ -40,6 +40,9 @@ export type Settings = {
   youtubeUrl3: string;
   videoTitle3: string;
   videoBlurb3: string;
+  youtubeUrl4: string;
+  videoTitle4: string;
+  videoBlurb4: string;
   socialFacebook: string;
   socialInstagram: string;
   socialGithub: string;
@@ -102,6 +105,9 @@ export const defaultSettings: Settings = {
   youtubeUrl3: "",
   videoTitle3: "",
   videoBlurb3: "",
+  youtubeUrl4: "",
+  videoTitle4: "",
+  videoBlurb4: "",
   socialFacebook: "",
   socialInstagram: "",
   socialGithub: "",
