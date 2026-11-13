@@ -44,7 +44,7 @@ export default async function CustomPage({ params }: Props) {
               <div className="lede max-w-lg"><Markdown>{intro}</Markdown></div>
             </div>
             <div className="relative -mx-5 h-72 overflow-hidden sm:h-[27rem] lg:-me-[max(3rem,calc((100vw-68rem)/2))] lg:h-[35rem]">
-              <Image src={st.heroImage} alt={st.siteName} fill priority sizes="(min-width:1024px) 55vw, 100vw" style={heroImageStyle(st)} className="object-cover" />
+              <Image src="https://d2ol7oe51mr4n9.cloudfront.net/user_3JPXSvHhaXMIGO4UpIdGIyqqbPZ/54f0c737-86b5-420b-8afc-f0f703536e9c.jpg" unoptimized alt="Rashid Ocampo in Santorini" fill priority sizes="(min-width:1024px) 55vw, 100vw" style={heroImageStyle(st)} className="object-cover" />
               <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-paper via-transparent to-transparent lg:bg-gradient-to-r lg:from-paper lg:via-paper/10 lg:to-transparent" />
             </div>
           </div>
@@ -67,7 +67,7 @@ export default async function CustomPage({ params }: Props) {
             </div>
             <aside className="relative">
               <div className="relative h-[18rem] overflow-hidden rounded-[2rem] sm:h-[28rem] lg:sticky lg:top-28 lg:h-[34rem]">
-                <Image src={st.heroImage} alt="A moment from my journey" fill sizes="(min-width:1024px) 38vw, 100vw" style={heroImageStyle(st)} className="object-cover" />
+                <Image src="https://d2ol7oe51mr4n9.cloudfront.net/user_3JPXSvHhaXMIGO4UpIdGIyqqbPZ/0eca9318-c305-4120-8e19-ddb3fdcc3ab7.jpg" unoptimized alt="Rashid Ocampo seated in Santorini" fill sizes="(min-width:1024px) 38vw, 100vw" style={heroImageStyle(st)} className="object-cover" />
                 <div aria-hidden className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-paper to-transparent" />
               </div>
               <blockquote className="mt-6 border-s-2 border-royal ps-5 font-display text-xl italic leading-relaxed text-navy-950 sm:text-2xl">A journey shaped by faith, learning, and service.</blockquote>
