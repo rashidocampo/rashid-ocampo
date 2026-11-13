@@ -5,7 +5,8 @@ declare global { interface Window { turnstile?: { render: (selector: HTMLElement
 export default function ContactForm({ subjects }: { subjects: string[] }) {
   const key = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "";
   const [token, setToken] = useState("");
-  const [started] = useState(() => Date.now());
+  const [started, setStarted] = useState(0);
+  useEffect(() => { setStarted(Date.now()); }, []);
   const [status, setStatus] = useState("");
   const [busy, setBusy] = useState(false);
   const [loaded, setLoaded] = useState(false);
@@ -17,7 +18,7 @@ export default function ContactForm({ subjects }: { subjects: string[] }) {
     return () => { try { if (widget) window.turnstile?.reset(widget); } catch {} };
   }, [loaded, key]);
   async function submit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault(); if (!token || busy) return;
+    e.preventDefault(); if (!token || busy || !started) return;
     setBusy(true); setStatus("");
     const form = e.currentTarget;
     const data = Object.fromEntries(new FormData(form).entries());
