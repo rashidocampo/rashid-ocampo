@@ -31,7 +31,8 @@ export default async function CustomPage({ params }: Props) {
     const story = page.content.split(/^## Connect & Follow\s*$/m)[0] || "";
     const chapters = story.split(/(?=^## )/m).filter(Boolean);
     const intro = chapters.shift() || "";
-    const accentPhoto = st.heroImage;
+    const personal = chapters.filter(chapter => /^## Life beyond/i.test(chapter));
+    const timeline = chapters.filter(chapter => !/^## Life beyond/i.test(chapter));
     return (
       <>
         <section className="relative isolate overflow-hidden bg-paper">
@@ -55,7 +56,7 @@ export default async function CustomPage({ params }: Props) {
           </div>
           <div className="relative mt-9 grid gap-10 lg:grid-cols-[minmax(0,0.57fr)_minmax(0,0.43fr)] lg:gap-14">
             <div className="relative border-s-2 border-royal/35 ps-8 sm:ps-12">
-              {chapters.map((chapter,index)=>(
+              {timeline.map((chapter,index)=>(
                 <section key={index} className="relative pb-10 last:pb-0">
                   <span aria-hidden className="absolute -start-[calc(2rem+1.15rem)] top-0 flex h-9 w-9 items-center justify-center rounded-full bg-royal text-white ring-[5px] ring-paper sm:-start-[calc(3rem+1.15rem)]">
                     <span className="text-sm font-semibold">{String(index+1).padStart(2,"0")}</span>
@@ -66,12 +67,13 @@ export default async function CustomPage({ params }: Props) {
             </div>
             <aside className="relative">
               <div className="relative h-[18rem] overflow-hidden rounded-[2rem] sm:h-[28rem] lg:sticky lg:top-28 lg:h-[34rem]">
-                <Image src={accentPhoto} alt="A moment from my journey" fill sizes="(min-width:1024px) 38vw, 100vw" style={heroImageStyle(st)} className="object-cover" />
+                <Image src={st.heroImage} alt="A moment from my journey" fill sizes="(min-width:1024px) 38vw, 100vw" style={heroImageStyle(st)} className="object-cover" />
                 <div aria-hidden className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-paper to-transparent" />
               </div>
               <blockquote className="mt-6 border-s-2 border-royal ps-5 font-display text-xl italic leading-relaxed text-navy-950 sm:text-2xl">A journey shaped by faith, learning, and service.</blockquote>
             </aside>
           </div>
+          {personal.length > 0 && <section className="mt-16 grid gap-6 border-t border-royal/25 pt-10 sm:grid-cols-[1fr_2fr]"><p className="caps text-royal">Personal life</p><div>{personal.map((part,i)=><Markdown key={i}>{part}</Markdown>)}</div></section>}
         </div>
       </>
     );
