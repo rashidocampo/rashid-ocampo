@@ -36,10 +36,10 @@ export default function Header({ name, items }: { name: string; items: NavItem[]
     <>
     <header className={`sticky top-0 z-50 bg-paper/90 backdrop-blur-md transition-shadow duration-300 ${scrolled ? "shadow-[0_10px_30px_-20px_rgb(16_31_56/0.5)]" : ""}`}>
       <div className="wrap flex h-[4.75rem] items-center justify-between gap-4">
-        <Link href="/" className="group flex min-w-0 items-center gap-2.5">
-          <Logo className="h-8 w-[1.7rem] shrink-0 sm:h-9 sm:w-[1.9rem] text-navy-900 transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:-rotate-6 group-hover:scale-105" />
-          <span className="flex min-w-0 items-center leading-none">
-            <span dir="auto" className="font-display block truncate text-[1.5rem] leading-none sm:text-[1.875rem]">{name}</span>
+        <Link href="/" className="group inline-flex min-w-0 flex-nowrap items-center gap-2.5">
+          <Logo className="block h-9 w-[1.65rem] shrink-0 sm:h-10 sm:w-[1.85rem] text-navy-900 transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:-rotate-6 group-hover:scale-105" />
+          <span className="flex min-w-0 h-10 items-center">
+            <span dir="auto" className="font-display block truncate whitespace-nowrap text-[1.5rem] leading-[1] sm:text-[1.875rem]">{name}</span>
           </span>
         </Link>
 
