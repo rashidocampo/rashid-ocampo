@@ -15,6 +15,8 @@ export const DEFAULT_THEME = "#4b7d6d";
 
 export type Settings = {
   siteName: string;
+  headerTitle: string;
+  heroTitle: string;
   homeNavLabel: string;
   blogNavLabel: string;
   heroPrimaryLabel: string;
@@ -74,6 +76,8 @@ export type Settings = {
 
 export const defaultSettings: Settings = {
   siteName: "Rashid Ocampo",
+  headerTitle: "Rashid Ocampo",
+  heroTitle: "Rashid Ocampo",
   homeNavLabel: "Home",
   blogNavLabel: "Blog",
   heroPrimaryLabel: "Watch My Latest Video",
