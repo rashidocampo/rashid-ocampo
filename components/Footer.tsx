@@ -9,8 +9,8 @@ export default async function Footer() {
   return (
     <footer>
       {/* Stay connected, over a misty mountain range in the accent colour */}
-      <section className="relative isolate overflow-hidden bg-gradient-to-b from-paper to-paper-2">
-        <div className="wrap relative flex flex-col gap-6 pb-[max(12rem,16vw)] pt-12 lg:flex-row lg:items-center lg:gap-9">
+      <section className="relative isolate -mt-10 overflow-hidden rounded-t-[50%_2.5rem] bg-gradient-to-b from-paper to-paper-2 sm:-mt-14 sm:rounded-t-[50%_3.5rem]">
+        <div className="wrap relative flex flex-col gap-6 pb-[max(12rem,16vw)] pt-20 sm:pt-24 lg:flex-row lg:items-center lg:gap-9">
           <h2 dir="auto" className="font-display text-[2.5rem] italic leading-none sm:text-[2.75rem] lg:whitespace-nowrap" data-reveal>{st.footerHeading}</h2>
           <p dir="auto" className="max-w-sm leading-snug lg:border-s-2 lg:border-royal/60 lg:ps-7" data-reveal>{st.footerText}</p>
           <div className="flex flex-wrap gap-3 lg:ms-auto lg:flex-nowrap" data-reveal>
