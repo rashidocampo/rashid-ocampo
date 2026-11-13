@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import AboutSocial from "@/components/AboutSocial";
 import { getSettings } from "@/lib/data";
 import { heroImageStyle } from "@/lib/site";
 import { notFound } from "next/navigation";
@@ -28,7 +29,8 @@ export default async function CustomPage({ params }: Props) {
   if (!page) notFound();
   if (slug === "about") {
     const st = await getSettings();
-    const chapters = page.content.split(/(?=^## )/m);
+    const [story, social] = page.content.split(/^## Connect & Follow\s*$/m);
+    const chapters = (story || "").split(/(?=^## )/m);
     const intro = chapters.shift() || "";
     return (
       <>
@@ -61,6 +63,7 @@ export default async function CustomPage({ params }: Props) {
               <div className="min-w-0"><Markdown>{chapter}</Markdown></div>
             </section>
           ))}
+          <AboutSocial settings={st} />
         </div>
       </>
     );
