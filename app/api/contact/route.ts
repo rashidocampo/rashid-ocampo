@@ -1,7 +1,6 @@
 import { createHash } from "node:crypto";
 import { SUPABASE_URL } from "@/lib/site";
 
-export const runtime = "nodejs";
 const json = (message: string, status: number) => Response.json({ message }, { status, headers: { "Cache-Control": "no-store" } });
 export async function POST(request: Request) {
   const secret = process.env.TURNSTILE_SECRET_KEY;
