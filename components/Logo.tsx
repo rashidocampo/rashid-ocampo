@@ -1,9 +1,17 @@
-/** The site mark: an R standing inside a mosque arch (mihrab). The arch takes the accent colour, the R the text colour. */
-export default function Logo({ className = "h-9 w-[1.9rem]" }: { className?: string }) {
+import { useId } from "react";
+
+/** The site mark: a prayer-niche arch with an R cut out of it. Takes its colour from `currentColor`. */
+export default function Logo({ className = "h-9 w-[1.8rem]" }: { className?: string }) {
+  const id = useId();
   return (
-    <svg viewBox="4 -0.5 40 47" fill="none" strokeLinecap="round" strokeLinejoin="round" aria-hidden className={className}>
-      <path d="M7 45V21C7 11 15 6 24 1c9 5 17 10 17 20v24" strokeWidth="2.6" style={{ stroke: "color-mix(in oklab, var(--color-royal) 82%, currentColor)" }} />
-      <path d="M17 39V17h7.5a6 6 0 0 1 0 12H17M24 29l7 10" stroke="currentColor" strokeWidth="3.4" />
+    <svg viewBox="4 1 56 77" aria-hidden className={className}>
+      <defs>
+        <mask id={id} maskUnits="userSpaceOnUse" x="0" y="0" width="64" height="80">
+          <rect width="64" height="80" fill="#fff" />
+          <path d="M22 66V34c0-5 4-8 10-12 6 4 10 7 10 13 0 5-4 8-9 8h-11M31 43l11 23" fill="none" stroke="#000" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" />
+        </mask>
+      </defs>
+      <path d="M6 76V36C6 20 20 12 32 3c12 9 26 17 26 33v40Z" fill="currentColor" mask={`url(#${id})`} />
     </svg>
   );
 }
