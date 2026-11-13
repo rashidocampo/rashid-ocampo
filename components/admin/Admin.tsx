@@ -41,20 +41,20 @@ async function upload(file: File) {
   return supabase.storage.from("media").getPublicUrl(path).data.publicUrl;
 }
 
-function ImageField({ value, onChange }: { value: string | null; onChange: (v: string | null) => void }) {
+function ImageField({ value, onChange, audio = false }: { value: string | null; onChange: (v: string | null) => void; audio?: boolean }) {
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
   return (
     <div className="flex flex-wrap items-center gap-4">
-      {value && (
+      {value && (audio ? <audio controls src={value} className="w-full max-w-sm" /> : (
         // eslint-disable-next-line @next/next/no-img-element
         <img src={value} alt="" className="h-20 w-36 rounded-lg object-cover ring-1 ring-black/10" />
-      )}
+      ))}
       <label className={`${ghost} cursor-pointer`}>
         {busy ? "Uploading…" : value ? "Replace image" : "Upload image"}
         <input
           type="file"
-          accept="image/*"
+          accept={audio ? "audio/mpeg,.mp3" : "image/*"}
           className="sr-only"
           disabled={busy}
           onChange={async (e) => {
@@ -454,7 +454,7 @@ function SiteContent({ group }: { group: Group }) {
       <>
       <div>
         <label className={label}>Audio below header (MP3)</label>
-        <ImageField value={s.headerAudioUrl || null} onChange={(v) => setS({ ...s, headerAudioUrl: v ?? "" })} />
+        <ImageField audio value={s.headerAudioUrl || null} onChange={(v) => setS({ ...s, headerAudioUrl: v ?? "" })} />
         <p className="mt-1 text-sm text-navy-700">Upload your MP3 and save. The player appears below the header, with autoplay where permitted, looping, and playback controls.</p>
       </div>
       <div>
