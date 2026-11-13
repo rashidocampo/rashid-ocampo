@@ -50,6 +50,7 @@ export type Settings = {
   tagline: string;
   description: string;
   heroImage: string;
+  headerAudioUrl: string;
   videoTitle: string;
   videoBlurb: string;
   youtubeUrl: string;
@@ -112,6 +113,7 @@ export const defaultSettings: Settings = {
   description:
     "Sharing the beauty of Islam, reflections on faith, and reminders to return to Allah with knowledge, sincerity, and hope.",
   heroImage: "/images/hero.jpg",
+  headerAudioUrl: "",
   videoTitle: "My Journey to Islam",
   videoBlurb: "A short story of how Allah guided me back to Islam, and what I learned along the way.",
   youtubeUrl: "",
