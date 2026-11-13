@@ -46,7 +46,7 @@ export default async function Home() {
             <p dir="auto" className="caps flex items-center gap-4 text-navy-950" data-hero="1">
               {st.greeting} <span className="h-px w-16 bg-royal sm:w-24" />
             </p>
-            <h1 dir="auto" className="hero-name mt-4" data-hero="2" data-hero-kind="words"><SplitText text={st.siteName} /></h1>
+            <h1 dir="auto" className="hero-name mt-4" data-hero="2" data-hero-kind="words"><SplitText text={st.heroTitle} /></h1>
             {st.tagline && (
               <div className="mt-2" data-hero="3">
                 {st.taglineHighlight ? (
