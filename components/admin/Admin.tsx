@@ -453,6 +453,11 @@ function SiteContent({ group }: { group: Group }) {
       {group === "site" && (
       <>
       <div>
+        <label className={label}>Audio below header (MP3)</label>
+        <ImageField value={s.headerAudioUrl || null} onChange={(v) => setS({ ...s, headerAudioUrl: v ?? "" })} />
+        <p className="mt-1 text-sm text-navy-700">Upload your MP3 and save. The player appears below the header, with autoplay where permitted, looping, and playback controls.</p>
+      </div>
+      <div>
         <label className={label} htmlFor="themeColor">Theme colour</label>
         <div className="flex flex-wrap items-center gap-4">
           <input id="themeColor" type="color" value={s.themeColor} className="h-12 w-20 cursor-pointer rounded-lg border border-navy-800/25 bg-white p-1" onChange={(e) => setS({ ...s, themeColor: e.target.value })} />
