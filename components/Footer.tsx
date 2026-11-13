@@ -32,7 +32,7 @@ export default async function Footer() {
           src={st.footerImage?.trim() || "/footer-mountains-reference.svg"}
           alt=""
           loading="lazy"
-          className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[max(6rem,9vw)] w-full object-cover object-bottom"
+          className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[clamp(18rem,42vw,36rem)] w-full object-cover object-center [mask-image:linear-gradient(to_bottom,transparent_0%,transparent_18%,black_85%)]"
         />
       </section>
 
