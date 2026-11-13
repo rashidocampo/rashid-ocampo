@@ -37,7 +37,7 @@ export default function Header({ name, items }: { name: string; items: NavItem[]
     <header className={`sticky top-0 z-50 bg-paper/90 backdrop-blur-md transition-shadow duration-300 ${scrolled ? "shadow-[0_10px_30px_-20px_rgb(16_31_56/0.5)]" : ""}`}>
       <div className="wrap flex h-[4.75rem] items-center justify-between gap-4">
         <Link href="/" className="group flex min-w-0 items-center gap-2.5">
-          <Logo className="h-7 w-[1.15rem] shrink-0 sm:h-[2.1rem] sm:w-[1.4rem] text-navy-900 transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:-rotate-6 group-hover:scale-105" />
+          <Logo className="h-8 w-[1.7rem] shrink-0 sm:h-9 sm:w-[1.9rem] text-navy-900 transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:-rotate-6 group-hover:scale-105" />
           <span className="min-w-0 leading-none">
             <span dir="auto" className="font-display block truncate text-[1.5rem] sm:text-[1.875rem]">{name}</span>
           </span>

@@ -39,7 +39,7 @@ export default async function Footer() {
       <div className="ink">
         <div className="wrap flex flex-col gap-5 py-6 sm:flex-row sm:items-center sm:gap-8">
           <Link href="/" className="flex items-center gap-3">
-            <Logo className="h-7 w-[1.15rem] text-white" />
+            <Logo className="h-8 w-[1.7rem] text-white" />
             <span dir="auto" className="font-display text-[1.375rem] leading-none">{st.siteName}</span>
           </Link>
           <div className="sm:ms-auto">
