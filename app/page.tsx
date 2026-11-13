@@ -19,6 +19,7 @@ export default async function Home() {
     { id: youtubeId(st.youtubeUrl), title: st.videoTitle, blurb: st.videoBlurb },
     { id: youtubeId(st.youtubeUrl2), title: st.videoTitle2, blurb: st.videoBlurb2 },
     { id: youtubeId(st.youtubeUrl3), title: st.videoTitle3, blurb: st.videoBlurb3 },
+    { id: youtubeId(st.youtubeUrl4), title: st.videoTitle4, blurb: st.videoBlurb4 },
   ].filter((v) => v.id);
   const posts = allPosts.filter((p) => p.show_on_home !== false).slice(0, 12);
 
