@@ -26,9 +26,14 @@ export default async function Footer() {
             )}
           </div>
         </div>
-        {/* Exact approved mountain artwork, kept separate from editable footer content */}
+        {/* Admin-uploaded footer image takes priority; original mountains are the fallback. */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/footer-mountains-reference.svg" alt="" loading="lazy" className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[max(6rem,9vw)] w-full object-cover object-bottom" />
+        <img
+          src={st.footerImage?.trim() || "/footer-mountains-reference.svg"}
+          alt=""
+          loading="lazy"
+          className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[max(6rem,9vw)] w-full object-cover object-bottom"
+        />
       </section>
 
       {/* Bottom bar */}
