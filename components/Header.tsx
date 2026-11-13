@@ -38,8 +38,8 @@ export default function Header({ name, items }: { name: string; items: NavItem[]
       <div className="wrap flex h-[4.75rem] items-center justify-between gap-4">
         <Link href="/" className="group flex min-w-0 items-center gap-2.5">
           <Logo className="h-8 w-[1.7rem] shrink-0 sm:h-9 sm:w-[1.9rem] text-navy-900 transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:-rotate-6 group-hover:scale-105" />
-          <span className="min-w-0 leading-none">
-            <span dir="auto" className="font-display block truncate text-[1.5rem] sm:text-[1.875rem]">{name}</span>
+          <span className="flex min-w-0 items-center leading-none">
+            <span dir="auto" className="font-display block truncate text-[1.5rem] leading-none sm:text-[1.875rem]">{name}</span>
           </span>
         </Link>
 
