@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
-import { Arrow } from "@/components/Icons";
 import { getSettings } from "@/lib/data";
 import { heroImageStyle } from "@/lib/site";
 import { notFound } from "next/navigation";
@@ -30,34 +28,40 @@ export default async function CustomPage({ params }: Props) {
   if (!page) notFound();
   if (slug === "about") {
     const st = await getSettings();
-    const parts = page.content.split(/\n\s*\n/);
-    const introduction = parts[0] || "";
-    const biography = parts.slice(1).join("\n\n");
+    const chapters = page.content.split(/(?=^## )/m);
+    const intro = chapters.shift() || "";
     return (
       <>
-        <PageShell eyebrow={page.eyebrow} title={page.title}>
-          <div className="grid items-start gap-8 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-14">
-            <div className="relative isolate overflow-hidden rounded-[1.5rem] bg-paper-2 lg:sticky lg:top-24">
-              <div className="relative aspect-[5/4] sm:aspect-[4/3] lg:aspect-[3/4]">
-                <Image src={st.heroImage} alt={st.siteName} fill sizes="(min-width:1024px) 40vw, 100vw" style={heroImageStyle(st)} className="object-cover" />
-                <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-paper-2 to-transparent" />
-              </div>
-              <div className="relative px-6 pb-8 pt-2 sm:px-8">
-                <p className="caps text-royal">{page.eyebrow || "About"}</p>
-                <h2 dir="auto" className="font-display mt-3 text-[2rem] leading-tight text-navy-950">{st.siteName}</h2>
-                <div className="rule mt-5" />
-              </div>
-            </div>
-            <div className="min-w-0">
-              {introduction && <div className="border-s-2 border-royal/60 ps-5 sm:ps-7"><Markdown>{introduction}</Markdown></div>}
-              {biography && <div className="mt-9 border-t border-navy-800/15 pt-8"><Markdown>{biography}</Markdown></div>}
-            </div>
+        <section className="relative isolate overflow-hidden bg-paper-2">
+          <div className="relative h-[22rem] sm:h-[31rem] lg:h-[38rem]">
+            <Image src={st.heroImage} alt={st.siteName} fill priority sizes="100vw" style={heroImageStyle(st)} className="object-cover" />
+            <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-paper via-paper/20 to-transparent" />
+            <div aria-hidden className="absolute inset-0 bg-gradient-to-r from-navy-950/35 via-transparent to-transparent" />
           </div>
-          <div className="mt-14 flex flex-col gap-5 border-t border-navy-800/20 pt-9 sm:flex-row sm:items-center sm:justify-between">
-            <div><p className="caps text-royal">Get in touch</p><h2 className="font-display mt-2 text-3xl italic text-navy-950">Continue the conversation</h2></div>
-            <Link href="/contact" className="btn btn-accent self-start" data-magnetic>Get in Touch <Arrow className="arrow h-4 w-4" /></Link>
+          <div className="wrap relative -mt-24 pb-10 sm:-mt-36 sm:pb-16">
+            <p className="caps text-royal" data-reveal>{page.eyebrow || "About"}</p>
+            <h1 dir="auto" className="display-lg mt-3 max-w-[17ch] text-navy-950" data-reveal>{page.title}</h1>
+            <div className="rule mt-6" />
           </div>
-        </PageShell>
+        </section>
+        <div className="wrap pb-20 sm:pb-24">
+          <div className="grid gap-8 border-b border-navy-800/20 py-12 sm:py-16 lg:grid-cols-[minmax(0,0.34fr)_minmax(0,0.66fr)] lg:gap-16">
+            <div>
+              <p className="caps text-royal">The journey</p>
+              <h2 className="font-display mt-3 text-3xl italic text-navy-950 sm:text-4xl">A life shaped by faith and learning</h2>
+            </div>
+            <div className="min-w-0 border-s-2 border-royal/50 ps-5 sm:ps-8"><Markdown>{intro}</Markdown></div>
+          </div>
+          {chapters.map((chapter, index) => (
+            <section key={index} className="grid gap-6 border-b border-navy-800/15 py-10 sm:py-14 lg:grid-cols-[minmax(0,0.34fr)_minmax(0,0.66fr)] lg:gap-16">
+              <div className="flex items-start gap-4">
+                <span className="font-display text-3xl italic text-royal/70">{String(index + 1).padStart(2, "0")}</span>
+                <span aria-hidden className="mt-5 h-px flex-1 bg-royal/40" />
+              </div>
+              <div className="min-w-0"><Markdown>{chapter}</Markdown></div>
+            </section>
+          ))}
+        </div>
       </>
     );
   }
