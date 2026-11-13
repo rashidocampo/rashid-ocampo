@@ -29,7 +29,7 @@ export default function FeaturedVideos({ label, videos }: { label: string; video
 
         {videos.length > 1 && (
           <ul className="mt-6 grid grid-cols-3 gap-3" aria-label="More videos">
-            {videos.map((v, i) => (
+            {videos.map((v, i) => i === index ? null : (
               <li key={v.id + i}>
                 <button onClick={() => { setIndex(i); setAutoplay(false); }} aria-pressed={i === index} aria-label={`Show video: ${v.title}`} className="group/v block w-full cursor-pointer text-start">
                   <span className={`relative block aspect-video overflow-hidden rounded-lg bg-navy-800 ring-2 ring-offset-2 ring-offset-paper-2 transition duration-300 ${i === index ? "ring-royal" : "ring-transparent group-hover/v:ring-royal/50"}`}>
