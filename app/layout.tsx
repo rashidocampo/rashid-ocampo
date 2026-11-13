@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import Header from "@/components/Header";
+import HeaderAudio from "@/components/HeaderAudio";
 import Motion from "@/components/Motion";
 import Footer from "@/components/Footer";
 import { getPages, getSettings } from "@/lib/data";
@@ -35,6 +36,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js');setTimeout(function(){var c=document.documentElement.classList;if(!c.contains('motion-ready'))c.add('motion-off')},4000)" }} />
         <Motion />
         <Header name={st.headerTitle} items={buildNav(st, pages)} />
+        <HeaderAudio src={st.headerAudioUrl} />
         <main className="flex-1">{children}</main>
         <Footer />
       </body>
