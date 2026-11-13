@@ -14,6 +14,13 @@ export const site = { name: "Rashid Ocampo" };
 export const DEFAULT_THEME = "#4b7d6d";
 
 export type Settings = {
+  contactHeading: string;
+  contactIntro: string;
+  contactSubjects: string;
+  contactPublicEmail: string;
+  contactTelegram: string;
+  contactWhatsapp: string;
+  contactResponseTime: string;
   siteName: string;
   headerTitle: string;
   heroTitle: string;
@@ -79,6 +86,13 @@ export type Settings = {
 };
 
 export const defaultSettings: Settings = {
+  contactHeading: "Get in Touch",
+  contactIntro: "Have a question, suggestion, speaking invitation, or a web development project? Send a secure inquiry through the form. I welcome meaningful conversations and collaborations.",
+  contactSubjects: "General Inquiry\nIslamic Question\nLecture Invitation\nWeb Development & Project Collaboration\nWebsite Development Request\nProject Quotation\nOther",
+  contactPublicEmail: "",
+  contactTelegram: "",
+  contactWhatsapp: "",
+  contactResponseTime: "",
   siteName: "Rashid Ocampo",
   headerTitle: "Rashid Ocampo",
   heroTitle: "Rashid Ocampo",
