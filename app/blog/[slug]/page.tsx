@@ -74,7 +74,7 @@ export default async function PostPage({ params }: Props) {
       <article>
         <div className="card-media relative aspect-[16/9] max-w-[60rem] rounded-[14px] bg-navy-800 sm:aspect-[2/1]" data-reveal>
           {post.cover_url ? (
-            <Image src={post.cover_url} alt={post.title} fill priority sizes="(min-width: 1024px) 960px, 100vw" className="object-cover" />
+            <Image src={post.cover_url} alt={post.title} fill priority sizes="(min-width: 1024px) 960px, 100vw" className="object-cover" style={{ objectPosition: `${post.cover_x ?? 50}% ${post.cover_y ?? 50}%` }} />
           ) : (
             <PatternCover seed={post.slug} />
           )}
