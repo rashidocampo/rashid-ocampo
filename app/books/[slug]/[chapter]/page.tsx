@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Arrow } from "@/components/Icons";
+import ListenBar from "@/components/ListenBar";
 import Markdown from "@/components/Markdown";
 import { getBooks, getChapter } from "@/lib/data";
 
@@ -56,14 +57,15 @@ export default async function ChapterPage({ params }: Props) {
           </nav>
         </aside>
 
-        <article className="max-w-[68ch]">
+        <article className="min-w-0 max-w-[68ch]">
           <Link href={`/books/${book.slug}`} className="link inline-flex min-h-11 items-center gap-2 text-[0.9375rem] lg:hidden">
             <Arrow className="h-4 w-4 rotate-180" /> <span dir="auto">{book.title}</span>
           </Link>
           <p className="caps mt-2 text-royal">Chapter {index + 1} of {book.chapters.length}</p>
           <h1 dir="auto" className="display-lg mt-3">{chapter.title}</h1>
           <div className="rule mt-6" />
-          <div className="chapter-text mt-10">
+          {chapter.content?.trim() && <div className="mt-8"><ListenBar target="chapter-body" title={`${chapter.title}.`} /></div>}
+          <div id="chapter-body" className="chapter-text mt-10">
             {chapter.content?.trim() ? <Markdown>{chapter.content}</Markdown> : <p className="muted">This chapter is being written and will be added soon, in shā’ Allāh.</p>}
           </div>
 

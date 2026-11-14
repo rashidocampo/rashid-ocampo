@@ -253,3 +253,8 @@ html.js:not(.motion-ready):not(.motion-off) .swi { transform: translateY(115%); 
 .chapter-text { font-size: 1.1875rem; line-height: 1.75; }
 @media (prefers-reduced-motion: reduce) { .library .book .book-cover { transition: none; } }
 .footer-photo { mask-image: linear-gradient(to bottom, transparent 0%, rgb(0 0 0 / 0.35) 30%, #000 62%); }
+
+/* Listen to this article */
+.listen-bar { max-width: 34rem; border-radius: 1rem; background: #fff; padding: 0.625rem 0.75rem; box-shadow: 0 1px 0 rgb(16 31 56 / 0.06), 0 10px 24px -18px rgb(16 31 56 / 0.5); outline: 1px solid rgb(16 31 56 / 0.08); }
+.listen-bar.is-active { position: sticky; bottom: max(0.75rem, env(safe-area-inset-bottom)); z-index: 30; }
+.is-reading { background: color-mix(in oklab, var(--color-royal) 14%, transparent); box-shadow: 0 0 0 0.35rem color-mix(in oklab, var(--color-royal) 14%, transparent); border-radius: 0.25rem; transition: background-color 200ms ease; }

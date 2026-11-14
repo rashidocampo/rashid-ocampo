@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Comments from "@/components/Comments";
 import { Arrow } from "@/components/Icons";
+import ListenBar from "@/components/ListenBar";
 import Markdown from "@/components/Markdown";
 import PageShell from "@/components/PageShell";
 import PatternCover from "@/components/PatternCover";
@@ -78,14 +79,15 @@ export default async function PostPage({ params }: Props) {
             <PatternCover seed={post.slug} />
           )}
         </div>
-        <div className="mx-auto mt-10 max-w-[68ch] sm:mt-14 lg:mx-0 lg:ms-[8.33%]">
+        <div id="post-body" className="mx-auto mt-10 max-w-[68ch] sm:mt-14 lg:mx-0 lg:ms-[8.33%]">
+          {post.content && <div className="mb-8"><ListenBar target="post-body" title={post.title} /></div>}
           {post.excerpt && <p dir="auto" className="lede mb-8 text-navy-800">{post.excerpt}</p>}
           {post.content ? (
             <Markdown>{post.content}</Markdown>
           ) : (
             <p className="muted">This article is being written and will be published here soon, in shā’ Allāh.</p>
           )}
-          {post.tags.length > 0 && <div className="mt-12"><TagChips tags={post.tags} /></div>}
+          {post.tags.length > 0 && <div className="mt-12" data-listen-skip><TagChips tags={post.tags} /></div>}
         </div>
       </article>
 
