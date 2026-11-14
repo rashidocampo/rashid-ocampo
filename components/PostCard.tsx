@@ -10,7 +10,7 @@ export default function PostCard({ post, sizes = "(min-width: 1024px) 260px, (mi
     <Link href={`/blog/${post.slug}`} className="card group block h-full overflow-hidden rounded-[14px] bg-white shadow-[0_14px_30px_-24px_rgb(16_31_56/0.5)] ring-1 ring-navy-900/[0.06]">
       <div className="card-media relative aspect-[5/3] bg-navy-800">
         <div className="absolute inset-0">
-          {post.cover_url ? <Image src={post.cover_url} alt="" fill sizes={sizes} className="object-cover" /> : <PatternCover seed={post.slug} />}
+          {post.cover_url ? <Image src={post.cover_url} alt="" fill sizes={sizes} className="object-cover" style={{ objectPosition: `${post.cover_x ?? 50}% ${post.cover_y ?? 50}%` }} /> : <PatternCover seed={post.slug} />}
         </div>
       </div>
       <div className="px-5 pb-5 pt-4">
