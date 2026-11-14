@@ -46,7 +46,7 @@ export default function Header({ name, items }: { name: string; items: NavItem[]
             unoptimized
           />
           <span className="flex min-w-0 h-10 items-center">
-            <span dir="auto" className="font-display block truncate whitespace-nowrap text-[1.5rem] leading-[1] sm:text-[1.875rem]">{name}</span>
+            <span dir="auto" className="font-display relative top-[0.14em] block truncate whitespace-nowrap text-[1.5rem] leading-[1] sm:text-[1.875rem]">{name}</span>
           </span>
         </Link>
 
