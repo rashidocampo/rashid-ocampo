@@ -5,7 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { type ReactNode, useEffect, useRef } from "react";
 
-const layerOffsets = [26, 18, 10, 4];
+const layerOffsets = [12, 8, 1, -7];
 
 export function ParallaxComponent({ children }: { children: ReactNode }) {
   const heroRef = useRef<HTMLElement>(null);
