@@ -15,6 +15,8 @@ type PostRow = {
   excerpt: string;
   content: string;
   cover_url: string | null;
+  cover_x: number;
+  cover_y: number;
   published: boolean;
   show_on_home: boolean;
   published_at: string;
@@ -190,6 +192,22 @@ function PostEditor({ post, tags, onDone }: { post: PostRow; tags: Tag[]; onDone
       <div>
         <label className={label}>Cover image</label>
         <ImageField value={p.cover_url} onChange={(v) => set("cover_url", v)} />
+        <div className="mt-4 rounded-xl border border-navy-800/15 bg-white p-4">
+          <p className="mb-2 text-sm font-semibold">Adjust cover photo position</p>
+          <p className="mb-3 text-sm text-navy-700">Move the photo within its frame. This changes the crop, not the image file.</p>
+          {p.cover_url && <div className="relative mb-4 aspect-[16/9] w-full max-w-md overflow-hidden rounded-lg bg-navy-800">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={p.cover_url} alt="Cover positioning preview" className="absolute inset-0 h-full w-full object-cover" style={{ objectPosition: `${p.cover_x}% ${p.cover_y}%` }} />
+          </div>}
+          <div className="flex flex-wrap items-center gap-2">
+            <button type="button" className={ghost} onClick={() => setP(o => ({...o, cover_y: Math.max(0,o.cover_y-10)}))}>↑ Up</button>
+            <button type="button" className={ghost} onClick={() => setP(o => ({...o, cover_y: Math.min(100,o.cover_y+10)}))}>↓ Down</button>
+            <button type="button" className={ghost} onClick={() => setP(o => ({...o, cover_x: Math.max(0,o.cover_x-10)}))}>← Left</button>
+            <button type="button" className={ghost} onClick={() => setP(o => ({...o, cover_x: Math.min(100,o.cover_x+10)}))}>→ Right</button>
+            <button type="button" className="text-sm text-royal underline" onClick={() => setP(o => ({...o, cover_x:50, cover_y:50}))}>Reset</button>
+          </div>
+          <p className="mt-2 text-xs text-navy-700">Horizontal: {p.cover_x}% · Vertical: {p.cover_y}%</p>
+        </div>
       </div>
       <div>
         <label className={label}>Tags</label>
@@ -247,7 +265,7 @@ function Posts({ tags }: { tags: Tag[] }) {
     setRows(
       (data ?? []).map((d) => ({
         id: d.id, slug: d.slug, title: d.title, excerpt: d.excerpt, content: d.content,
-        cover_url: d.cover_url, published: d.published, show_on_home: d.show_on_home, published_at: d.published_at,
+        cover_url: d.cover_url, cover_x: d.cover_x ?? 50, cover_y: d.cover_y ?? 50, published: d.published, show_on_home: d.show_on_home, published_at: d.published_at,
         tagIds: (d.post_tags as { tag_id: string }[]).map((x) => x.tag_id),
       })),
     );
@@ -258,7 +276,7 @@ function Posts({ tags }: { tags: Tag[] }) {
 
   return (
     <div className="space-y-4">
-      <button className={primary} onClick={() => setEditing({ slug: "", title: "", excerpt: "", content: "", cover_url: null, published: false, show_on_home: true, published_at: today(), tagIds: [] })}>
+      <button className={primary} onClick={() => setEditing({ slug: "", title: "", excerpt: "", content: "", cover_url: null, cover_x: 50, cover_y: 50, published: false, show_on_home: true, published_at: today(), tagIds: [] })}>
         + New post
       </button>
       {err && <p role="alert" className="text-red-700">{err}</p>}
