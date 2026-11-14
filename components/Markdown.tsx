@@ -1,23 +1,16 @@
 import ReactMarkdown, { type Components } from "react-markdown";
 
-// Separate Arabic citations from surrounding prose, even when the source
-// contains them on the same line. Leave short honorifics and names inline.
-// The database content is not modified.
+// Preserve each quotation as a single unit. Never split Arabic words or
+// detach the surrounding quotation marks into separate paragraphs.
 function formatReadingText(markdown: string): string {
-  const arabic = /[\u0600-\u06FF]/g;
-  const quoted = /﴿[^﴾\n]+﴾|«[^»\n]+»|“[^”\n]*[\u0600-\u06FF][^”\n]*”/g;
-  return markdown.split("\n").map((line) => {
-    if (!/[A-Za-zÀ-ž]/.test(line) || /^\s*(?:#{1,6}\s|[-*+]\s|\d+\.\s|>\s)/.test(line)) return line;
-    let result = line.replace(quoted, (match) =>
-      (match.match(arabic)?.length ?? 0) >= 8 ? "\n\n" + match + "\n\n" : match
-    );
-    // Also handle unquoted Arabic hadith excerpts embedded in Filipino text.
-    result = result.replace(
-      /[\u0600-\u06FF][\u0600-\u06FF\u064B-\u065F\s،؛؟ـًٌٍَُِّْٰ\u06D6-\u06ED]{18,}[\u0600-\u06FF]/g,
-      (match) => (match.match(arabic)?.length ?? 0) >= 16 ? "\n\n" + match.trim() + "\n\n" : match
-    );
-    return result.replace(/\n{3,}/g, "\n\n");
-  }).join("\n");
+  return markdown.replace(
+    /(﴿[^﴾\n]+﴾|«[^»\n]+»)([،,]?)((?:[ \t]*\[[^\]\n]{1,100}\])?)/g,
+    (full, quotation: string, punctuation: string, reference: string) => {
+      // Only move long Arabic quotations; short honorifics stay inline.
+      if ((quotation.match(/[\u0621-\u064A]/g) ?? []).length < 12) return full;
+      return "\n\n" + quotation + punctuation + reference + "\n\n";
+    }
+  ).replace(/\n{3,}/g, "\n\n");
 }
 
 const auto = (Tag: "p" | "h1" | "h2" | "h3" | "li" | "blockquote") => {
