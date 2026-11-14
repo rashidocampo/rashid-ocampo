@@ -20,6 +20,7 @@ export async function generateMetadata(): Promise<Metadata> {
     authors: [{ name: st.siteName, url: SITE_URL }],
     creator: st.siteName,
     openGraph: { type: "website", siteName: st.siteName, locale: "en_US", title, description: st.description, url: "/" },
+    facebook: { appId: '1974758140352853' },
     twitter: { card: "summary_large_image", title, description: st.description },
     robots: { index: true, follow: true, googleBot: { "max-image-preview": "large", "max-snippet": -1 } },
   };
