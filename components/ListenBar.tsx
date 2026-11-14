@@ -137,7 +137,7 @@ export default function ListenBar({ target, title }: { target: string; title?: s
     if (!chunks.current.length || state === "idle") {
       const root = document.getElementById(target);
       if (!root) return;
-      chunks.current = (title ? [{ el: null, text: title }] : []).concat(collect(root));
+      chunks.current = (title ? [{ el: null, text: title } as Chunk] : ([] as Chunk[])).concat(collect(root));
       setTotal(chunks.current.length);
       speakFrom(0);
     } else speakFrom(index.current); // resume from the start of the current sentence
