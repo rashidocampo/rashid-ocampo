@@ -1,16 +1,20 @@
 import ReactMarkdown, { type Components } from "react-markdown";
 
-// Preserve each quotation as a single unit. Never split Arabic words or
-// detach the surrounding quotation marks into separate paragraphs.
+// Keep markdown structure intact: never insert paragraph breaks inside
+// list items, headings, blockquotes, or bold/italic reference entries.
 function formatReadingText(markdown: string): string {
-  return markdown.replace(
-    /(﴿[^﴾\n]+﴾|«[^»\n]+»)([،,]?)((?:[ \t]*\[[^\]\n]{1,100}\])?)/g,
-    (full, quotation: string, punctuation: string, reference: string) => {
-      // Only move long Arabic quotations; short honorifics stay inline.
-      if ((quotation.match(/[\u0621-\u064A]/g) ?? []).length < 12) return full;
-      return "\n\n" + quotation + punctuation + reference + "\n\n";
+  return markdown.split("\n").map((line) => {
+    if (/^\s*(?:[-*+]\s|\d+\.\s|#{1,6}\s|>\s)/.test(line) || line.includes("**")) {
+      return line;
     }
-  ).replace(/\n{3,}/g, "\n\n");
+    return line.replace(
+      /(﴿[^﴾\n]+﴾|«[^»\n]+»)([،,]?)((?:[ \t]*\[[^\]\n]{1,100}\])?)/g,
+      (full, quotation: string, punctuation: string, reference: string) => {
+        if ((quotation.match(/[\u0621-\u064A]/g) ?? []).length < 12) return full;
+        return "\n\n" + quotation + punctuation + reference + "\n\n";
+      }
+    );
+  }).join("\n").replace(/\n{3,}/g, "\n\n");
 }
 
 const auto = (Tag: "p" | "h1" | "h2" | "h3" | "li" | "blockquote") => {
