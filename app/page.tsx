@@ -6,7 +6,7 @@ import FeaturedVideos from "@/components/FeaturedVideos";
 import { Arrow, Play, TagIcon } from "@/components/Icons";
 import JsonLd from "@/components/JsonLd";
 import PostCard from "@/components/PostCard";
-import Skyline from "@/components/Skyline";
+import { ParallaxComponent } from "@/components/ui/parallax-scrolling";
 import SplitText from "@/components/SplitText";
 import { getPosts, getSettings, getTags } from "@/lib/data";
 import { defaultSettings, heroImageStyle, SITE_URL, youtubeId } from "@/lib/site";
@@ -44,9 +44,8 @@ export default async function Home() {
         ]}
       />
       {/* Hero: the photo fills the left and fades into the paper; the words sit on the right */}
-      <section className="hero relative isolate overflow-hidden bg-paper" data-parallax-root>
+      <ParallaxComponent>
         <div className="pattern pointer-events-none absolute -right-[10%] -top-[35%] -z-10 aspect-square w-[40rem] bg-royal opacity-[0.07]" data-parallax="0.25" aria-hidden />
-        <Skyline className="pointer-events-none absolute bottom-0 right-0 -z-10 hidden w-[46%] max-w-[44rem] opacity-80 lg:block" />
 
         <div className="hero-photo relative h-[22rem] overflow-hidden sm:h-[28rem] lg:absolute lg:inset-y-0 lg:left-0 lg:h-auto lg:w-[56%]" data-hero="0">
           <div className="absolute -inset-y-[6%] inset-x-0" data-parallax="0.15" data-hero-img>
@@ -82,7 +81,7 @@ export default async function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </ParallaxComponent>
 
       {/* Featured video */}
       <section className="pt-7">
