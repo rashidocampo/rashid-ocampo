@@ -21,7 +21,7 @@ const demoTags: Tag[] = ["Faith & Reminders", "My Journey (Balik-Islam)", "Islam
 const demoPosts: Post[] = ["Ang Pagbisita ng DIP sa Ballesteros, Cagayan", "Huwag Hanapin ang Unos", "Kapag Nawala ang Dawah", "Dawah Is Solving Problem", "Sino ang Hallaf"].map((title, i) => ({
   id: `p${i}`, slug: `sample-${i}`, title, excerpt: "A short sample summary for this post.", content: "", published: true, show_on_home: true,
   cover_url: i % 2 ? null : ["/images/post-returned.jpg", "/images/post-faith.jpg", "/images/post-peace.jpg"][i % 3],
-  published_at: "2026-11-11", tags: [demoTags[i % 4]],
+  cover_x: 50, cover_y: 50, published_at: "2026-11-11", tags: [demoTags[i % 4]],
 }));
 
 type PostRow = Omit<Post, "tags"> & { post_tags: { tags: Tag | null }[] };
