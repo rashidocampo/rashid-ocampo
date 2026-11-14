@@ -4,7 +4,6 @@ import Lenis from "@studio-freight/lenis";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { type ReactNode, useEffect, useRef } from "react";
-import styles from "./parallax-scrolling.module.css";
 
 const layerOffsets = [26, 18, 10, 4];
 
@@ -54,11 +53,11 @@ export function ParallaxComponent({ children }: { children: ReactNode }) {
 
   return (
     <section ref={heroRef} className="hero relative isolate overflow-hidden bg-paper" data-parallax-root>
-      <div ref={layersRef} className={styles.landscape} data-parallax-layers aria-hidden="true">
-        <div className={styles.haze} data-parallax-layer="1" />
-        <div className={styles.distant} data-parallax-layer="2" />
-        <div className={styles.middle} data-parallax-layer="3" />
-        <div className={styles.foreground} data-parallax-layer="4" />
+      <div ref={layersRef} className="hero-parallax-landscape" data-parallax-layers aria-hidden="true">
+        <div className="hero-parallax-haze" data-parallax-layer="1" />
+        <div className="hero-parallax-distant" data-parallax-layer="2" />
+        <div className="hero-parallax-middle" data-parallax-layer="3" />
+        <div className="hero-parallax-foreground" data-parallax-layer="4" />
       </div>
       {children}
     </section>

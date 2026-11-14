@@ -86,6 +86,57 @@ time, .tabular { font-variant-numeric: tabular-nums; }
 .hero-tagline { font-size: clamp(2.1rem, 1.3rem + 2.2vw, 3.5rem); line-height: 1.05; color: color-mix(in oklab, var(--color-royal) 78%, var(--color-navy-950)); font-weight: var(--display-weight, 600); }
 .hero-photo { mask-image: linear-gradient(to bottom, #000 62%, transparent 100%); }
 @media (width >= 64rem) { .hero-name { white-space: nowrap; } .hero-photo { mask-image: linear-gradient(to right, #000 52%, rgb(0 0 0 / 0.55) 74%, transparent 100%); } }
+.hero-parallax-landscape {
+  position: absolute;
+  inset: auto 0 0;
+  z-index: -1;
+  height: clamp(10rem, 24vw, 18rem);
+  pointer-events: none;
+  overflow: hidden;
+  mask-image: linear-gradient(to bottom, transparent, #000 32%, #000 90%, transparent);
+}
+
+.hero-parallax-landscape > div {
+  position: absolute;
+  inset: 0;
+}
+
+.hero-parallax-haze {
+  background: radial-gradient(ellipse at 70% 73%, color-mix(in oklab, var(--color-royal) 18%, transparent), transparent 68%);
+}
+
+.hero-parallax-distant {
+  background: linear-gradient(to bottom, transparent, color-mix(in oklab, var(--color-royal) 15%, var(--color-paper)) 76%, var(--color-paper));
+}
+
+.hero-parallax-distant::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background: url("/images/hero-mountain-ridges.webp") center 44% / cover no-repeat;
+  mix-blend-mode: multiply;
+  opacity: 0.25;
+  mask-image: linear-gradient(to bottom, transparent, #000 44%, transparent 99%);
+}
+
+.hero-parallax-middle {
+  background: linear-gradient(174deg, color-mix(in oklab, var(--color-royal) 34%, var(--color-paper)), var(--color-paper) 93%);
+  clip-path: polygon(0 88%, 12% 72%, 21% 76%, 33% 63%, 40% 70%, 56% 77%, 70% 60%, 77% 61%, 88% 45%, 100% 62%, 100% 100%, 0 100%);
+}
+
+.hero-parallax-foreground {
+  background: linear-gradient(174deg, color-mix(in oklab, var(--color-royal) 41%, var(--color-paper)), var(--color-paper) 97%);
+  clip-path: polygon(0 96%, 11% 91%, 22% 81%, 32% 86%, 45% 91%, 56% 83%, 66% 86%, 75% 76%, 84% 74%, 93% 65%, 100% 60%, 100% 100%, 0 100%);
+}
+
+@media (width >= 64rem) {
+  .hero-parallax-landscape {
+    left: 47%;
+    mask-image: linear-gradient(to right, transparent, #000 24%), linear-gradient(to bottom, transparent, #000 30%, #000 88%, transparent);
+    mask-composite: intersect;
+  }
+}
+
 .btn-deep { background: color-mix(in oklab, var(--color-royal) 62%, var(--color-navy-950)); color: #fff; --fill: var(--color-royal); box-shadow: 0 12px 24px -14px rgb(16 31 56 / 0.75); }
 .display-xl { font-size: clamp(2.75rem, 1.2rem + 3.3vw, 4rem); line-height: 1; }
 .display-lg { font-size: clamp(2.5rem, 1.9rem + 2.6vw, 3.75rem); }
