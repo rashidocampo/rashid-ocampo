@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -36,6 +37,14 @@ export default function Header({ name, items }: { name: string; items: NavItem[]
     <header className={`sticky top-0 z-50 bg-paper/90 backdrop-blur-md transition-shadow duration-300 ${scrolled ? "shadow-[0_10px_30px_-20px_rgb(16_31_56/0.5)]" : ""}`}>
       <div className="wrap flex h-[4.75rem] items-center justify-between gap-4">
         <Link href="/" className="group inline-flex min-w-0 flex-nowrap items-center gap-2.5">
+          <Image
+            src="/ro-mark.svg"
+            alt=""
+            width={36}
+            height={36}
+            className="size-8 shrink-0 sm:size-9"
+            unoptimized
+          />
           <span className="flex min-w-0 h-10 items-center">
             <span dir="auto" className="font-display block truncate whitespace-nowrap text-[1.5rem] leading-[1] sm:text-[1.875rem]">{name}</span>
           </span>
