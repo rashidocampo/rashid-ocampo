@@ -210,6 +210,8 @@ export type Post = {
   excerpt: string;
   content: string;
   cover_url: string | null;
+  cover_x: number;
+  cover_y: number;
   published: boolean;
   show_on_home: boolean;
   published_at: string;
