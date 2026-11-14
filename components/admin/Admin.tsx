@@ -44,7 +44,7 @@ async function upload(file: File) {
   return supabase.storage.from("media").getPublicUrl(path).data.publicUrl;
 }
 
-function ImageField({ value, onChange, audio = false }: { value: string | null; onChange: (v: string | null) => void; audio?: boolean }) {
+function ImageField({ value, onChange, audio = false, social = false, onBusy }: { value: string | null; onChange: (v: string | null) => void; audio?: boolean; social?: boolean; onBusy?: (busy: boolean) => void }) {
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
   return (
@@ -57,24 +57,30 @@ function ImageField({ value, onChange, audio = false }: { value: string | null; 
         {busy ? "Uploading…" : value ? "Replace image" : "Upload image"}
         <input
           type="file"
-          accept={audio ? "audio/mpeg,.mp3" : "image/*"}
+          accept={social ? "image/jpeg,image/png" : audio ? "audio/mpeg,.mp3" : "image/*"}
           className="sr-only"
           disabled={busy}
           onChange={async (e) => {
             const f = e.target.files?.[0];
             if (!f) return;
-            setBusy(true);
             setErr("");
+            if (social && (!["image/jpeg", "image/png"].includes(f.type) || f.size > 8 * 1024 * 1024)) {
+              setErr("Choose a JPG or PNG up to 8 MB.");
+              return;
+            }
+            setBusy(true);
+            onBusy?.(true);
             try {
               onChange(await upload(f));
             } catch (x) {
               setErr((x as Error).message);
             }
             setBusy(false);
+            onBusy?.(false);
           }}
         />
       </label>
-      {value && <button type="button" className="text-sm text-red-700 underline" onClick={() => onChange(null)}>Remove</button>}
+      {value && <button type="button" disabled={busy} className="text-sm text-red-700 underline" onClick={() => onChange(null)}>Remove</button>}
       {err && <p className="w-full text-sm text-red-700">{err}</p>}
     </div>
   );
@@ -424,6 +430,7 @@ const textFields: { group: Group; section?: string; key: Exclude<TextKey, "headl
 ];
 
 function SiteContent({ group }: { group: Group }) {
+  const [uploadingOg, setUploadingOg] = useState(false);
   const [s, setS] = useState<Settings | null>(null);
   const [msg, setMsg] = useState("");
   const [busy, setBusy] = useState(false);
@@ -507,6 +514,21 @@ function SiteContent({ group }: { group: Group }) {
       </div>
       </>
       )}
+      {group === "site" && (
+        <section className="space-y-4 rounded-xl border border-navy-800/15 bg-white p-5">
+          <h2 className="text-3xl">Social sharing</h2>
+          <p className="text-sm text-navy-700">Set the image and text shown when someone shares your homepage. Use a 1200 × 630 JPG or PNG.</p>
+          <ImageField social value={s.ogImage} onBusy={setUploadingOg} onChange={(v) => setS((current) => current && { ...current, ogImage: v ?? defaultSettings.ogImage })} />
+          <div>
+            <label htmlFor="og-title" className={label}>Sharing title</label>
+            <input id="og-title" dir="auto" className="field" value={s.ogTitle} onChange={(e) => setS({ ...s, ogTitle: e.target.value })} />
+          </div>
+          <div>
+            <label htmlFor="og-description" className={label}>Sharing description</label>
+            <textarea id="og-description" dir="auto" className="field" rows={2} value={s.ogDescription} onChange={(e) => setS({ ...s, ogDescription: e.target.value })} />
+          </div>
+        </section>
+      )}
       {textFields.filter((f) => f.group === group).map((f) => (
         <div key={f.key}>
           {f.section && <h2 className="mb-3 mt-8 border-t border-navy-800/15 pt-6 text-3xl">{f.section}</h2>}
@@ -522,7 +544,7 @@ function SiteContent({ group }: { group: Group }) {
       <div className="flex items-center gap-4">
         <button
           className={primary}
-          disabled={busy}
+          disabled={busy || uploadingOg}
           onClick={async () => {
             setBusy(true);
             const { error } = await supabase.from("settings").upsert({ key: "site", value: s });

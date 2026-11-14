@@ -14,6 +14,9 @@ export const site = { name: "Rashid Ocampo" };
 export const DEFAULT_THEME = "#4b7d6d";
 
 export type Settings = {
+  ogImage: string;
+  ogTitle: string;
+  ogDescription: string;
   contactHeading: string;
   contactIntro: string;
   contactSubjects: string;
@@ -86,6 +89,9 @@ export type Settings = {
 };
 
 export const defaultSettings: Settings = {
+  ogImage: "/images/official-social-card.jpg",
+  ogTitle: "RASHID OCAMPO",
+  ogDescription: "Official Website",
   contactHeading: "Get in Touch",
   contactIntro: "Have a question, suggestion, speaking invitation, or a web development project? Send a secure inquiry through the form. I welcome meaningful conversations and collaborations.",
   contactSubjects: "General Inquiry\nIslamic Question\nLecture Invitation\nWeb Development & Project Collaboration\nWebsite Development Request\nProject Quotation\nOther",

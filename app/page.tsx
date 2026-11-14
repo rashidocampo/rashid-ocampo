@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import Carousel from "@/components/Carousel";
@@ -8,9 +9,20 @@ import PostCard from "@/components/PostCard";
 import Skyline from "@/components/Skyline";
 import SplitText from "@/components/SplitText";
 import { getPosts, getSettings, getTags } from "@/lib/data";
-import { heroImageStyle, SITE_URL, youtubeId } from "@/lib/site";
+import { defaultSettings, heroImageStyle, SITE_URL, youtubeId } from "@/lib/site";
 
-export const metadata = { alternates: { canonical: "/" } };
+export async function generateMetadata(): Promise<Metadata> {
+  const st = await getSettings();
+  const title = st.ogTitle?.trim() || defaultSettings.ogTitle;
+  const description = st.ogDescription?.trim() || defaultSettings.ogDescription;
+  const url = st.ogImage || defaultSettings.ogImage;
+  const image = { url, alt: `${title} — ${description}` };
+  return {
+    alternates: { canonical: "/" },
+    openGraph: { type: "website", siteName: st.siteName, locale: "en_US", title, description, url: "/", images: [image] },
+    twitter: { card: "summary_large_image", title, description, images: [image] },
+  };
+}
 
 export default async function Home() {
   const [st, tags, allPosts] = await Promise.all([getSettings(), getTags(), getPosts()]);
