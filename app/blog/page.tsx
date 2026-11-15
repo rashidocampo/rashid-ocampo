@@ -4,6 +4,8 @@ import { getPosts, getSettings, getTags } from "@/lib/data";
 import { formatDate, type Post } from "@/lib/site";
 import PatternCover from "@/components/PatternCover";
 
+export const instant = false;
+
 export const metadata = {
   title: "Blog",
   description: "Articles and reminders by Rashid Ocampo on faith, his journey to Islam, and everyday reflections.",
