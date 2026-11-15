@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getPosts, getSettings, getTags } from "@/lib/data";
 import { formatDate, type Post } from "@/lib/site";
 import PatternCover from "@/components/PatternCover";
+import BlogTopicFilter from "@/components/BlogTopicFilter";
 
 export const instant = false;
 
@@ -57,22 +58,7 @@ export default async function Blog({ searchParams }: Props) {
               <span className="mt-5 rounded-full border border-white/80 bg-royal px-6 py-2.5 text-base font-semibold transition group-hover:bg-[#126c3a]">Read Article →</span>
             </div>
           </Link>}
-          {tagCounts.length > 0 && <section className="mt-9">
-            <h2 className="mb-4 text-2xl font-semibold text-navy-950">Browse by Topic</h2>
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-5">
-              {tagCounts.slice(0, 10).map((t, i) => <Link href={`/tag/${t.slug}`} key={t.id} className="flex min-h-28 flex-col items-center justify-center gap-2 rounded-2xl bg-[#eef2e5] px-2 py-4 text-center transition hover:bg-[#e0ebd8]">
-                <span className="text-3xl text-[#187039]" aria-hidden="true">{["◇","♧","♡","♧","✦"][i % 5]}</span>
-                <span className="text-sm font-semibold leading-tight text-navy-950">{t.name}</span>
-              </Link>)}
-            </div>
-          </section>}
-          <section className="mt-11">
-            <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-              <h2 className="text-2xl font-semibold text-navy-950">{search ? `Search results for “${q}”` : "Latest Articles"}</h2>
-              {search && <Link href="/blog" className="text-sm font-semibold text-royal">Clear search →</Link>}
-            </div>
-            {latest.length ? <div>{latest.slice(0, 5).map(p => <ArticleRow key={p.id} post={p} />)}{latest.length > 5 && <details className="group"><summary className="mx-auto mt-5 w-fit cursor-pointer list-none rounded-full border border-royal px-6 py-3 text-center font-semibold text-royal transition hover:bg-royal hover:text-white"><span className="group-open:hidden">View More Articles ({latest.length - 5}) ↓</span><span className="hidden group-open:inline">Show Fewer Articles ↑</span></summary><div>{latest.slice(5).map(p => <ArticleRow key={p.id} post={p} />)}</div></details>}</div> : <p className="muted py-10">No matching articles found.</p>}
-          </section>
+          <BlogTopicFilter posts={latest} topics={tagCounts} />
         </main>
         <aside className="space-y-6 lg:sticky lg:top-24">
           <form action="/blog" method="get" role="search" className="flex items-center gap-2 rounded-2xl border border-navy-900/15 bg-white px-4 py-3">
