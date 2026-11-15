@@ -101,7 +101,7 @@ export default async function Home() {
             </div>
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {posts.map((p) => (
-                <div key={p.slug} className="w-[78%] shrink-0 snap-start sm:w-[calc((100%-1.25rem)/2)] lg:w-[calc((100%-3.75rem)/4)]" data-reveal>
+                <div key={p.slug} className="min-w-0" data-reveal>
                   <PostCard post={p} />
                 </div>
               ))}
