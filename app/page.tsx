@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import FeaturedVideos from "@/components/FeaturedVideos";
+import Carousel from "@/components/Carousel";
 import { Arrow, Play, TagIcon } from "@/components/Icons";
 import JsonLd from "@/components/JsonLd";
 import PostCard from "@/components/PostCard";
