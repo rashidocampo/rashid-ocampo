@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Comments from "@/components/Comments";
+import PostEngagement from "@/components/PostEngagement";
 import { Arrow } from "@/components/Icons";
 import ListenBar from "@/components/ListenBar";
 import Markdown from "@/components/Markdown";
@@ -87,6 +88,7 @@ export default async function PostPage({ params }: Props) {
           ) : (
             <p className="muted">This article is being written and will be published here soon, in shā’ Allāh.</p>
           )}
+          <PostEngagement postId={post.id} title={post.title} />
           {post.tags.length > 0 && <div className="mt-12" data-listen-skip><TagChips tags={post.tags} /></div>}
         </div>
       </article>
