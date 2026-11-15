@@ -17,15 +17,15 @@ type Props = { searchParams: Promise<{ q?: string }> };
 
 function ArticleRow({ post }: { post: Post }) {
   return (
-    <Link href={`/blog/${post.slug}`} className="group flex items-center gap-5 border-b border-navy-900/10 py-4 transition hover:bg-royal/[0.035]">
-      <div className="relative aspect-[5/4] w-28 shrink-0 overflow-hidden rounded-xl bg-royal/15 sm:w-36">
+    <Link href={`/blog/${post.slug}`} className="group flex min-w-0 items-center gap-3 border-b border-navy-900/10 py-4 transition hover:bg-royal/[0.035] sm:gap-5">
+      <div className="relative aspect-[5/4] w-24 shrink-0 overflow-hidden rounded-xl bg-royal/15 sm:w-36">
         {post.cover_url ? <Image src={post.cover_url} alt="" fill sizes="144px" className="object-cover transition-transform duration-300 group-hover:scale-105" style={{ objectPosition: `${post.cover_x ?? 50}% ${post.cover_y ?? 50}%` }} /> : <PatternCover seed={post.slug} />}
       </div>
       <div className="min-w-0 flex-1">
-        <h3 dir="auto" className="text-lg font-semibold leading-snug text-navy-950 sm:text-xl">{post.title}</h3>
+        <h3 dir="auto" className="break-words text-base font-semibold leading-snug text-navy-950 sm:text-xl">{post.title}</h3>
         <p className="muted mt-2 text-sm"><span aria-hidden="true">▣</span> <time dateTime={post.published_at}>{formatDate(post.published_at)}</time></p>
       </div>
-      <span className="text-2xl text-royal" aria-hidden="true">›</span>
+      <span className="shrink-0 text-xl text-royal sm:text-2xl" aria-hidden="true">›</span>
     </Link>
   );
 }
@@ -39,32 +39,32 @@ export default async function Blog({ searchParams }: Props) {
   const latest = featured ? matching.filter(p => p.id !== featured.id) : matching;
   const tagCounts = tags.map(t => ({ ...t, count: posts.filter(p => p.tags.some(pt => pt.id === t.id)).length }));
   return (
-    <div className="wrap pb-20 pt-9 sm:pt-12">
-      <header className="mb-8">
-        <h1 className="flex items-center gap-4 text-[clamp(2.5rem,4vw,3.7rem)] font-semibold leading-tight text-navy-950"><span className="text-royal" aria-hidden="true">▣</span> {st.blogTitle || "Blog"}</h1>
-        <p className="mt-1 text-lg text-navy-800">{st.description}</p>
+    <div className="wrap min-w-0 pb-14 pt-6 sm:pb-20 sm:pt-12">
+      <header className="mb-6 sm:mb-8">
+        <h1 className="flex min-w-0 items-center gap-3 break-words text-[clamp(2rem,7vw,3.7rem)] font-semibold leading-tight text-navy-950"><span className="text-royal" aria-hidden="true">▣</span> {st.blogTitle || "Blog"}</h1>
+        <p className="mt-2 text-base leading-relaxed text-navy-800 sm:text-lg">{st.description}</p>
       </header>
-      <div className="grid items-start gap-9 lg:grid-cols-[minmax(0,1fr)_300px]">
+      <div className="grid min-w-0 items-start gap-7 lg:gap-9 lg:grid-cols-[minmax(0,1fr)_300px]">
         <main className="min-w-0">
-          {featured && <Link href={`/blog/${featured.slug}`} className="group relative flex min-h-[310px] overflow-hidden rounded-[18px] bg-[#123e34] text-white sm:min-h-[350px]">
+          {featured && <Link href={`/blog/${featured.slug}`} className="group relative flex min-h-[270px] overflow-hidden rounded-[18px] bg-[#123e34] text-white sm:min-h-[350px]">
             <div className="absolute inset-0">
               {featured.cover_url ? <Image src={featured.cover_url} alt="" fill priority sizes="(min-width: 1024px) 760px, 100vw" className="object-cover" style={{ objectPosition: `${featured.cover_x ?? 50}% ${featured.cover_y ?? 50}%` }} /> : <PatternCover seed={featured.slug} />}
               <div className="absolute inset-0 bg-gradient-to-r from-[#06432f]/95 via-[#06432f]/80 to-[#06432f]/10" />
             </div>
-            <div className="relative flex max-w-[550px] flex-col items-start justify-center p-7 sm:p-10">
+            <div className="relative flex min-w-0 max-w-[550px] flex-col items-start justify-center p-5 sm:p-10">
               <span className="rounded-full bg-[#f3f4dd] px-4 py-1.5 text-sm font-semibold text-[#183c2b]">Featured</span>
-              <h2 dir="auto" className="mt-5 text-[clamp(1.8rem,3.2vw,3rem)] font-semibold leading-[1.12]">{featured.title}</h2>
+              <h2 dir="auto" className="mt-4 break-words text-[clamp(1.65rem,6vw,3rem)] font-semibold leading-[1.16] sm:mt-5">{featured.title}</h2>
               <p className="mt-5 text-sm text-white/90">▣ <time dateTime={featured.published_at}>{formatDate(featured.published_at)}</time></p>
-              <span className="mt-5 rounded-full border border-white/80 bg-royal px-6 py-2.5 text-base font-semibold transition group-hover:bg-[#126c3a]">Read Article →</span>
+              <span className="mt-5 inline-flex min-h-11 items-center rounded-full border border-white/80 bg-royal px-6 py-2.5 text-base font-semibold transition group-hover:bg-[#126c3a]">Read Article →</span>
             </div>
           </Link>}
           <BlogTopicFilter posts={latest} topics={tagCounts} />
         </main>
-        <aside className="space-y-6 lg:sticky lg:top-24">
-          <form action="/blog" method="get" role="search" className="flex items-center gap-2 rounded-2xl border border-navy-900/15 bg-white px-4 py-3">
+        <aside className="min-w-0 space-y-5 lg:sticky lg:top-24">
+          <form action="/blog" method="get" role="search" className="flex min-h-12 items-center gap-2 rounded-2xl border border-navy-900/15 bg-white px-4 py-3">
             <span aria-hidden="true" className="text-xl">⌕</span>
             <input type="search" name="q" defaultValue={q} aria-label="Search articles" placeholder="Search articles..." className="min-w-0 flex-1 bg-transparent text-base outline-none" />
-            <button type="submit" className="text-sm font-semibold text-royal">Go</button>
+            <button type="submit" className="min-h-11 px-2 text-sm font-semibold text-royal">Go</button>
           </form>
           <div className="rounded-2xl border border-navy-900/10 bg-white p-5">
             <h2 className="mb-5 text-xl font-semibold text-navy-950">Categories</h2>
