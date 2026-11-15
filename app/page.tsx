@@ -71,13 +71,9 @@ export default async function Home() {
 
       <section className="mock-connect mock-container" aria-label="Stay connected">
         <div className="mock-connect-inner">
-          <div><h2>Stay Connected</h2><p>Get the latest articles, videos, and Islamic reminders.</p></div>
+          <div><h2>Stay Connected</h2><p>Questions, invitations, or feedback? Get in touch directly.</p></div>
           <div className="mock-connect-divider" />
-          <form action="/contact" method="get" className="mock-subscribe">
-            <label className="sr-only" htmlFor="mock-email">Email address</label>
-            <input id="mock-email" name="email" type="email" placeholder="Enter your email address" required />
-            <button type="submit" className="mock-button mock-button-primary">Subscribe</button>
-          </form>
+          <div className="mock-subscribe"><Link href="/contact" className="mock-button mock-button-primary">Send a Message <Arrow className="h-4 w-4" /></Link></div>
         </div>
       </section>
     </main>
