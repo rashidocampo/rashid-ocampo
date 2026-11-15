@@ -5,7 +5,7 @@ import Carousel from "@/components/Carousel";
 import FeaturedVideos from "@/components/FeaturedVideos";
 import { Arrow, Play, TagIcon } from "@/components/Icons";
 import JsonLd from "@/components/JsonLd";
-import PostCard from "@/components/PostCard";
+import HomeEditorialPost from "@/components/HomeEditorialPost";
 import SplitText from "@/components/SplitText";
 import { getPosts, getSettings, getTags } from "@/lib/data";
 import { defaultSettings, heroImageStyle, SITE_URL, youtubeId } from "@/lib/site";
@@ -123,7 +123,7 @@ export default async function Home() {
             <Carousel label={st.homeBlogTitle}>
               {posts.map((p) => (
                 <div key={p.slug} className="w-[78%] shrink-0 snap-start sm:w-[calc((100%-1.25rem)/2)] lg:w-[calc((100%-3.75rem)/4)]" data-reveal>
-                  <PostCard post={p} />
+                  <HomeEditorialPost post={p} />
                 </div>
               ))}
             </Carousel>
