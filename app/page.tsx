@@ -3,12 +3,11 @@ import Image from "next/image";
 import Link from "next/link";
 import FeaturedVideos from "@/components/FeaturedVideos";
 import Carousel from "@/components/Carousel";
-import { Arrow, Play, TagIcon } from "@/components/Icons";
+import { Arrow, Play } from "@/components/Icons";
 import JsonLd from "@/components/JsonLd";
 import PostCard from "@/components/PostCard";
-import SplitText from "@/components/SplitText";
 import { getPosts, getSettings, getTags } from "@/lib/data";
-import { defaultSettings, heroImageStyle, SITE_URL, youtubeId } from "@/lib/site";
+import { defaultSettings, SITE_URL, youtubeId } from "@/lib/site";
 
 export async function generateMetadata(): Promise<Metadata> {
   const st = await getSettings();
@@ -35,81 +34,52 @@ export default async function Home() {
   const posts = allPosts.filter((p) => p.show_on_home !== false).slice(0, 12);
 
   return (
-    <>
-      <JsonLd
-        data={[
-          { "@context": "https://schema.org", "@type": "WebSite", name: st.siteName, url: SITE_URL, description: st.description, inLanguage: "en" },
-          { "@context": "https://schema.org", "@type": "Person", name: st.siteName, url: SITE_URL, description: st.description, image: new URL(st.heroImage, SITE_URL).href },
-        ]}
-      />
-      {/* Editorial Santorini-style hero: existing font settings and all four videos remain intact. */}
-      <section className="relative isolate min-h-[570px] overflow-hidden bg-[#dcebf5] lg:min-h-[610px]">
-        <div className="absolute inset-0">
-          <Image src={st.heroImage} alt={`Portrait of ${st.siteName}`} fill priority sizes="100vw" className="object-cover" style={{ objectPosition: `${st.heroX ?? 50}% ${st.heroY ?? 50}%` }} />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#f8fbff]/95 via-[#f8fbff]/80 via-40% to-transparent lg:via-[#f8fbff]/20" />
-        </div>
-        <div className="wrap relative flex min-h-[570px] items-center py-24 lg:min-h-[610px]">
-          <div className="max-w-[550px]">
-            <div className="mb-6 h-[3px] w-24 bg-[#0875ad]" />
-            <h1 className="font-display text-[clamp(2.8rem,5vw,5rem)] font-semibold leading-[1.04] tracking-tight text-[#092b49]">A Journey of Faith.<br />A Life of Dawah.</h1>
-            <p className="mt-7 max-w-[440px] text-[clamp(1.05rem,1.6vw,1.35rem)] leading-relaxed text-[#092b49]">{st.description}</p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <a href="#video" className="inline-flex min-h-12 items-center gap-3 rounded-full bg-[#075b91] px-7 text-white transition hover:bg-[#093d65]"><Play className="h-4 w-4" /> {st.heroPrimaryLabel}</a>
-              <Link href={st.heroSecondaryLink || "/about"} className="inline-flex min-h-12 items-center gap-3 rounded-full border border-[#075b91] bg-white/65 px-7 text-[#092b49] transition hover:bg-white">{st.heroSecondaryLabel} <Arrow className="h-4 w-4" /></Link>
-            </div>
+    <main className="mock-home">
+      <JsonLd data={[
+        { "@context": "https://schema.org", "@type": "WebSite", name: st.siteName, url: SITE_URL, description: st.description, inLanguage: "en" },
+        { "@context": "https://schema.org", "@type": "Person", name: st.siteName, url: SITE_URL, description: st.description, image: new URL(st.heroImage, SITE_URL).href }
+      ]} />
+      <section className="mock-hero" aria-label="Introduction">
+        <Image src={st.heroImage} alt="Santorini portrait with blue domes and coastline" fill priority sizes="100vw" className="mock-hero-photo" />
+        <div className="mock-hero-wash" />
+        <div className="mock-hero-content">
+          <div className="mock-accent-line" />
+          <h1>A Journey of Faith.<br />A Life of Dawah.</h1>
+          <p>Sharing the beauty of Islam, reflections on faith,<br className="hidden sm:block" /> and reminders to return to Allah with knowledge,<br className="hidden sm:block" /> sincerity, and hope.</p>
+          <div className="mock-actions">
+            <a href="#featured-videos" className="mock-button mock-button-primary"><Play className="h-4 w-4" /> Watch Latest Video</a>
+            <Link href="/about" className="mock-button mock-button-outline">Explore My Journey <Arrow className="h-4 w-4" /></Link>
           </div>
         </div>
-        <div className="pointer-events-none absolute -bottom-1 left-0 h-12 w-full rounded-t-[50%] bg-[#fbf9f4] sm:h-16" />
+        <div className="mock-hero-wave" />
       </section>
 
-      {/* Featured video */}
-      <section className="pt-7">
-        <div className="wrap">
-          <FeaturedVideos label={st.featuredLabel} videos={videos.length ? videos : [{ id: "", title: st.videoTitle, blurb: st.videoBlurb }]} />
-        </div>
+      <section id="featured-videos" className="mock-featured mock-container" aria-label="Featured Dawah videos">
+        <FeaturedVideos label="FEATURED DAWAH" videos={videos.length ? videos : [{ id: "", title: st.videoTitle, blurb: st.videoBlurb }]} />
       </section>
 
-      {/* Topics */}
-      {topics.length > 0 && (
-        <section className="pt-7">
-          <div className="wrap">
-            <ul className="panel grid grid-cols-2 gap-y-2 px-3 py-5 lg:flex lg:px-6" data-reveal>
-              {topics.map((t, i) => (
-                <li key={t.id} className={`lg:flex-1 ${i > 0 ? "lg:border-s lg:border-navy-800/25" : ""}`}>
-                  <Link href={`/tag/${t.slug}`} className="topic flex min-h-16 items-center justify-center gap-4 px-3 py-2">
-                    <TagIcon name={t.icon} className="topic-icon h-11 w-11 shrink-0 text-royal sm:h-12 sm:w-12" />
-                    <span dir="auto" className="max-w-[9rem] text-[1.0625rem] leading-tight">{t.name}</span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
-      )}
+      <section className="mock-journal mock-container" aria-labelledby="mock-journal-title">
+        <div className="mock-section-title"><span /><h2 id="mock-journal-title">Explore the Journal</h2><span /></div>
+        {topics.length > 0 && <nav aria-label="Journal topics" className="mock-topics">
+          <Link href="/blog" className="mock-topic mock-topic-active">All Articles</Link>
+          {topics.slice(0, 4).map(t => <Link key={t.id} href={`/tag/${t.slug}`} className="mock-topic">{t.name}</Link>)}
+        </nav>}
+        <Carousel label="Explore the Journal">
+          {posts.map(p => <div key={p.slug} className="mock-post-item shrink-0 snap-start"><PostCard post={p} sizes="(min-width: 1000px) 310px, (min-width: 640px) 45vw, 80vw" /></div>)}
+        </Carousel>
+      </section>
 
-      {/* Latest posts */}
-      {posts.length > 0 && (
-        <section className="section">
-          <div className="wrap">
-            <div className="mb-7 flex flex-wrap items-end justify-between gap-x-8 gap-y-3">
-              <div>
-                <h2 dir="auto" className="caps-title"><SplitText text={st.homeBlogTitle} /></h2>
-                <div className="rule mt-4" data-reveal />
-              </div>
-              <Link href="/blog" className="link inline-flex min-h-11 items-center gap-3" data-reveal>
-                {st.homeBlogLinkLabel} <Arrow className="arrow h-4 w-4" />
-              </Link>
-            </div>
-            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {posts.map((p) => (
-                <div key={p.slug} className="min-w-0" data-reveal>
-                  <PostCard post={p} />
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-    </>
+      <section className="mock-connect mock-container" aria-label="Stay connected">
+        <div className="mock-connect-inner">
+          <div><h2>Stay Connected</h2><p>Get the latest articles, videos, and Islamic reminders.</p></div>
+          <div className="mock-connect-divider" />
+          <form action="/contact" method="get" className="mock-subscribe">
+            <label className="sr-only" htmlFor="mock-email">Email address</label>
+            <input id="mock-email" name="email" type="email" placeholder="Enter your email address" required />
+            <button type="submit" className="mock-button mock-button-primary">Subscribe</button>
+          </form>
+        </div>
+      </section>
+    </main>
   );
 }
