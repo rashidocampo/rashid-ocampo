@@ -35,8 +35,8 @@ export default function Header({ name, items }: { name: string; items: NavItem[]
   return (
     <>
     <header className={`sticky top-0 z-50 bg-paper/90 backdrop-blur-md transition-shadow duration-300 ${scrolled ? "shadow-[0_10px_30px_-20px_rgb(16_31_56/0.5)]" : ""}`}>
-      <div className="wrap flex h-[4.75rem] items-center justify-between gap-4">
-        <Link href="/" className="group inline-flex min-w-0 flex-nowrap items-center gap-2.5">
+      <div className="wrap flex h-16 min-w-0 items-center justify-between gap-2 sm:h-[4.75rem] sm:gap-4">
+        <Link href="/" className="group flex min-w-0 flex-1 items-center gap-2 overflow-hidden sm:gap-2.5">
           <Image
             src="/ro-mark.svg"
             alt=""
@@ -45,8 +45,8 @@ export default function Header({ name, items }: { name: string; items: NavItem[]
             className="size-8 shrink-0 sm:size-9"
             unoptimized
           />
-          <span className="flex min-w-0 h-10 items-center">
-            <span dir="auto" className="font-display relative top-[0.14em] block truncate whitespace-nowrap text-[1.5rem] leading-[1] sm:text-[1.875rem]">{name}</span>
+          <span className="flex min-w-0 flex-1 items-center">
+            <span dir="auto" className="font-display block min-w-0 truncate whitespace-nowrap text-[clamp(0.95rem,4.1vw,1.25rem)] font-semibold leading-tight sm:text-[1.875rem]">{name}</span>
           </span>
         </Link>
 
@@ -68,7 +68,7 @@ export default function Header({ name, items }: { name: string; items: NavItem[]
           </Link>
         </nav>
 
-        <button type="button" className="-me-2 flex h-11 items-center gap-2.5 px-2 text-base md:hidden" aria-expanded={open} aria-controls="site-menu" onClick={() => setOpen(!open)}>
+        <button type="button" className="flex h-11 min-w-11 shrink-0 items-center justify-center gap-2 rounded-lg px-2 text-sm md:hidden" aria-expanded={open} aria-controls="site-menu" onClick={() => setOpen(!open)}>
           {open ? "Close" : "Menu"}
           <span aria-hidden className="relative block h-3 w-5">
             <span className={`absolute inset-x-0 top-0 h-[1.5px] bg-navy-900 transition-transform duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] ${open ? "translate-y-[5.5px] rotate-45" : ""}`} />
@@ -79,11 +79,11 @@ export default function Header({ name, items }: { name: string; items: NavItem[]
 
     </header>
       {open && (
-        <nav id="site-menu" aria-label="Menu" className="fixed inset-x-0 bottom-0 top-[4.75rem] z-50 overflow-y-auto bg-paper md:hidden">
+        <nav id="site-menu" aria-label="Menu" className="fixed inset-x-0 bottom-0 top-16 sm:top-[4.75rem] z-50 overflow-y-auto bg-paper md:hidden">
           <ul className="wrap py-4">
             {items.map((it, i) => (
               <li key={it.href} className="rise hairline border-b" style={{ "--i": i } as React.CSSProperties}>
-                <Link href={it.href} onClick={() => setOpen(false)} aria-current={isActive(it.href) ? "page" : undefined} className={`font-display flex min-h-16 items-center py-3 text-[2.25rem] leading-none ${isActive(it.href) ? "text-royal" : ""}`}>
+                <Link href={it.href} onClick={() => setOpen(false)} aria-current={isActive(it.href) ? "page" : undefined} className={`font-display flex min-h-14 items-center py-3 text-[1.65rem] sm:min-h-16 sm:text-[2.25rem] leading-none ${isActive(it.href) ? "text-royal" : ""}`}>
                   {it.label}
                 </Link>
               </li>
