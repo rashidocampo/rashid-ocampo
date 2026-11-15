@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import Carousel from "@/components/Carousel";
 import FeaturedVideos from "@/components/FeaturedVideos";
 import { Arrow, Play, TagIcon } from "@/components/Icons";
 import JsonLd from "@/components/JsonLd";
 import PostCard from "@/components/PostCard";
-import { ParallaxComponent } from "@/components/ui/parallax-scrolling";
 import SplitText from "@/components/SplitText";
 import { getPosts, getSettings, getTags } from "@/lib/data";
 import { defaultSettings, heroImageStyle, SITE_URL, youtubeId } from "@/lib/site";
@@ -43,45 +41,25 @@ export default async function Home() {
           { "@context": "https://schema.org", "@type": "Person", name: st.siteName, url: SITE_URL, description: st.description, image: new URL(st.heroImage, SITE_URL).href },
         ]}
       />
-      {/* Hero: the photo fills the left and fades into the paper; the words sit on the right */}
-      <ParallaxComponent>
-        <div className="pattern pointer-events-none absolute -right-[10%] -top-[35%] -z-10 aspect-square w-[40rem] bg-royal opacity-[0.07]" data-parallax="0.25" aria-hidden />
-
-        <div className="hero-photo relative h-[22rem] overflow-hidden sm:h-[28rem] lg:absolute lg:inset-y-0 lg:left-0 lg:h-auto lg:w-[56%]" data-hero="0">
-          <div className="absolute -inset-y-[6%] inset-x-0" data-parallax="0.15" data-hero-img>
-            <Image src={st.heroImage} alt={`Portrait of ${st.siteName}`} fill priority sizes="(min-width: 1024px) 56vw, 100vw" style={heroImageStyle(st)} />
-          </div>
+      {/* Editorial Santorini-style hero: existing font settings and all four videos remain intact. */}
+      <section className="relative isolate min-h-[570px] overflow-hidden bg-[#dcebf5] lg:min-h-[610px]">
+        <div className="absolute inset-0">
+          <Image src={st.heroImage} alt={`Portrait of ${st.siteName}`} fill priority sizes="100vw" className="object-cover" style={{ objectPosition: `${st.heroX ?? 50}% ${st.heroY ?? 50}%` }} />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#f8fbff]/95 via-[#f8fbff]/80 via-40% to-transparent lg:via-[#f8fbff]/20" />
         </div>
-
-        <div className="wrap relative grid lg:min-h-[40rem] lg:grid-cols-[1fr_1.3fr] lg:items-center">
-          <div className="-mt-4 pb-14 sm:-mt-8 lg:col-start-2 lg:mt-0 lg:pb-44 lg:pt-16">
-            <p dir="auto" className="caps flex items-center gap-4 text-navy-950" data-hero="1">
-              {st.greeting} <span className="h-px w-16 bg-royal sm:w-24" />
-            </p>
-            <h1 dir="auto" className="hero-name mt-4" data-hero="2" data-hero-kind="words"><SplitText text={st.heroTitle} /></h1>
-            {st.tagline && (
-              <div className="mt-2" data-hero="3">
-                {st.taglineHighlight ? (
-                  <p className="mt-2 inline-block -skew-x-[18deg] bg-gradient-to-r from-royal via-royal to-royal/70 px-7 py-1">
-                    <span dir="auto" className="font-display inline-block skew-x-[18deg] text-[1.875rem] italic text-white sm:text-[2.25rem]">{st.tagline}</span>
-                  </p>
-                ) : (
-                  <p dir="auto" className="hero-tagline font-display italic">{st.tagline}</p>
-                )}
-              </div>
-            )}
-            <p dir="auto" className="lede mt-6 max-w-[34rem] text-navy-950" data-hero="4">{st.description}</p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center" data-hero="5">
-              <a href="#video" className="btn btn-deep" data-magnetic>
-                <Play className="h-4 w-4" /> {st.heroPrimaryLabel}
-              </a>
-              <Link href={st.heroSecondaryLink || "/about"} className="btn btn-line" data-magnetic>
-                {st.heroSecondaryLabel} <Arrow className="arrow h-4 w-4" />
-              </Link>
+        <div className="wrap relative flex min-h-[570px] items-center py-24 lg:min-h-[610px]">
+          <div className="max-w-[550px]">
+            <div className="mb-6 h-[3px] w-24 bg-[#0875ad]" />
+            <h1 className="font-display text-[clamp(2.8rem,5vw,5rem)] font-semibold leading-[1.04] tracking-tight text-[#092b49]">A Journey of Faith.<br />A Life of Dawah.</h1>
+            <p className="mt-7 max-w-[440px] text-[clamp(1.05rem,1.6vw,1.35rem)] leading-relaxed text-[#092b49]">{st.description}</p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <a href="#video" className="inline-flex min-h-12 items-center gap-3 rounded-full bg-[#075b91] px-7 text-white transition hover:bg-[#093d65]"><Play className="h-4 w-4" /> {st.heroPrimaryLabel}</a>
+              <Link href={st.heroSecondaryLink || "/about"} className="inline-flex min-h-12 items-center gap-3 rounded-full border border-[#075b91] bg-white/65 px-7 text-[#092b49] transition hover:bg-white">{st.heroSecondaryLabel} <Arrow className="h-4 w-4" /></Link>
             </div>
           </div>
         </div>
-      </ParallaxComponent>
+        <div className="pointer-events-none absolute -bottom-1 left-0 h-12 w-full rounded-t-[50%] bg-[#fbf9f4] sm:h-16" />
+      </section>
 
       {/* Featured video */}
       <section className="pt-7">
@@ -121,13 +99,13 @@ export default async function Home() {
                 {st.homeBlogLinkLabel} <Arrow className="arrow h-4 w-4" />
               </Link>
             </div>
-            <Carousel label={st.homeBlogTitle}>
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {posts.map((p) => (
                 <div key={p.slug} className="w-[78%] shrink-0 snap-start sm:w-[calc((100%-1.25rem)/2)] lg:w-[calc((100%-3.75rem)/4)]" data-reveal>
                   <PostCard post={p} />
                 </div>
               ))}
-            </Carousel>
+            </div>
           </div>
         </section>
       )}
