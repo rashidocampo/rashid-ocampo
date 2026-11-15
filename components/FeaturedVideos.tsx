@@ -15,7 +15,7 @@ export default function FeaturedVideos({ label, videos }: { label: string; video
   return (
     <div className="panel grid items-center gap-x-9 gap-y-6 p-4 sm:p-5 lg:grid-cols-[1.55fr_1fr]" data-reveal>
       <div className="overflow-hidden rounded-[14px]">
-        <VideoPlayer key={current.id + autoplay} id={current.id} title={current.title} autoplay={autoplay} />
+        <VideoPlayer key={current.id + autoplay} id={current.id} title={current.title} autoplay={autoplay} editorial />
       </div>
       <div className="px-1 pb-2 lg:px-0 lg:pb-0 lg:pe-4">
         <p dir="auto" className="caps text-royal">{label}</p>
