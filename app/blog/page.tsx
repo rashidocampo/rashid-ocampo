@@ -71,7 +71,7 @@ export default async function Blog({ searchParams }: Props) {
               <h2 className="text-2xl font-semibold text-navy-950">{search ? `Search results for “${q}”` : "Latest Articles"}</h2>
               {search && <Link href="/blog" className="text-sm font-semibold text-royal">Clear search →</Link>}
             </div>
-            {latest.length ? <div>{latest.map(p => <ArticleRow key={p.id} post={p} />)}</div> : <p className="muted py-10">No matching articles found.</p>}
+            {latest.length ? <div>{latest.slice(0, 5).map(p => <ArticleRow key={p.id} post={p} />)}{latest.length > 5 && <details className="group"><summary className="mx-auto mt-5 w-fit cursor-pointer list-none rounded-full border border-royal px-6 py-3 text-center font-semibold text-royal transition hover:bg-royal hover:text-white"><span className="group-open:hidden">View More Articles ({latest.length - 5}) ↓</span><span className="hidden group-open:inline">Show Fewer Articles ↑</span></summary><div>{latest.slice(5).map(p => <ArticleRow key={p.id} post={p} />)}</div></details>}</div> : <p className="muted py-10">No matching articles found.</p>}
           </section>
         </main>
         <aside className="space-y-6 lg:sticky lg:top-24">
@@ -90,7 +90,7 @@ export default async function Blog({ searchParams }: Props) {
           <div className="rounded-2xl bg-[#eef2e5] p-6">
             <h2 className="text-xl font-semibold text-navy-950">Stay Updated</h2>
             <p className="mt-3 text-base">Discover new articles and reminders.</p>
-            <Link href="/#subscribe" className="mt-5 block rounded-full bg-[#187039] px-5 py-3 text-center font-semibold text-white transition hover:bg-[#11592e]">Stay Connected</Link>
+            <Link href="/contact" className="mt-5 block rounded-full bg-[#187039] px-5 py-3 text-center font-semibold text-white transition hover:bg-[#11592e]">Contact Me</Link>
           </div>
         </aside>
       </div>
