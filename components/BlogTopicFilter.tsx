@@ -13,14 +13,14 @@ export default function BlogTopicFilter({ posts, topics }: { posts: Post[]; topi
   return <>
     {topics.length > 0 && <section className="mt-9">
       <h2 className="mb-4 text-2xl font-semibold text-navy-950">Browse by Topic</h2>
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-5">
-        {topics.slice(0,10).map((t,i)=><button type="button" key={t.id} onClick={()=>setSelected(v=>v===t.id?null:t.id)} aria-pressed={selected===t.id} className={`flex min-h-28 flex-col items-center justify-center gap-2 rounded-2xl px-2 py-4 text-center transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-royal ${selected===t.id?"bg-[#187039] text-white shadow-md":"bg-[#eef2e5] text-navy-950 hover:bg-[#e0ebd8]"}`}>
-          <span className={`text-3xl ${selected===t.id?"text-white":"text-[#187039]"}`} aria-hidden="true">{["◇","♧","♡","♧","✦"][i%5]}</span>
+      <div className="flex gap-2 overflow-x-auto pb-2 sm:flex-wrap sm:overflow-visible">
+        {topics.slice(0,10).map((t,i)=><button type="button" key={t.id} onClick={()=>setSelected(v=>v===t.id?null:t.id)} aria-pressed={selected===t.id} className={`inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-full px-4 py-2 text-center transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-royal ${selected===t.id?"bg-[#187039] text-white shadow-md":"bg-[#eef2e5] text-navy-950 hover:bg-[#e0ebd8]"}`}>
+          
           <span className="text-sm font-semibold leading-tight">{t.name}</span>
         </button>)}
       </div>
     </section>}
-    <section className="mt-11" aria-live="polite">
+    <section className="mt-8 sm:mt-11" aria-live="polite">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
         <h2 className="text-2xl font-semibold text-navy-950">{activeName ? `Latest Articles — ${activeName}` : "Latest Articles"}</h2>
         {selected && <button type="button" onClick={()=>setSelected(null)} className="text-sm font-semibold text-royal">All Articles ×</button>}
@@ -30,8 +30,8 @@ export default function BlogTopicFilter({ posts, topics }: { posts: Post[]; topi
   </>;
 }
 function ArticleRow({post}:{post:Post}) {
-  return <Link href={`/blog/${post.slug}`} className="group flex items-center gap-5 border-b border-navy-900/10 py-4 transition hover:bg-royal/[0.035]">
-    <div className="relative aspect-[5/4] w-28 shrink-0 overflow-hidden rounded-xl bg-royal/15 sm:w-36">{post.cover_url?<Image src={post.cover_url} alt="" fill sizes="144px" className="object-cover transition-transform duration-300 group-hover:scale-105" style={{objectPosition:`${post.cover_x??50}% ${post.cover_y??50}%`}}/>:<PatternCover seed={post.slug}/>}</div>
-    <div className="min-w-0 flex-1"><h3 dir="auto" className="text-lg font-semibold leading-snug text-navy-950 sm:text-xl">{post.title}</h3><p className="muted mt-2 text-sm">▣ <time dateTime={post.published_at}>{formatDate(post.published_at)}</time></p></div><span className="text-2xl text-royal" aria-hidden="true">›</span>
+  return <Link href={`/blog/${post.slug}`} className="group flex min-w-0 items-center gap-3 border-b border-navy-900/10 py-4 transition hover:bg-royal/[0.035]">
+    <div className="relative aspect-[5/4] w-24 shrink-0 overflow-hidden rounded-xl bg-royal/15 sm:w-36">{post.cover_url?<Image src={post.cover_url} alt="" fill sizes="144px" className="object-cover transition-transform duration-300 group-hover:scale-105" style={{objectPosition:`${post.cover_x??50}% ${post.cover_y??50}%`}}/>:<PatternCover seed={post.slug}/>}</div>
+    <div className="min-w-0 flex-1"><h3 dir="auto" className="break-words text-base font-semibold leading-snug text-navy-950 sm:text-xl">{post.title}</h3><p className="muted mt-2 text-sm">▣ <time dateTime={post.published_at}>{formatDate(post.published_at)}</time></p></div><span className="shrink-0 text-xl text-royal" aria-hidden="true">›</span>
   </Link>;
 }
