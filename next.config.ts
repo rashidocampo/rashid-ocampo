@@ -4,7 +4,7 @@ const nextConfig: NextConfig = {
   cacheComponents: true,
   partialPrefetching: true,
   images: {
-    remotePatterns: [{ protocol: "https", hostname: "*.supabase.co", pathname: "/storage/v1/object/public/**" }],
+    remotePatterns: [{ protocol: "https", hostname: "*.supabase.co", pathname: "/storage/v1/object/public/**" }, { protocol: "https", hostname: "d2ol7oe51mr4n9.cloudfront.net" }],
   },
   // Balik Islam chapters moved from the blog into the Books library; old links keep working.
   async redirects() {
