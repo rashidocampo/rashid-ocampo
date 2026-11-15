@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { getSettings } from "@/lib/data";
 import { Arrow } from "./Icons";
 import SocialLinks from "./SocialLinks";
@@ -9,7 +10,7 @@ export default async function Footer() {
     <footer>
       {/* Stay connected, over a misty mountain range in the accent colour */}
       <section className="relative isolate -mt-10 overflow-hidden rounded-t-[50%_2.5rem] bg-gradient-to-b from-paper to-paper-2 sm:-mt-14 sm:rounded-t-[50%_3.5rem]">
-        <div className="wrap relative flex flex-col gap-6 pb-[max(12rem,16vw)] pt-20 sm:pt-24 lg:flex-row lg:items-center lg:gap-9">
+        <div className="wrap relative z-10 flex flex-col gap-6 pb-[max(12rem,16vw)] pt-20 sm:pt-24 lg:flex-row lg:items-center lg:gap-9">
           <h2 dir="auto" className="font-display text-[2.5rem] italic leading-none sm:text-[2.75rem] lg:whitespace-nowrap" data-reveal>{st.footerHeading}</h2>
           <p dir="auto" className="max-w-sm leading-snug lg:border-s-2 lg:border-royal/60 lg:ps-7" data-reveal>{st.footerText}</p>
           <div className="flex flex-wrap gap-3 lg:ms-auto lg:flex-nowrap" data-reveal>
@@ -31,7 +32,7 @@ export default async function Footer() {
           src={st.footerImage?.trim() || "/footer-mountains-reference.svg"}
           alt=""
           loading="lazy"
-          className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[clamp(18rem,42vw,36rem)] w-full object-cover object-center [mask-image:linear-gradient(to_bottom,transparent_0%,transparent_18%,black_85%)]"
+          className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-[clamp(18rem,42vw,36rem)] w-full object-cover object-center [mask-image:linear-gradient(to_bottom,transparent_0%,transparent_18%,black_85%)]"
         />
       </section>
 
@@ -39,6 +40,7 @@ export default async function Footer() {
       <div className="ink">
         <div className="wrap flex flex-col gap-5 py-6 sm:flex-row sm:items-center sm:gap-8">
           <Link href="/" className="flex items-center gap-3">
+            <Image src="/ro-mark.svg" alt="RO logo" width={36} height={36} unoptimized className="size-9 shrink-0" />
             <span dir="auto" className="font-display text-[1.375rem] leading-none">{st.siteName}</span>
           </Link>
           <div className="sm:ms-auto">
