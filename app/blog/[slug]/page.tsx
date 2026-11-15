@@ -73,16 +73,16 @@ export default async function PostPage({ params }: Props) {
         }}
       />
       <article>
-        <div className="card-media relative aspect-[16/9] max-w-[60rem] rounded-[14px] bg-navy-800 sm:aspect-[2/1]" data-reveal>
+        <div className="card-media relative aspect-[16/10] w-full max-w-[60rem] rounded-[14px] bg-navy-800 sm:aspect-[2/1]" data-reveal>
           {post.cover_url ? (
             <Image src={post.cover_url} alt={post.title} fill priority sizes="(min-width: 1024px) 960px, 100vw" className="object-cover" style={{ objectPosition: `${post.cover_x ?? 50}% ${post.cover_y ?? 50}%` }} />
           ) : (
             <PatternCover seed={post.slug} />
           )}
         </div>
-        <div id="post-body" className="mx-auto mt-10 max-w-[68ch] sm:mt-14 lg:mx-0 lg:ms-[8.33%]">
-          {post.content && <div className="mb-8"><ListenBar target="post-body" title={post.title} /></div>}
-          {post.excerpt && <p dir="auto" className="lede mb-8 text-navy-800">{post.excerpt}</p>}
+        <div id="post-body" className="mx-auto mt-7 min-w-0 max-w-[68ch] sm:mt-14 lg:mx-0 lg:ms-[8.33%]">
+          {post.content && <div className="mb-6 sm:mb-8"><ListenBar target="post-body" title={post.title} /></div>}
+          {post.excerpt && <p dir="auto" className="lede mb-6 break-words text-navy-800 sm:mb-8">{post.excerpt}</p>}
           {post.content ? (
             <Markdown>{post.content}</Markdown>
           ) : (
@@ -94,18 +94,18 @@ export default async function PostPage({ params }: Props) {
       </article>
 
       {next.length > 0 && (
-        <nav aria-label="Read next" className="mx-auto mt-20 max-w-[68ch] lg:mx-0 lg:ms-[8.33%]">
+        <nav aria-label="Read next" className="mx-auto mt-14 min-w-0 max-w-[68ch] sm:mt-20 lg:mx-0 lg:ms-[8.33%]">
           <h2 className="display-md">Read next</h2>
           <ul className="hairline mt-6 border-t">
             {next.map((p) => (
               <li key={p.id} className="hairline border-b" data-reveal>
-                <Link href={`/blog/${p.slug}`} className="group flex items-center gap-5 py-4">
-                  <span className="card-media relative block aspect-[3/2] w-28 shrink-0 rounded-[10px] bg-navy-800 sm:w-36">
+                <Link href={`/blog/${p.slug}`} className="group flex min-w-0 items-center gap-3 py-4 sm:gap-5">
+                  <span className="card-media relative block aspect-[3/2] w-24 shrink-0 rounded-[10px] bg-navy-800 sm:w-36">
                     {p.cover_url ? <Image src={p.cover_url} alt="" fill sizes="144px" className="object-cover" /> : <PatternCover seed={p.slug} />}
                   </span>
                   <span className="min-w-0 flex-1">
                     <span className="muted block text-sm"><time dateTime={p.published_at}>{formatDate(p.published_at)}</time></span>
-                    <span dir="auto" className="font-display display-sm mt-1 block transition-colors duration-200 group-hover:text-royal">{p.title}</span>
+                    <span dir="auto" className="font-display display-sm mt-1 block break-words transition-colors duration-200 group-hover:text-royal">{p.title}</span>
                   </span>
                   <Arrow className="h-4 w-4 shrink-0 text-royal transition-transform duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:translate-x-1" />
                 </Link>
