@@ -46,9 +46,13 @@ export default async function Home() {
       <section className="hero relative isolate overflow-hidden bg-paper" data-parallax-root>
         <div className="pattern pointer-events-none absolute -right-[10%] -top-[35%] -z-10 aspect-square w-[40rem] bg-royal opacity-[0.07]" data-parallax="0.25" aria-hidden />
 
-        <div className="hero-photo relative h-[22rem] overflow-hidden sm:h-[28rem] lg:absolute lg:inset-y-0 lg:left-0 lg:h-auto lg:w-[56%]" data-hero="0">
-          <div className="absolute -inset-y-[6%] inset-x-0" data-parallax="0.15" data-hero-img>
-            <Image src={st.heroImage} alt={`Portrait of ${st.siteName}`} fill priority sizes="(min-width: 1024px) 56vw, 100vw" style={heroImageStyle(st)} />
+        <div className="hero-photo relative h-[clamp(17rem,68vw,25rem)] overflow-hidden sm:h-[28rem] lg:absolute lg:inset-y-0 lg:left-0 lg:h-auto lg:w-[56%]" data-hero="0">
+          {/* Mobile uses a portrait-friendly crop independently of desktop positioning and zoom. */}
+          <div className="absolute inset-0 lg:hidden">
+            <Image src={st.heroImage} alt={`Portrait of ${st.siteName}`} fill priority sizes="100vw" className="object-cover object-[center_20%]" />
+          </div>
+          <div className="absolute -inset-y-[6%] inset-x-0 hidden lg:block" data-parallax="0.15" data-hero-img>
+            <Image src={st.heroImage} alt="" fill sizes="56vw" style={heroImageStyle(st)} />
           </div>
         </div>
 
