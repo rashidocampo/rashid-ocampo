@@ -334,7 +334,7 @@ html.js:not(.motion-ready):not(.motion-off) .swi { transform: translateY(115%); 
 body:has(.mock-home) { background: #fff; color: #0a2944; }
 body:has(.mock-home) header { position: absolute; inset: 0 0 auto; z-index: 50; background: transparent; backdrop-filter: none; box-shadow: none; }
 body:has(.mock-home) header .wrap { max-width: 1440px; height: 80px; padding-inline: clamp(24px,3.8vw,54px); }
-body:has(.mock-home) header a[href="/"] img { display: none; }
+
 body:has(.mock-home) header a[href="/"] .font-display { font-size: clamp(1.2rem,1.9vw,1.75rem); letter-spacing: .085em; text-transform: uppercase; color: #092c49; }
 body:has(.mock-home) header a[href="/"]::after { content: ""; height: 30px; width: 1px; background: #17446a; margin-left: 24px; }
 body:has(.mock-home) header nav[aria-label="Main"] { gap: 0; }
