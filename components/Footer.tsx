@@ -7,7 +7,7 @@ import SocialLinks from "./SocialLinks";
 export default async function Footer() {
   const st = await getSettings();
   return (
-    <footer>
+    <footer className="mt-auto shrink-0 bg-[var(--color-navy-950)]">
       {/* Stay connected, over a misty mountain range in the accent colour */}
       <section className="relative isolate -mt-10 overflow-hidden rounded-t-[50%_2.5rem] bg-gradient-to-b from-paper to-paper-2 sm:-mt-14 sm:rounded-t-[50%_3.5rem]">
         <div className="wrap relative z-10 flex flex-col gap-6 pb-[max(12rem,16vw)] pt-20 sm:pt-24 lg:flex-row lg:items-center lg:gap-9">
@@ -37,7 +37,7 @@ export default async function Footer() {
       </section>
 
       {/* Bottom bar */}
-      <div className="ink">
+      <div className="ink pb-[env(safe-area-inset-bottom)]">
         <div className="wrap flex flex-col gap-5 py-6 sm:flex-row sm:items-center sm:gap-8">
           <Link href="/" className="flex items-center gap-3">
             <Image src="/ro-mark.svg" alt="RO logo" width={36} height={36} unoptimized className="size-9 shrink-0" />
