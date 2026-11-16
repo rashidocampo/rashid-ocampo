@@ -1,3 +1,4 @@
+import CoverTitle from "@/components/CoverTitle";
 "use client";
 import { useState } from "react";
 import Link from "next/link";
@@ -31,7 +32,7 @@ export default function BlogTopicFilter({ posts, topics }: { posts: Post[]; topi
 }
 function ArticleRow({post}:{post:Post}) {
   return <Link href={`/blog/${post.slug}`} className="group flex min-w-0 items-center gap-3 border-b border-navy-900/10 py-4 transition hover:bg-royal/[0.035]">
-    <div className="relative aspect-[5/4] w-24 shrink-0 overflow-hidden rounded-xl bg-royal/15 sm:w-36">{post.cover_url?<Image src={post.cover_url} alt="" fill sizes="144px" className="object-cover transition-transform duration-300 group-hover:scale-105" style={{objectPosition:`${post.cover_x??50}% ${post.cover_y??50}%`}}/>:<PatternCover seed={post.slug}/>}</div>
+    <div className="relative aspect-[5/4] w-24 shrink-0 overflow-hidden rounded-xl bg-royal/15 sm:w-36">{post.cover_url?<Image src={post.cover_url} alt="" fill sizes="144px" className="object-cover transition-transform duration-300 group-hover:scale-105" style={{objectPosition:`${post.cover_x??50}% ${post.cover_y??50}%`}}/>:<PatternCover seed={post.slug}/>}<CoverTitle title={post.title}/></div>
     <div className="min-w-0 flex-1"><h3 dir="auto" className="break-words text-base font-semibold leading-snug text-navy-950 sm:text-xl">{post.title}</h3><p className="muted mt-2 text-sm">▣ <time dateTime={post.published_at}>{formatDate(post.published_at)}</time></p></div><span className="shrink-0 text-xl text-royal" aria-hidden="true">›</span>
   </Link>;
 }
