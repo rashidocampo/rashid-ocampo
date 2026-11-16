@@ -1,7 +1,7 @@
 .books-landing {
-  --books-paper: #fbf9f1;
-  --books-ink: #0a2836;
-  --books-green: #0d5f40;
+  --books-paper: var(--color-paper);
+  --books-ink: var(--color-navy-900);
+  --books-green: var(--color-royal);
   --books-width: 76rem;
   --books-gutter: clamp(1.25rem, 4vw, 3rem);
   --books-heading: "Amiri", "Finlandica Headline", Arial, sans-serif;
@@ -19,7 +19,7 @@
 
 .books-hero {
   overflow: hidden;
-  background: radial-gradient(ellipse at 45% 0%, #d6e0d1, transparent 58%), #f6f4e9;
+  background: radial-gradient(ellipse at 45% 0%, var(--color-paper-2), transparent 58%), var(--color-paper);
 }
 
 .books-hero-inner {
@@ -91,9 +91,9 @@
 }
 
 .books-primary-button { background: var(--books-green); color: #fff; }
-.books-primary-button:hover { background: #084831; }
-.books-outline-button { background: #fffaf08c; color: #10442f; }
-.books-outline-button:hover { background: #e1eddf; }
+.books-primary-button:hover { background: color-mix(in oklab, var(--books-green) 75%, black); }
+.books-outline-button { background: var(--color-paper); color: var(--books-ink); }
+.books-outline-button:hover { background: var(--color-paper-2); }
 
 .books-hero-visual {
   position: relative;
@@ -110,7 +110,7 @@
   margin-top: 1.5rem;
   padding: .85rem .15rem;
   border-radius: 1.15rem;
-  background: #eef0e5;
+  background: var(--color-paper-2);
 }
 
 .books-stats li {
@@ -159,7 +159,7 @@
 .books-shelf-heading select {
   max-width: min(100%, 12.75rem);
   min-height: 2.75rem;
-  border: 1px solid #46765f;
+  border: 1px solid var(--books-green);
   border-radius: 99px;
   padding: .35rem 2rem .35rem .85rem;
   appearance: none;
@@ -184,11 +184,11 @@
   gap: clamp(.75rem, 2.5vw, 1.8rem);
   min-width: 0;
   overflow: hidden;
-  border: 1px solid #e9e4d4;
+  border: 1px solid var(--color-line);
   border-radius: 1.25rem;
   padding: clamp(.8rem, 2.4vw, 1.7rem);
   padding-bottom: clamp(2.75rem, 5vw, 3.8rem);
-  background: radial-gradient(ellipse at 18% 75%, #f2edda, transparent 57%), #faf7ed;
+  background: radial-gradient(ellipse at 18% 75%, var(--color-paper-2), transparent 57%), var(--color-paper);
 }
 
 .books-card::before {
@@ -252,7 +252,7 @@
   overflow: hidden;
   margin-top: clamp(2rem, 4.6vw, 3.4rem);
   border-radius: 1.25rem;
-  background: #073b33 url("/images/books-coming-soon.webp") center / cover no-repeat;
+  background: var(--color-navy-950) url("/images/books-coming-soon.webp") center / cover no-repeat;
   color: #fffdf6;
 }
 
@@ -299,7 +299,7 @@
     overflow: hidden;
   }
 
-  .books-hero-visual::before { position: absolute; inset: 0 0 0 -6%; content: ""; background: #9db9a59c; }
+  .books-hero-visual::before { position: absolute; inset: 0 0 0 -6%; content: ""; background: color-mix(in oklab, var(--books-green) 25%, transparent); }
 
   @supports (clip-path: shape(from 0 0, line to 100% 0, close)) {
     .books-hero-photo, .books-hero-visual::before { border-radius: 0; clip-path: var(--arch); }
