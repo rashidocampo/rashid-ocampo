@@ -71,6 +71,8 @@ export type Settings = {
   footerText: string;
   /** Typeface for the whole site (name kept from when it set only the headlines). */
   headlineFont: string;
+  /** Optional separate font for headings only; empty follows the site font. */
+  headingOnlyFont: string;
   /** Show the tagline under the name on a green highlight band, or as plain green text. */
   taglineHighlight: boolean;
   /** Optional landscape photo behind "Stay Connected"; empty uses the drawn landscape. */
@@ -145,6 +147,7 @@ export const defaultSettings: Settings = {
   youtubeUrl: "",
   footerHeading: "Stay Connected",
   headlineFont: "finlandica",
+  headingOnlyFont: "",
   taglineHighlight: false,
   footerImage: "",
   booksNavLabel: "Books",
