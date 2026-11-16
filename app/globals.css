@@ -420,7 +420,7 @@ body:has(.mock-home) footer .ink p.wrap { display: none; }
 }
 
 /* Shared site chrome on the Books landing page. */
-body:has(.books-landing) header { background: #fbf9f1f5; }
+body:has(.books-landing) header { background: var(--color-paper); }
 body:has(.books-landing) header .wrap,
 body:has(.books-landing) footer .wrap { max-width: 76rem; }
 body:has(.books-landing) header .wrap > a .font-display {
@@ -428,9 +428,9 @@ body:has(.books-landing) header .wrap > a .font-display {
   font-size: clamp(1.05rem, 3vw, 1.85rem);
   font-weight: 700;
 }
-body:has(.books-landing) header nav a[aria-current="page"] { background: #21683f; border-radius: .85rem; }
+body:has(.books-landing) header nav a[aria-current="page"] { background: var(--color-royal); border-radius: .85rem; }
 body:has(.books-landing) footer > section { display: none; }
-body:has(.books-landing) footer .ink { background: #072f2b; }
+body:has(.books-landing) footer .ink { background: var(--color-navy-950); }
 body:has(.books-landing) footer .ink > div { padding-block: 1rem; }
 body:has(.books-landing) footer .ink .font-display { font: 700 1.3rem / 1.1 "Finlandica Headline", Arial, sans-serif; }
 
