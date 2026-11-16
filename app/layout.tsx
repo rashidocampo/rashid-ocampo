@@ -32,14 +32,14 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const heading = st.headingOnlyFont ? siteFont(st.headingOnlyFont) : font;
   const vars = { "--font-display": heading.family, "--font-body": font.family, "--display-weight": heading.weight, "--display-tracking": heading.tracking, ...themePalette(st.themeColor) } as React.CSSProperties;
   return (
-    <html lang="en" className="h-full antialiased">
-      <body className="min-h-full flex flex-col" style={vars}>
+    <html lang="en" className="min-h-full antialiased">
+      <body className="flex min-h-screen min-h-dvh flex-col" style={vars}>
         {/* Marks that scripts run, so animated pieces can start hidden; shows everything if the motion script never arrives */}
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js');setTimeout(function(){var c=document.documentElement.classList;if(!c.contains('motion-ready'))c.add('motion-off')},4000)" }} />
         <Motion />
         <Header name={st.headerTitle} items={buildNav(st, pages)} />
         <HeaderAudio src={st.headerAudioUrl} />
-        <main className="flex-1">{children}</main>
+        <main className="min-w-0 flex-1">{children}</main>
         <Footer />
       </body>
     </html>
