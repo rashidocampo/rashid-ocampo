@@ -433,3 +433,9 @@ body:has(.books-landing) footer > section { display: none; }
 body:has(.books-landing) footer .ink { background: #072f2b; }
 body:has(.books-landing) footer .ink > div { padding-block: 1rem; }
 body:has(.books-landing) footer .ink .font-display { font: 700 1.3rem / 1.1 "Finlandica Headline", Arial, sans-serif; }
+
+/* Keep the final footer flush with the viewport on short pages and mobile safe areas. */
+html { min-height: 100%; background: var(--color-navy-950); }
+body { min-height: 100vh; min-height: 100dvh; }
+body > main { min-width: 0; }
+body > footer { flex-shrink: 0; margin-top: auto; }
