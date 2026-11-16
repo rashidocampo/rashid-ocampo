@@ -55,16 +55,16 @@ export default async function Blog({ searchParams }: Props) {
       </header>
       <div className="grid min-w-0 items-start gap-7 lg:gap-9 lg:grid-cols-[minmax(0,1fr)_300px]">
         <main className="min-w-0">
-          {featured && <Link href={`/blog/${featured.slug}`} className="group relative flex min-h-[270px] overflow-hidden rounded-[18px] bg-[#123e34] text-white sm:min-h-[350px]">
+          {featured && <Link href={`/blog/${featured.slug}`} className="group relative flex min-h-[270px] overflow-hidden rounded-[18px] bg-navy-950 text-white sm:min-h-[350px]">
             <div className="absolute inset-0">
               {featured.cover_url ? <Image src={featured.cover_url} alt="" fill priority sizes="(min-width: 1024px) 760px, 100vw" className="object-cover" style={{ objectPosition: `${featured.cover_x ?? 50}% ${featured.cover_y ?? 50}%` }} /> : <PatternCover seed={featured.slug} />}
-              <div className="absolute inset-0 bg-gradient-to-r from-[#06432f]/95 via-[#06432f]/80 to-[#06432f]/10" />
+              <div className="absolute inset-0 bg-gradient-to-r from-navy-950/95 via-navy-950/80 to-navy-950/10" />
             </div>
             <div className="relative flex min-w-0 max-w-[550px] flex-col items-start justify-center p-5 sm:p-10">
-              <span className="rounded-full bg-[#f3f4dd] px-4 py-1.5 text-sm font-semibold text-[#183c2b]">Featured</span>
+              <span className="rounded-full bg-paper px-4 py-1.5 text-sm font-semibold text-navy-950">Featured</span>
               <h2 dir="auto" className="mt-4 break-words text-[clamp(1.65rem,6vw,3rem)] font-semibold leading-[1.16] sm:mt-5">{featured.title}</h2>
               <p className="mt-5 text-sm text-white/90">· <time dateTime={featured.published_at}>{formatDate(featured.published_at)}</time></p>
-              <span className="mt-5 inline-flex min-h-11 items-center rounded-full border border-white/80 bg-royal px-6 py-2.5 text-base font-semibold transition group-hover:bg-[#126c3a]">Read Article →</span>
+              <span className="mt-5 inline-flex min-h-11 items-center rounded-full border border-white/80 bg-royal px-6 py-2.5 text-base font-semibold transition group-hover:bg-royal/85">Read Article →</span>
             </div>
           </Link>}
           <BlogTopicFilter posts={latest} topics={tagCounts} />
