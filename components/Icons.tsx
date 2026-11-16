@@ -24,6 +24,15 @@ export const Book = ({ className }: P) => (
 export const Layers = ({ className }: P) => (
   <svg {...base} strokeWidth={1.2} className={className}><path d="m12 3 9 5-9 5-9-5zM3 12l9 5 9-5M3 16l9 5 9-5" /></svg>
 );
+export const Bookmark = ({ className }: P) => (
+  <svg {...base} className={className}><path d="M6 3h12a1 1 0 0 1 1 1v17l-7-5-7 5V4a1 1 0 0 1 1-1Z" /></svg>
+);
+export const ReadOnline = ({ className }: P) => (
+  <svg {...base} className={className}><rect x="3" y="4.5" width="18" height="12" rx="1.5" /><path d="M3 20h18M8 9h8m-8 3h6" /></svg>
+);
+export const Readers = ({ className }: P) => (
+  <svg {...base} className={className}><circle cx="9" cy="7" r="3" /><path d="M2.5 20v-2a5 5 0 0 1 5-5h3a5 5 0 0 1 5 5v2m.5-16a3 3 0 0 1 0 6m1 3a5 5 0 0 1 4.5 5v2" /></svg>
+);
 export const Sprout = ({ className }: P) => (
   <svg {...base} strokeWidth={1.2} className={className}><path d="M12 21v-9M12 12c0-4-3-7-8-7 0 5 3 8 8 7zM12 14c0-3 3-6 8-6 0 5-3 7-8 6zM8 21h8" /></svg>
 );
