@@ -37,7 +37,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         {/* Marks that scripts run, so animated pieces can start hidden; shows everything if the motion script never arrives */}
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js');setTimeout(function(){var c=document.documentElement.classList;if(!c.contains('motion-ready'))c.add('motion-off')},4000)" }} />
         <Motion />
-        <Header name={st.headerTitle} items={buildNav(st, pages)} />
+        <Header name={st.headerTitle} items={buildNav(st, pages)} logoEnabled={st.logoEnabled} logoImage={st.logoImage} />
         <HeaderAudio src={st.headerAudioUrl} />
         <main className="min-w-0 flex-1">{children}</main>
         <Footer />
