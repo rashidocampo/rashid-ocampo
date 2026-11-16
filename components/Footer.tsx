@@ -40,7 +40,7 @@ export default async function Footer() {
       <div className="ink pb-[env(safe-area-inset-bottom)]">
         <div className="wrap flex flex-col gap-5 py-6 sm:flex-row sm:items-center sm:gap-8">
           <Link href="/" className="flex items-center gap-3">
-            <Image src="/ro-mark.svg" alt="RO logo" width={36} height={36} unoptimized className="size-9 shrink-0" />
+            {st.logoEnabled && <Image src={st.logoImage || "/ro-mark.svg"} alt="Website logo" width={36} height={36} unoptimized className="size-9 shrink-0 object-contain" />}
             <span dir="auto" className="font-display text-[1.375rem] leading-none">{st.siteName}</span>
           </Link>
           <div className="sm:ms-auto">
