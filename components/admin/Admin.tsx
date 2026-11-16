@@ -481,6 +481,23 @@ function SiteContent({ group }: { group: Group }) {
       )}
       {group === "site" && (
       <>
+      <div className="rounded-xl border border-navy-900/15 bg-paper-2 p-4 space-y-4">
+        <h3 className="text-lg font-semibold">Website logo (header and footer)</h3>
+        <label className="flex items-center gap-3">
+          <input type="checkbox" checked={s.logoEnabled !== false} onChange={(e) => setS({ ...s, logoEnabled: e.target.checked })} className="h-5 w-5" />
+          Show website logo
+        </label>
+        <div>
+          <label className={label}>Replace the RO logo</label>
+          <ImageField value={s.logoImage || "/ro-mark.svg"} onChange={(v) => setS({ ...s, logoImage: v || "/ro-mark.svg" })} />
+          <p className="mt-1 text-sm text-navy-700">Upload a square PNG, SVG, or WebP logo. It appears in the header and footer when enabled.</p>
+        </div>
+        <div className="flex flex-wrap items-center gap-4">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={s.logoImage || "/ro-mark.svg"} alt="Logo preview" className="h-12 w-12 rounded-md object-contain" />
+          <button type="button" className="text-sm text-royal underline" onClick={() => setS({ ...s, logoEnabled: true, logoImage: "/ro-mark.svg" })}>Restore original RO logo</button>
+        </div>
+      </div>
       <div>
         <label className={label}>Audio below header (MP3)</label>
         <ImageField audio value={s.headerAudioUrl || null} onChange={(v) => setS({ ...s, headerAudioUrl: v ?? "" })} />
