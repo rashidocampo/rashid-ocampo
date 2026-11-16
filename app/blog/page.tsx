@@ -1,10 +1,18 @@
 import Image from "next/image";
-import { PenLine } from "lucide-react";
 import Link from "next/link";
 import { getPosts, getSettings, getTags } from "@/lib/data";
 import { formatDate, type Post } from "@/lib/site";
 import PatternCover from "@/components/PatternCover";
 import BlogTopicFilter from "@/components/BlogTopicFilter";
+
+function PenIcon({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+      <path d="M12 19h9" />
+      <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L9 17l-4 1 1-4 10.5-10.5Z" />
+    </svg>
+  );
+}
 
 export const instant = false;
 
@@ -24,7 +32,7 @@ function ArticleRow({ post }: { post: Post }) {
       </div>
       <div className="min-w-0 flex-1">
         <h3 dir="auto" className="break-words text-base font-semibold leading-snug text-navy-950 sm:text-xl">{post.title}</h3>
-        <p className="muted mt-2 text-sm"><span aria-hidden="true">▣</span> <time dateTime={post.published_at}>{formatDate(post.published_at)}</time></p>
+        <p className="muted mt-2 text-sm"><span aria-hidden="true">·</span> <time dateTime={post.published_at}>{formatDate(post.published_at)}</time></p>
       </div>
       <span className="shrink-0 text-xl text-royal sm:text-2xl" aria-hidden="true">›</span>
     </Link>
@@ -42,7 +50,7 @@ export default async function Blog({ searchParams }: Props) {
   return (
     <div className="wrap min-w-0 pb-14 pt-6 sm:pb-20 sm:pt-12">
       <header className="mb-6 sm:mb-8">
-        <h1 className="flex min-w-0 items-center gap-3 break-words text-[clamp(2rem,7vw,3.7rem)] font-semibold leading-tight text-navy-950"><PenLine className="h-[0.8em] w-[0.8em] shrink-0 text-royal" strokeWidth={1.8} aria-hidden="true" /> {st.blogTitle || "Blog"}</h1>
+        <h1 className="flex min-w-0 items-center gap-3 break-words text-[clamp(2rem,7vw,3.7rem)] font-semibold leading-tight text-navy-950"><PenIcon className="h-[0.8em] w-[0.8em] shrink-0 text-royal" /> {st.blogTitle || "Blog"}</h1>
         <p className="mt-2 text-base leading-relaxed text-navy-800 sm:text-lg">{st.description}</p>
       </header>
       <div className="grid min-w-0 items-start gap-7 lg:gap-9 lg:grid-cols-[minmax(0,1fr)_300px]">
@@ -55,7 +63,7 @@ export default async function Blog({ searchParams }: Props) {
             <div className="relative flex min-w-0 max-w-[550px] flex-col items-start justify-center p-5 sm:p-10">
               <span className="rounded-full bg-[#f3f4dd] px-4 py-1.5 text-sm font-semibold text-[#183c2b]">Featured</span>
               <h2 dir="auto" className="mt-4 break-words text-[clamp(1.65rem,6vw,3rem)] font-semibold leading-[1.16] sm:mt-5">{featured.title}</h2>
-              <p className="mt-5 text-sm text-white/90">▣ <time dateTime={featured.published_at}>{formatDate(featured.published_at)}</time></p>
+              <p className="mt-5 text-sm text-white/90">· <time dateTime={featured.published_at}>{formatDate(featured.published_at)}</time></p>
               <span className="mt-5 inline-flex min-h-11 items-center rounded-full border border-white/80 bg-royal px-6 py-2.5 text-base font-semibold transition group-hover:bg-[#126c3a]">Read Article →</span>
             </div>
           </Link>}
