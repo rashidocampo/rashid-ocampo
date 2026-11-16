@@ -254,10 +254,10 @@ export const youtubeId = (url: string) => {
 
 /** Typefaces the owner can switch the whole site to. Arabic always uses Amiri. */
 export const headlineFonts = {
-  finlandica: { label: "Finlandica Headline (clean modern sans)", family: '"Amiri", "Finlandica Headline", "Helvetica Neue", Arial, sans-serif', weight: 700, bodyWeight: 400, tracking: "-0.012em" },
-  bungeeInline: { label: "Bungee Inline (decorative display)", family: '"Amiri", "Bungee Inline", "Finlandica Headline", sans-serif', weight: 400, bodyWeight: 400, tracking: "0em" },
-  serif: { label: "Newsreader (classic serif)", family: '"Amiri", "Newsreader Variable", Georgia, serif', weight: 600, bodyWeight: 400, tracking: "-0.015em" },
-  literata: { label: "Literata (book serif, easy to read)", family: '"Amiri", "Literata Variable", Georgia, serif', weight: 650, bodyWeight: 400, tracking: "-0.015em" },
+  finlandica: { label: "Finlandica Headline (clean modern sans)", family: '"Finlandica Headline", "Helvetica Neue", Arial, "Amiri", sans-serif', weight: 700, bodyWeight: 400, tracking: "-0.012em" },
+  bungeeInline: { label: "Bungee Inline (decorative display)", family: '"Bungee Inline", "Finlandica Headline", "Amiri", sans-serif', weight: 400, bodyWeight: 400, tracking: "0em" },
+  serif: { label: "Newsreader (classic serif)", family: '"Newsreader Variable", Georgia, "Amiri", serif', weight: 600, bodyWeight: 400, tracking: "-0.015em" },
+  literata: { label: "Literata (book serif, easy to read)", family: '"Literata Variable", Georgia, "Amiri", serif', weight: 650, bodyWeight: 400, tracking: "-0.015em" },
 } as const;
 export type FontKey = keyof typeof headlineFonts;
 export const siteFont = (k: string) => headlineFonts[k as FontKey] ?? headlineFonts.finlandica;
