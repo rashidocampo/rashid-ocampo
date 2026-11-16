@@ -16,7 +16,10 @@ const nextConfig: NextConfig = {
       ["kabanata-5-mga-aklat", "kabanata-5-mga-aklat"],
       ["kabanata-6-alas-dos-ng-hapon", "kabanata-6-alas-dos-ng-hapon"],
     ];
-    return moved.map(([from, to]) => ({ source: `/blog/${from}`, destination: `/books/balik-islam/${to}`, permanent: true }));
+    return [
+      { source: "/eggtracker", destination: "/eggtracker/index.html", permanent: false },
+      ...moved.map(([from, to]) => ({ source: `/blog/${from}`, destination: `/books/balik-islam/${to}`, permanent: true })),
+    ];
   },
   turbopack: {
     rules: {
