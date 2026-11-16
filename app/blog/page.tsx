@@ -1,3 +1,4 @@
+import CoverTitle from "@/components/CoverTitle";
 import Image from "next/image";
 import Link from "next/link";
 import { getPosts, getSettings, getTags } from "@/lib/data";
@@ -29,6 +30,7 @@ function ArticleRow({ post }: { post: Post }) {
     <Link href={`/blog/${post.slug}`} className="group flex min-w-0 items-center gap-3 border-b border-navy-900/10 py-4 transition hover:bg-royal/[0.035] sm:gap-5">
       <div className="relative aspect-[5/4] w-24 shrink-0 overflow-hidden rounded-xl bg-royal/15 sm:w-36">
         {post.cover_url ? <Image src={post.cover_url} alt="" fill sizes="144px" className="object-cover transition-transform duration-300 group-hover:scale-105" style={{ objectPosition: `${post.cover_x ?? 50}% ${post.cover_y ?? 50}%` }} /> : <PatternCover seed={post.slug} />}
+        <CoverTitle title={post.title} />
       </div>
       <div className="min-w-0 flex-1">
         <h3 dir="auto" className="break-words text-base font-semibold leading-snug text-navy-950 sm:text-xl">{post.title}</h3>
