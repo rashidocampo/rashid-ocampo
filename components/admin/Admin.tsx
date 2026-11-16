@@ -498,10 +498,19 @@ function SiteContent({ group }: { group: Group }) {
         <p className="mt-1 text-sm text-navy-700">Pick one colour; buttons, icons and highlights are matched to it. The text stays navy.</p>
       </div>
       <div>
-        <label className={label} htmlFor="headlineFont">Font for the whole site</label>
+        <label className={label} htmlFor="headlineFont">Body and general website font</label>
         <select id="headlineFont" className="field" value={s.headlineFont in headlineFonts ? s.headlineFont : "finlandica"} onChange={(e) => setS({ ...s, headlineFont: e.target.value })}>
           {Object.entries(headlineFonts).map(([k, f]) => <option key={k} value={k}>{f.label}</option>)}
         </select>
+        <div className="mt-4">
+          <label className={label} htmlFor="headingOnlyFont">Headings font (optional)</label>
+          <select id="headingOnlyFont" className="field" value={s.headingOnlyFont || ""} onChange={(e) => setS({ ...s, headingOnlyFont: e.target.value })}>
+            <option value="">Same as body font</option>
+            {Object.entries(headlineFonts).map(([k, f]) => <option key={k} value={k}>{f.label}</option>)}
+          </select>
+          <p className="mt-1 text-sm text-navy-700">Choose Bungee Inline here to style headings only. Paragraphs and article text keep the body font.</p>
+          <p className="mt-3 break-words text-2xl leading-tight" style={{ fontFamily: siteFont(s.headingOnlyFont || s.headlineFont).family, fontWeight: siteFont(s.headingOnlyFont || s.headlineFont).weight }}>Sample Heading — Blog Posts</p>
+        </div>
         <div className="mt-3 rounded-xl bg-white p-4 ring-1 ring-black/5" style={{ fontFamily: siteFont(s.headlineFont).family }}>
           <p className="text-4xl" style={{ fontWeight: siteFont(s.headlineFont).weight }}>{s.siteName}</p>
           <p className="mt-2 text-lg">{s.description}</p>
