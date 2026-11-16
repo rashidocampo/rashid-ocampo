@@ -26,6 +26,8 @@ export type Settings = {
   contactResponseTime: string;
   siteName: string;
   headerTitle: string;
+  logoEnabled: boolean;
+  logoImage: string;
   heroTitle: string;
   homeNavLabel: string;
   blogNavLabel: string;
@@ -103,6 +105,8 @@ export const defaultSettings: Settings = {
   contactResponseTime: "",
   siteName: "Rashid Ocampo",
   headerTitle: "Rashid Ocampo",
+  logoEnabled: true,
+  logoImage: "/ro-mark.svg",
   heroTitle: "Rashid Ocampo",
   homeNavLabel: "Home",
   blogNavLabel: "Blog",
