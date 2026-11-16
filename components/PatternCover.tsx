@@ -20,6 +20,22 @@ const tiles: [number, number, React.ReactNode][] = [
   [48, 48, <g key="k" {...S}><path d="M0 24a24 24 0 0 0 24-24M48 24a24 24 0 0 0-24 24M0 12A12 12 0 0 0 12 0M48 36a12 12 0 0 0-12 12" /><circle cx="24" cy="24" r="3" fill="currentColor" stroke="none" /></g>],
   // woven squares
   [32, 32, <g key="k" {...S}><path d="M4 4h10v10H4zM18 18h10v10H18z" /><path d="M18 4h10v10H18zM4 18h10v10H4z" fill="currentColor" fillOpacity=".28" stroke="none" /></g>],
+  // eight-pointed star lattice
+  [64, 64, <g key="k" {...S}><path d="M32 2 41 23 62 32 41 41 32 62 23 41 2 32 23 23Z M32 12 52 32 32 52 12 32Z M0 0l16 16M64 0 48 16M0 64l16-16M64 64 48 48" /></g>],
+  // interlaced octagons
+  [56, 56, <g key="k" {...S}><path d="M16 0h24l16 16v24L40 56H16L0 40V16Z M28 0 56 28 28 56 0 28Z M8 8h40v40H8z" /></g>],
+  // mashrabiya window grid
+  [48, 48, <g key="k" {...S}><path d="M24 0C9 0 0 11 0 24v24h48V24C48 11 39 0 24 0Z M24 8C14 8 8 16 8 25v15h32V25C40 16 34 8 24 8Z M24 8v32M8 24h32" /></g>],
+  // rosettes
+  [60, 60, <g key="k" {...S}><circle cx="30" cy="30" r="24"/><circle cx="30" cy="30" r="9"/><path d="M30 6Q45 30 30 54Q15 30 30 6ZM6 30Q30 15 54 30Q30 45 6 30Z M13 13l34 34M47 13 13 47" /></g>],
+  // woven diagonal ribbons
+  [48, 48, <g key="k" {...S}><path d="M-12 12 12-12 60 36 36 60ZM-12 36 36-12 60 12 12 60Z M0 0l48 48M48 0 0 48" /></g>],
+  // geometric sunburst
+  [64, 64, <g key="k" {...S}><circle cx="32" cy="32" r="12"/><path d="M32 0v20m0 24v20M0 32h20m24 0h20M9 9l14 14m18 18 14 14M55 9 41 23M23 41 9 55M16 0l16 20L48 0M16 64l16-20 16 20" /></g>],
+  // hexagonal flower lattice
+  [60, 52, <g key="k" {...S}><path d="M15 0h30l15 26-15 26H15L0 26Z M30 0v52M0 26h60M15 0l30 52M45 0 15 52" /><circle cx="30" cy="26" r="9"/></g>],
+  // arches and columns
+  [52, 64, <g key="k" {...S}><path d="M3 64V28Q3 3 26 3T49 28v36M12 64V29Q12 14 26 14T40 29v35M26 14v50M0 63h52M3 35h46" /></g>],
 ];
 
 /** Small stable number from a piece of text, so each post always gets the same design. */
