@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { PenLine } from "lucide-react";
 import Link from "next/link";
 import { getPosts, getSettings, getTags } from "@/lib/data";
 import { formatDate, type Post } from "@/lib/site";
@@ -41,7 +42,7 @@ export default async function Blog({ searchParams }: Props) {
   return (
     <div className="wrap min-w-0 pb-14 pt-6 sm:pb-20 sm:pt-12">
       <header className="mb-6 sm:mb-8">
-        <h1 className="flex min-w-0 items-center gap-3 break-words text-[clamp(2rem,7vw,3.7rem)] font-semibold leading-tight text-navy-950"><span className="text-royal" aria-hidden="true">▣</span> {st.blogTitle || "Blog"}</h1>
+        <h1 className="flex min-w-0 items-center gap-3 break-words text-[clamp(2rem,7vw,3.7rem)] font-semibold leading-tight text-navy-950"><PenLine className="h-[0.8em] w-[0.8em] shrink-0 text-royal" strokeWidth={1.8} aria-hidden="true" /> {st.blogTitle || "Blog"}</h1>
         <p className="mt-2 text-base leading-relaxed text-navy-800 sm:text-lg">{st.description}</p>
       </header>
       <div className="grid min-w-0 items-start gap-7 lg:gap-9 lg:grid-cols-[minmax(0,1fr)_300px]">
