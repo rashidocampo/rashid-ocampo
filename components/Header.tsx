@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import type { NavItem } from "@/lib/site";
 import { Search } from "./Icons";
 
-export default function Header({ name, items }: { name: string; items: NavItem[] }) {
+export default function Header({ name, items, logoEnabled, logoImage }: { name: string; items: NavItem[]; logoEnabled: boolean; logoImage: string }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -37,14 +37,14 @@ export default function Header({ name, items }: { name: string; items: NavItem[]
     <header className={`sticky top-0 z-50 bg-paper/90 backdrop-blur-md transition-shadow duration-300 ${scrolled ? "shadow-[0_10px_30px_-20px_rgb(16_31_56/0.5)]" : ""}`}>
       <div className="wrap flex h-16 min-w-0 items-center justify-between gap-2 sm:h-[4.75rem] sm:gap-4">
         <Link href="/" className="group flex min-w-0 flex-1 items-center gap-2 overflow-hidden sm:gap-2.5">
-          <Image
-            src="/ro-mark.svg"
+          {logoEnabled && <Image
+            src={logoImage || "/ro-mark.svg"}
             alt=""
             width={36}
             height={36}
             className="size-8 shrink-0 sm:size-9"
             unoptimized
-          />
+          />}
           <span className="flex min-w-0 flex-1 items-center">
             <span dir="auto" className="font-display block min-w-0 truncate whitespace-nowrap text-[clamp(0.95rem,4.1vw,1.25rem)] font-semibold leading-tight sm:text-[1.875rem]">{name}</span>
           </span>
