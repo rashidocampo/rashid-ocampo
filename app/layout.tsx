@@ -29,7 +29,8 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const [st, pages] = await Promise.all([getSettings(), getPages()]);
   const font = siteFont(st.headlineFont);
-  const vars = { "--font-display": font.family, "--font-body": font.family, "--display-weight": font.weight, "--display-tracking": font.tracking, ...themePalette(st.themeColor) } as React.CSSProperties;
+  const heading = st.headingOnlyFont ? siteFont(st.headingOnlyFont) : font;
+  const vars = { "--font-display": heading.family, "--font-body": font.family, "--display-weight": heading.weight, "--display-tracking": heading.tracking, ...themePalette(st.themeColor) } as React.CSSProperties;
   return (
     <html lang="en" className="h-full antialiased">
       <body className="min-h-full flex flex-col" style={vars}>
