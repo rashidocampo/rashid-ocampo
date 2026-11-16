@@ -19,8 +19,8 @@
  * One typeface for everything (Finlandica Headline unless the owner picks another); Amiri for Arabic.
  */
 @theme {
-  --font-body: "Amiri", "Finlandica Headline", "Helvetica Neue", Arial, sans-serif;
-  --font-display: "Amiri", "Finlandica Headline", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Finlandica Headline", "Helvetica Neue", Arial, "Amiri", sans-serif;
+  --font-display: "Finlandica Headline", "Helvetica Neue", Arial, "Amiri", sans-serif;
 
   /* Ink: fixed navy */
   --color-navy-950: #101f38;
@@ -439,3 +439,6 @@ html { min-height: 100%; background: var(--color-navy-950); }
 body { min-height: 100vh; min-height: 100dvh; }
 body > main { min-width: 0; }
 body > footer { flex-shrink: 0; margin-top: auto; }
+
+/* Latin punctuation such as ( and ) uses the selected text font; Arabic glyphs fall back to Amiri. */
+.prose-post :dir(rtl), .chapter-text :dir(rtl) { font-family: "Amiri", serif; }
