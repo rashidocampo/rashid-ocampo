@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import BookCover from "@/components/BookCover";
 import { getBooks, getSettings } from "@/lib/data";
@@ -27,18 +28,15 @@ export default async function BooksPage() {
             </div>
           </div>
           <div className="relative isolate min-h-[19rem] overflow-hidden rounded-[1.75rem] bg-[#e9e8d8] shadow-[0_20px_60px_-30px_rgba(4,50,41,.35)] sm:min-h-[25rem] lg:min-h-[30rem]">
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_20%,#fff8e7_0%,transparent_55%),linear-gradient(140deg,#f4f1e4,#d9e4d6)]" />
-            <svg viewBox="0 0 560 440" preserveAspectRatio="xMidYMid slice" className="absolute inset-0 h-full w-full" aria-hidden="true">
-              <defs><linearGradient id="woodShelf" x1="0" x2="0" y1="0" y2="1"><stop stopColor="#a57c4c"/><stop offset="1" stopColor="#694b30"/></linearGradient><linearGradient id="bookSpine" x1="0" x2="1"><stop stopColor="#092e34"/><stop offset=".55" stopColor="#174d50"/><stop offset="1" stopColor="#092e34"/></linearGradient><radialGradient id="lanternGlow"><stop stopColor="#ffdb83" stopOpacity=".9"/><stop offset="1" stopColor="#ffdb83" stopOpacity="0"/></radialGradient></defs>
-              <path d="M170 0 Q85 70 120 165 L120 410 L430 410 L430 165 Q460 70 380 0" fill="#7a9d84" opacity=".13"/>
-              <circle cx="280" cy="178" r="160" fill="#fff7e5" opacity=".4"/>
-              <ellipse cx="185" cy="285" rx="125" ry="125" fill="url(#lanternGlow)"/>
-              <rect x="15" y="362" width="540" height="24" rx="4" fill="url(#woodShelf)"/><rect x="20" y="386" width="530" height="9" fill="#59442e" opacity=".3"/>
-              <g stroke="#d9b779" strokeWidth="2"><rect x="265" y="121" width="62" height="240" rx="4" fill="url(#bookSpine)"/><rect x="332" y="111" width="57" height="250" rx="4" fill="#164a50"/><rect x="393" y="131" width="47" height="230" rx="4" fill="#a98652"/><rect x="445" y="142" width="51" height="219" rx="4" fill="#17454b"/></g>
-              {Array.from({length:4},(_,i)=><g key={i} stroke="#d9b779" strokeWidth="1.5" fill="none"><path d={`M${277+i*61} 146 v180 M${315+i*61} 146 v180`} opacity=".5"/><path d={`M${274+i*61} 165 h45 M${274+i*61} 319 h45`}/><path d={`M${295+i*61} 200 l12 20 -12 20 -12 -20z`}/></g>)}
-              <g stroke="#513a20" strokeWidth="5" strokeLinejoin="round"><path d="M108 202 L152 202 L163 231 L163 352 L96 352 L96 231 Z" fill="#ad7837"/><path d="M130 173 L130 201 M114 201 Q130 176 146 201" fill="none"/><path d="M103 228 L156 228 M103 343 L156 343" fill="none"/><path d="M130 235 L148 272 L130 311 L111 272 Z" fill="#ffe0a0" stroke="#bd924c" strokeWidth="3"/><path d="M130 235 L130 311 M111 272 L148 272" strokeWidth="2"/></g>
-              <path d="M517 363 L522 260 L540 260 L544 363" fill="#b7a38a"/><path d="M530 267 Q490 225 475 171 M528 283 Q550 235 565 205 M529 309 Q485 283 476 253" stroke="#527a48" strokeWidth="6" fill="none"/><g fill="#668f56"><ellipse cx="488" cy="184" rx="28" ry="12" transform="rotate(30 488 184)"/><ellipse cx="541" cy="231" rx="28" ry="12" transform="rotate(-35 541 231)"/><ellipse cx="490" cy="266" rx="25" ry="12" transform="rotate(25 490 266)"/></g>
-            </svg>
+            <Image
+              src="/images/books-hero.webp"
+              alt="Ornate Islamic books beside a lantern and a plant on a sunlit table"
+              fill
+              sizes="(min-width: 1088px) 500px, (min-width: 1024px) 46vw, (min-width: 500px) 92vw, calc(100vw - 2.5rem)"
+              loading="eager"
+              fetchPriority="high"
+              className="object-cover object-[55%_center]"
+            />
             <div className="absolute bottom-5 left-5 rounded-full border border-[#cbb58c]/60 bg-[#fff9eb]/85 px-4 py-2 text-xs font-semibold tracking-[.14em] text-[#1d5344] backdrop-blur-sm">READ • REFLECT • GROW</div>
           </div>
         </div>
