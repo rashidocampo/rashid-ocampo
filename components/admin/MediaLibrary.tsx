@@ -5,7 +5,7 @@ import { createClient } from "@supabase/supabase-js";
 import { SUPABASE_KEY, SUPABASE_URL } from "@/lib/site";
 
 const storage = createClient(SUPABASE_URL, SUPABASE_KEY).storage.from("media");
-type MediaObject = { name: string; id?: string | null; created_at?: string; updated_at?: string; metadata?: { size?: number; mimetype?: string } };
+type MediaObject = NonNullable<Awaited<ReturnType<typeof storage.list>>["data"]>[number];
 const formatSize = (n?: number) => n == null ? "Unknown" : n < 1024 * 1024 ? (n / 1024).toFixed(1) + " KB" : (n / (1024 * 1024)).toFixed(2) + " MB";
 const imageFile = (n: string) => /\.(png|jpe?g|webp|gif|avif|svg)$/i.test(n);
 const audioFile = (n: string) => /\.(mp3|wav|ogg|m4a)$/i.test(n);
