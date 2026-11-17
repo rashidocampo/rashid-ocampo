@@ -1,5 +1,5 @@
-import CoverTitle from "@/components/CoverTitle";
 "use client";
+import CoverTitle from "@/components/CoverTitle";
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
