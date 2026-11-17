@@ -39,6 +39,21 @@ export default async function CustomPage({ params }: Props) {
             <p className="caps text-royal">{page.eyebrow || "About"}</p>
             <h1 dir="auto" className="display-lg mt-4 text-navy-950">{page.title}</h1>
             <div className="rule my-7" />
+            <section aria-label="Audio biography" className="mt-8 overflow-hidden rounded-2xl border border-royal/25 bg-white/85 p-5 shadow-sm sm:p-7">
+              <div className="flex items-start gap-3">
+                <div aria-hidden="true" className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-royal/10 text-royal">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6"><path d="M4 10v4M8 7v10M12 4v16M16 8v8M20 10v4"/></svg>
+                </div>
+                <div className="min-w-0">
+                  <h2 className="text-xl font-bold text-navy-950 sm:text-2xl">Listen to My Story</h2>
+                  <p className="mt-1 text-sm leading-relaxed text-navy-700">Prefer listening? Play my narrated biography, or continue reading below.</p>
+                </div>
+              </div>
+              <audio className="mt-5 block w-full" controls preload="metadata" aria-label="Listen to Rashid Ocampo's biography">
+                <source src="https://esnvyrhepkewnsqqvtgm.supabase.co/storage/v1/object/public/media/1794886413766-dwhk9q-ABOUT-RASHID.mp3" type="audio/mpeg" />
+                Your browser does not support audio playback.
+              </audio>
+            </section>
             <div className="leading-relaxed"><Markdown>{intro}</Markdown></div>
           </header>
           <figure className="relative mx-auto mt-10 w-full max-w-4xl overflow-hidden rounded-2xl sm:mt-12">
