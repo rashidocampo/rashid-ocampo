@@ -36,6 +36,26 @@ const tiles: [number, number, React.ReactNode][] = [
   [60, 52, <g key="k" {...S}><path d="M15 0h30l15 26-15 26H15L0 26Z M30 0v52M0 26h60M15 0l30 52M45 0 15 52" /><circle cx="30" cy="26" r="9"/></g>],
   // arches and columns
   [52, 64, <g key="k" {...S}><path d="M3 64V28Q3 3 26 3T49 28v36M12 64V29Q12 14 26 14T40 29v35M26 14v50M0 63h52M3 35h46" /></g>],
+  // nested mihrab niches
+  [72, 80, <g key="k" {...S}><path d="M8 80V34Q8 9 36 3Q64 9 64 34V80M18 80V36Q18 20 36 14Q54 20 54 36V80M28 80V39Q28 31 36 26Q44 31 44 39V80M0 80h72M8 56h10m36 0h10" /></g>],
+  // kufic-inspired stepped maze
+  [64, 64, <g key="k" {...S} strokeWidth={2}><path d="M4 4h24v12H16v12h32V4h12v36H36v12h24v8H4V40h20V28H4Z M32 16v12M16 52v8" /></g>],
+  // tessellated eight-point petals
+  [72, 72, <g key="k" {...S}><path d="M36 4 45 27 68 36 45 45 36 68 27 45 4 36 27 27Z M36 16 56 36 36 56 16 36Z M36 16v40M16 36h40M0 0l16 16M72 0 56 16M0 72l16-16M72 72 56 56" /></g>],
+  // concentric lantern silhouettes
+  [64, 80, <g key="k" {...S}><path d="M32 3v9M23 12h18M18 24q14-18 28 0l5 12v28H13V36ZM18 64h28l-5 9H23ZM13 36h38M23 36v28M41 36v28M13 50h38M23 24l9 12 9-12" /></g>],
+  // geometric prayer-rug medallions
+  [76, 96, <g key="k" {...S}><rect x="4" y="4" width="68" height="88" rx="2"/><rect x="10" y="10" width="56" height="76"/><path d="M38 18 54 38 38 58 22 38Z M38 26 46 38 38 50 30 38Z M10 70h56M18 76h40M18 18h40" /></g>],
+  // offset circular mosaics
+  [64, 64, <g key="k" {...S}><circle cx="0" cy="0" r="22"/><circle cx="64" cy="0" r="22"/><circle cx="0" cy="64" r="22"/><circle cx="64" cy="64" r="22"/><circle cx="32" cy="32" r="22"/><path d="M0 32h64M32 0v64M0 0l64 64M64 0 0 64" /></g>],
+  // pointed arch trellis
+  [56, 76, <g key="k" {...S}><path d="M0 76V29Q0 11 28 0Q56 11 56 29v47M8 76V32Q8 19 28 11Q48 19 48 32v44M16 76V34Q16 27 28 21Q40 27 40 34v42M0 51h56M0 65h56" /></g>],
+  // woven diamond chain
+  [64, 64, <g key="k" {...S}><path d="M32 0 64 32 32 64 0 32Z M32 10 54 32 32 54 10 32Z M32 20 44 32 32 44 20 32Z M0 0l64 64M64 0 0 64M0 32h64M32 0v64" /></g>],
+  // star-and-crescent ornamental repeat
+  [72, 72, <g key="k" {...S}><path d="M28 7a26 26 0 1 0 29 40A23 23 0 0 1 28 7Z M49 10l4 10 11 1-8 7 2 11-9-6-9 6 2-11-8-7 11-1Z" /><circle cx="18" cy="54" r="3"/></g>],
+  // botanical arabesque vines
+  [72, 88, <g key="k" {...S}><path d="M36 0C6 18 65 32 36 44S6 70 36 88M36 15Q9 3 9 25Q29 31 36 15ZM36 31Q63 17 63 41Q44 48 36 31ZM36 58Q9 46 9 68Q29 76 36 58ZM36 75Q63 61 63 85Q44 91 36 75Z M36 0v88" /></g>],
 ];
 
 /** Small stable number from a piece of text, so each post always gets the same design. */
