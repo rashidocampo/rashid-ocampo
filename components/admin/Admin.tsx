@@ -1,6 +1,7 @@
 "use client";
 
 import ContactInbox from "./ContactInbox";
+import MediaLibrary from "./MediaLibrary";
 import { createClient, type Session } from "@supabase/supabase-js";
 import { useCallback, useEffect, useState } from "react";
 import { tagIcons, TagIcon } from "@/components/Icons";
@@ -997,7 +998,7 @@ function Books() {
   );
 }
 
-const tabs = ["Posts", "Books", "Pages", "Homepage", "Blog page", "Tags", "Comments", "Contact inbox", "Site & footer"] as const;
+const tabs = ["Posts", "Books", "Pages", "Homepage", "Blog page", "Tags", "Comments", "Contact inbox", "Media Library", "Site & footer"] as const;
 
 export default function Admin() {
   const [session, setSession] = useState<Session | null | undefined>(undefined);
@@ -1039,6 +1040,7 @@ export default function Admin() {
       {tab === "Tags" && <Tags tags={tags} reload={loadTags} />}
       {tab === "Comments" && <CommentsAdmin />}
       {tab === "Contact inbox" && <ContactInbox />}
+      {tab === "Media Library" && <MediaLibrary />}
       {tab === "Pages" && <Pages />}
       {tab === "Books" && <Books />}
       {tab === "Homepage" && <SiteContent key="home" group="home" />}
