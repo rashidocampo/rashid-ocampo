@@ -442,3 +442,26 @@ body > footer { flex-shrink: 0; margin-top: auto; }
 
 /* Latin punctuation such as ( and ) uses the selected text font; Arabic glyphs fall back to Amiri. */
 .prose-post :dir(rtl), .chapter-text :dir(rtl) { font-family: "Amiri", serif; }
+
+
+/* Blog article safety: keep long Arabic passages within the mobile viewport.
+   Do not modify the source text or turn Arabic into blockquotes. */
+.prose-post { width: 100%; max-width: min(66ch, 100%); min-width: 0; }
+.prose-post > * { max-width: 100%; min-width: 0; }
+.prose-post :where(p, li, blockquote, h1, h2, h3) {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+.prose-post :where(p, li, blockquote):dir(rtl) {
+  direction: rtl;
+  text-align: right;
+  unicode-bidi: plaintext;
+  max-width: 100%;
+}
+.prose-post :where(p, li, blockquote):dir(ltr) {
+  direction: ltr;
+  text-align: left;
+}
+.prose-post :where(ol, ul) { max-width: 100%; padding-inline-start: 1.5em; }
+.prose-post :where(ol, ul) > li { padding-inline-start: .2em; }
