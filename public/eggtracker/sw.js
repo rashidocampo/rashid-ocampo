@@ -1,5 +1,5 @@
 const CACHE_PREFIX = 'rashidocampo-eggtracker-';
-const CACHE = `${CACHE_PREFIX}v1`;
+const CACHE = `${CACHE_PREFIX}v2`;
 const SCOPE = new URL(self.registration.scope);
 const ENTRY = new URL('index.html', SCOPE).href;
 const ASSETS = [
