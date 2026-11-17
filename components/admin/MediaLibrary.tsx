@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { createClient } from "@supabase/supabase-js";
-import { ADMIN_EMAIL, SUPABASE_KEY, SUPABASE_URL } from "@/lib/site";
+import { SUPABASE_KEY, SUPABASE_URL } from "@/lib/site";
 
 const storage = createClient(SUPABASE_URL, SUPABASE_KEY).storage.from("media");
 type MediaObject = { name: string; id?: string; created_at?: string; updated_at?: string; metadata?: { size?: number; mimetype?: string } };
@@ -42,8 +42,6 @@ export default function MediaLibrary() {
     for (const file of Array.from(selected)) {
       if (!allowed.test(file.name)) { setMessage("Unsupported file: " + file.name); continue; }
       if (file.size > 50 * 1024 * 1024) { setMessage("File exceeds 50 MB: " + file.name); continue; }
-      const { data: user } = await createClient(SUPABASE_URL, SUPABASE_KEY).auth.getUser();
-      if (user.user?.email?.toLowerCase() !== ADMIN_EMAIL) { setMessage("Admin login required."); break; }
       const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "-");
       const name = Date.now() + "-" + Math.random().toString(36).slice(2, 8) + "-" + safeName;
       const { error } = await storage.upload(name, file, { cacheControl: "3600", contentType: file.type || undefined });
