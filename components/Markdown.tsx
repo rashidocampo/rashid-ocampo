@@ -13,7 +13,7 @@ function plainText(node: ReactNode): string {
 // Qur'anic ornaments are kept with their Arabic run so the bidi algorithm does not
 // reorder them against surrounding Latin punctuation. Match bracketed excerpts
 // with an ellipsis before the ordinary Arabic run, which stops at the dots.
-const arabicRun = /((?:[«»﴿﴾]\s*)?(?:\.{3}|…)?\s*[\p{Script_Extensions=Arabic}\u200C\u200D]+(?:[\p{Script_Extensions=Arabic}\u200C\u200D\s،؛؟]*[\p{Script_Extensions=Arabic}\u200C\u200D])?(?:\s*(?:\.{3}|…))?\s*[«»﴿﴾]?/gu;
+const arabicRun = /((?:[«»﴿﴾]\s*)?(?:\.{3}|…)?\s*[\p{Script_Extensions=Arabic}\u200C\u200D]+(?:[\p{Script_Extensions=Arabic}\u200C\u200D\s،؛؟]*[\p{Script_Extensions=Arabic}\u200C\u200D])?(?:\s*(?:\.{3}|…))?\s*[«»﴿﴾]?)/gu;
 function isolateArabic(node: ReactNode): ReactNode {
   if (typeof node === "string") {
     return node.split(arabicRun).map((part, i) =>
