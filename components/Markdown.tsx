@@ -12,11 +12,11 @@ function plainText(node: ReactNode): string {
 // Isolate Arabic runs inside mixed Tagalog/English paragraphs without altering stored text.
 // Qur'anic ornaments are kept with their Arabic run so the bidi algorithm does not
 // reorder them against surrounding Latin punctuation.
-const arabicRun = /([﴿۞۝]?\\s*[\\u0600-\\u06FF\\u0750-\\u077F\\u08A0-\\u08FF][\\u0600-\\u06FF\\u0750-\\u077F\\u08A0-\\u08FF\\u200C\\u200D\\s،؛؟﴿﴾۞۝]*[﴾۞۝]?)/gu;
+const arabicRun = /([﴿۞۝]?\s*[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF][\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\u200C\u200D\s،؛؟﴿﴾۞۝]*[﴾۞۝]?)/gu;
 function isolateArabic(node: ReactNode): ReactNode {
   if (typeof node === "string") {
     return node.split(arabicRun).map((part, i) =>
-      /[\\u0600-\\u06FF\\u0750-\\u077F\\u08A0-\\u08FF]/u.test(part)
+      /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]/u.test(part)
         ? <span key={i} lang="ar" dir="rtl" className="arabic-run">{part}</span>
         : part
     );
