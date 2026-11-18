@@ -453,10 +453,12 @@ body > footer { flex-shrink: 0; margin-top: auto; }
   overflow-wrap: anywhere;
   word-break: normal;
 }
+/* Keep Arabic punctuation and paired Quranic brackets in one RTL bidi context.
+   "plaintext" recalculates direction from each line and can detach mirrored marks. */
 .prose-post :where(p, li, blockquote):dir(rtl) {
   direction: rtl;
   text-align: right;
-  unicode-bidi: plaintext;
+  unicode-bidi: isolate;
   max-width: 100%;
 }
 .prose-post :where(p, li, blockquote):dir(ltr) {
