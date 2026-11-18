@@ -467,3 +467,11 @@ body > footer { flex-shrink: 0; margin-top: auto; }
 }
 .prose-post :where(ol, ul) { max-width: 100%; padding-inline-start: 1.5em; }
 .prose-post :where(ol, ul) > li { padding-inline-start: .2em; }
+
+/* Scope mixed-script directionality to Arabic text runs only. */
+.prose-post .arabic-run {
+  direction: rtl;
+  unicode-bidi: isolate;
+  font-family: "Amiri", serif;
+  white-space: normal;
+}
